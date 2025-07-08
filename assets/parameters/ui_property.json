@@ -1,0 +1,31 @@
+{
+  "start-button":{
+    "position_x_percent": 0.3,
+    "position_y_percent": 0.5,
+    "wight_percent": 1,
+    "height_percent": 1,
+    "text": "START"
+  },
+
+  "right-button":{
+    "position_x_percent": 0.0,
+    "position_y_percent": 0.45,
+    "wight_percent": 3.45,
+    "height_percent": 3.45
+  },
+
+  "left-button":{
+    "position_x_percent": 1.0,
+    "position_y_percent": 0.45,
+    "wight_percent": 3.45,
+    "height_percent": 3.45
+  },
+
+  "name-game-label": {
+    "position_x_percent": 0.5,
+    "position_y_percent": 0.7,
+    "wight_percent": 1,
+    "height_percent": 1,
+    "text": "Why are you doubting?"
+  }
+}

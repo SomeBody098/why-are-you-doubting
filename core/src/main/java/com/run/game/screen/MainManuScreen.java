@@ -7,7 +7,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.run.game.Main;
-import com.run.game.ui.UiController;
+import com.run.game.controller.UiController;
 import com.run.game.ui.UiFactory;
 
 public class MainManuScreen implements Screen {
@@ -38,9 +38,10 @@ public class MainManuScreen implements Screen {
     @Override
     public void show() {
         if (uiController == null) {
+            GameScreen screen = new GameScreen(main, batch, gameCamera, uiCamera, gameViewport, uiViewport, world);
+
             uiController = new UiController(UiFactory.createMainMenuStage(
-                main,
-                new GameScreen(main, batch, gameCamera, uiCamera, gameViewport, uiViewport, world)
+                main, screen
             ));
         }
     }

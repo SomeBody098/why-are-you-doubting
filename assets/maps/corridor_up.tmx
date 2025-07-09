@@ -9,7 +9,7 @@
 0,0,21,21,21,21,21,21,21
 </data>
  </layer>
- <layer id="1" name="Items" width="9" height="4">
+ <layer id="1" name="items" width="9" height="4">
   <data encoding="csv">
 0,0,0,2,0,2,0,2,0,
 0,0,0,15,0,15,0,15,0,

@@ -1,5 +1,6 @@
 package com.run.game.entity.player;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -15,19 +16,19 @@ public class PlayerGraphics implements Disposable {
     private final TextureRegion currentFrame;
 
     public PlayerGraphics() {
-        currentFrame = new TextureRegion(new Texture("/textures/player.png"));
+        currentFrame = new TextureRegion(new Texture("textures/player.png"));
     }
 
     public void draw(Batch batch, Vector2 position, float width, float height) {
-        float divW = (float) (currentFrame.getRegionWidth() / 2) * Main.UNIT_SCALE;
-        float divH = (float) (currentFrame.getRegionHeight() / 2) * Main.UNIT_SCALE;
+        float divW = (getWidth() / 2) * Main.UNIT_SCALE;
+        float divH = (getHeight() / 2) * Main.UNIT_SCALE;
 
         batch.draw(
             currentFrame,
             position.x - divW,
             position.y - divH,
-            width / Main.PPM,
-            height / Main.PPM
+            width / Main.PPM / 2,
+            height / Main.PPM / 2
         );
     }
 
@@ -42,6 +43,14 @@ public class PlayerGraphics implements Disposable {
         else if (direction == DIRECTION.LEFT && frame.isFlipX()) {
             frame.flip(true, false);
         }
+    }
+
+    public float getWidth(){
+        return currentFrame.getRegionWidth();
+    }
+
+    public float getHeight(){
+        return currentFrame.getRegionHeight();
     }
 
     public void setDirection(DIRECTION direction) {

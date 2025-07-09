@@ -1,0 +1,8 @@
+{
+  "player": {
+    "position_x_percent": 0.5,
+    "position_y_percent": 0.5,
+    "wight_percent": 1,
+    "height_percent": 1
+  }
+}

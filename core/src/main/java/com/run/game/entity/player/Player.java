@@ -2,28 +2,34 @@ package com.run.game.entity.player;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.run.game.dto.JoystickDTO;
-import com.run.game.dto.EmptyDto;
 import com.run.game.entity.Entity;
 
-public class Player implements Entity {
+public class Player extends Actor implements Entity {
 
     private final PlayerBody body;
     private final PlayerInputHandler inputHandler;
-    private final EmptyDto dto;
     private final PlayerGraphics graphics;
 
-    public Player(float x, float y, float wight, float height, World world) {
-        graphics = new PlayerGraphics();
-        inputHandler = new PlayerInputHandler();
+    private final JoystickDTO joystickDTO;
 
-        dto = new EmptyDto("player");
-
-        body = new PlayerBody(x, y, wight, height, world, dto);
+    public Player(PlayerBody body, PlayerInputHandler inputHandler, PlayerGraphics graphics, JoystickDTO joystickDTO) {
+        this.body = body;
+        this.inputHandler = inputHandler;
+        this.graphics = graphics;
+        this.joystickDTO = joystickDTO;
     }
 
-    public void updateBody(JoystickDTO joystickDTO) {
+    @Override
+    public void act(float delta) {
+        updateBody(joystickDTO);
+        updateGraphics(delta);
+
+        super.act(delta);
+    }
+
+    private void updateBody(JoystickDTO joystickDTO) {
         Vector2 newPosition = inputHandler.handleInput(
             joystickDTO,
             body.getPosition(),
@@ -34,13 +40,22 @@ public class Player implements Entity {
         body.updateDirection(inputHandler.getDirection());
     }
 
-    public void updateGraphics(float delta){
+    private void updateGraphics(float delta){
         graphics.setDirection(body.getDirection());
         graphics.update(delta);
     }
 
-    public void draw(Batch batch) {
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
         graphics.draw(batch, body.getPosition(), body.getWidth(), body.getHeight());
+    }
+
+    public float getWightTexture(){
+        return graphics.getWidth();
+    }
+
+    public float getHeightTexture(){
+        return graphics.getHeight();
     }
 
     public Vector2 getPosition(){

@@ -14,31 +14,42 @@ public class ParamFactory {
         JsonReader reader = new JsonReader();
 
         DATA_STORAGE.put("ui", reader.parse(Gdx.files.internal("parameters/ui_property.json")));
+        DATA_STORAGE.put("entity", reader.parse(Gdx.files.internal("parameters/entity_property.json")));
     }
 
-    public static UiParam getUiParam(String uiName) {
-        if (ParamLate.contains(uiName)) return (UiParam) ParamLate.getParam(uiName);
+    public static BoundsParam getUiParam(String uiName) {
+        if (ParamLate.contains(uiName)) return (BoundsParam) ParamLate.getParam(uiName);
 
-        JsonValue uiValue = getJsonValue(uiName, "ui");
-
-        UiParam param = new UiParam(
-            uiValue.getFloat("position_x_percent"),
-            uiValue.getFloat("position_y_percent"),
-            uiValue.getFloat("wight_percent"),
-            uiValue.getFloat("height_percent")
-        );
-
+        BoundsParam param = getBoundsParam(getJsonValue(uiName, "ui"));
         ParamLate.putParam(uiName, param);
 
         return param;
     }
 
-    public static UiTextParam getUiTextParam(String uiName) { // FIXME: 07.07.2025 идентичен getUiParam! Придумай как не копировать код
-        if (ParamLate.contains(uiName)) return (UiTextParam) ParamLate.getParam(uiName);
+    public static BoundsParam getEntityParam(String uiName) {
+        if (ParamLate.contains(uiName)) return (BoundsParam) ParamLate.getParam(uiName);
+
+        BoundsParam param = getBoundsParam(getJsonValue(uiName, "entity"));
+        ParamLate.putParam(uiName, param);
+
+        return param;
+    }
+
+    private static BoundsParam getBoundsParam(JsonValue uiValue){
+        return new BoundsParam(
+            uiValue.getFloat("position_x_percent"),
+            uiValue.getFloat("position_y_percent"),
+            uiValue.getFloat("wight_percent"),
+            uiValue.getFloat("height_percent")
+        );
+    }
+
+    public static BoundsTextParam getUiTextParam(String uiName) { // FIXME: 07.07.2025 идентичен getUiParam! Придумай как не копировать код
+        if (ParamLate.contains(uiName)) return (BoundsTextParam) ParamLate.getParam(uiName);
 
         JsonValue uiValue = getJsonValue(uiName, "ui");
 
-        UiTextParam param = new UiTextParam(
+        BoundsTextParam param = new BoundsTextParam(
             uiValue.getFloat("position_x_percent"),
             uiValue.getFloat("position_y_percent"),
             uiValue.getFloat("wight_percent"),

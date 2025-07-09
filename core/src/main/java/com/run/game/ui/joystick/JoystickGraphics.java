@@ -33,6 +33,22 @@ public class JoystickGraphics {
         uiBatch.setColor(Color.WHITE);
     }
 
+    public float getWightCircle(){
+        return circleTexture.getWidth();
+    }
+
+    public float getHeightCircle(){
+        return circleTexture.getHeight();
+    }
+
+    public float getWightStick(){
+        return stickTexture.getWidth();
+    }
+
+    public float getHeightStick(){
+        return stickTexture.getHeight();
+    }
+
     public void dispose(){
         circleTexture.dispose();
         stickTexture.dispose();

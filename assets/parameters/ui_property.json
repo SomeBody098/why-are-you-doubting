@@ -1,24 +1,18 @@
 {
   "start-button":{
-    "position_x_percent": 0.3,
-    "position_y_percent": 0.5,
-    "wight_percent": 1,
-    "height_percent": 1,
+    "position_x_percent": 0.5,
+    "position_y_percent": 0.4,
+    "wight_percent": 4,
+    "height_percent": 4,
     "text": "START"
   },
 
-  "right-button":{
-    "position_x_percent": 0.0,
-    "position_y_percent": 0.45,
-    "wight_percent": 3.45,
-    "height_percent": 3.45
-  },
-
-  "left-button":{
-    "position_x_percent": 1.0,
-    "position_y_percent": 0.45,
-    "wight_percent": 3.45,
-    "height_percent": 3.45
+  "button-interact":{
+    "position_x_percent": 0.8,
+    "position_y_percent": 0.15,
+    "wight_percent": 2.45,
+    "height_percent": 2.45,
+    "text": "Interact"
   },
 
   "name-game-label": {
@@ -27,5 +21,19 @@
     "wight_percent": 1,
     "height_percent": 1,
     "text": "Why are you doubting?"
+  },
+
+  "joystick": {
+    "position_x_percent": 0.2,
+    "position_y_percent": 0.2,
+    "wight_percent": 1,
+    "height_percent": 1
+  },
+
+  "progress-bar": {
+    "position_x_percent": 0.1,
+    "position_y_percent": 0.1,
+    "wight_percent": 10,
+    "height_percent": 1
   }
 }

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="10" height="4" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="1">
+ <tileset firstgid="1" source="tileset.tsx"/>
+ <layer id="2" name="background" width="10" height="4">
+  <data encoding="csv">
+34,34,34,0,34,34,34,0,34,34,
+47,47,47,0,47,47,47,0,47,47,
+0,0,74,74,74,74,74,74,74,74,
+0,0,74,74,74,74,74,74,74,74
+</data>
+ </layer>
+ <layer id="1" name="items" width="10" height="4">
+  <data encoding="csv">
+0,0,0,54,0,0,0,54,0,0,
+0,0,0,67,0,0,0,67,0,0,
+27,28,0,0,0,0,0,0,0,39,
+40,41,0,0,0,0,0,0,0,52
+</data>
+ </layer>
+</map>

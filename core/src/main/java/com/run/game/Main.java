@@ -18,14 +18,14 @@ import java.util.Map;
 
 public class Main extends Game {
 
-    public static final float PPM = 32; // 32 пикселя = 1 метр в Box2D
-    public static final float UNIT_SCALE = 1f / PPM; // Масштаб для TiledMap
-    public static final int MAP_WIDTH_TILES = 10; // Ширина карты в тайлах
-    public static final int MAP_HEIGHT_TILES = 10; // Высота карты в тайлах
-    public static final float MAP_WIDTH_PIXELS = MAP_WIDTH_TILES * 32; // 320 пикселей
-    public static final float MAP_HEIGHT_PIXELS = MAP_HEIGHT_TILES * 32; // 320 пикселей
-    public static final float MAP_WIDTH_METERS = MAP_WIDTH_PIXELS / PPM; // 10 метров
-    public static final float MAP_HEIGHT_METERS = MAP_HEIGHT_PIXELS / PPM; // 10 метров
+    public static final float PPM = 16;
+    public static final float UNIT_SCALE = 1f / PPM;
+    public static final int MAP_WIDTH_TILES = 8;
+    public static final int MAP_HEIGHT_TILES = 8;
+    public static final float MAP_WIDTH_PIXELS = MAP_WIDTH_TILES * 16;
+    public static final float MAP_HEIGHT_PIXELS = MAP_HEIGHT_TILES * 16;
+    public static final float MAP_WIDTH_METERS = MAP_WIDTH_PIXELS / PPM;
+    public static final float MAP_HEIGHT_METERS = MAP_HEIGHT_PIXELS / PPM;
 
     private SpriteBatch batch;
 

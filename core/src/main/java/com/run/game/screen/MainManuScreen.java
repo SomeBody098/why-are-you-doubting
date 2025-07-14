@@ -4,10 +4,9 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.run.game.Main;
-import com.run.game.controller.UiController;
+import com.run.game.ui.UiController;
 import com.run.game.ui.UiFactory;
 
 public class MainManuScreen implements Screen {
@@ -15,22 +14,17 @@ public class MainManuScreen implements Screen {
     private final Main main;
     private final SpriteBatch batch;
 
-    private final OrthographicCamera gameCamera;
     private final OrthographicCamera uiCamera;
-
-    private final FitViewport gameViewport;
     private final ScreenViewport uiViewport;
 
     private final World world;
 
     private UiController uiController;
 
-    public MainManuScreen(Main main, SpriteBatch batch, OrthographicCamera gameCamera, OrthographicCamera uiCamera, FitViewport gameViewport, ScreenViewport uiViewport, World world) {
+    public MainManuScreen(Main main, SpriteBatch batch, OrthographicCamera uiCamera, ScreenViewport uiViewport, World world) {
         this.main = main;
         this.batch = batch;
-        this.gameCamera = gameCamera;
         this.uiCamera = uiCamera;
-        this.gameViewport = gameViewport;
         this.uiViewport = uiViewport;
         this.world = world;
     }
@@ -38,7 +32,7 @@ public class MainManuScreen implements Screen {
     @Override
     public void show() {
         if (uiController == null) {
-            GameScreen screen = new GameScreen(main, batch, gameCamera, uiCamera, gameViewport, uiViewport, world);
+            GameScreen screen = new GameScreen(main, batch, uiCamera, uiViewport, world);
 
             uiController = new UiController(UiFactory.createMainMenuStage(
                 main, screen

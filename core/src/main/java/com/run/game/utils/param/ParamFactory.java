@@ -13,23 +13,13 @@ public class ParamFactory {
         DATA_STORAGE = new ObjectMap<>();
         JsonReader reader = new JsonReader();
 
-        DATA_STORAGE.put("ui", reader.parse(Gdx.files.internal("parameters/ui_property.json")));
-        DATA_STORAGE.put("entity", reader.parse(Gdx.files.internal("parameters/entity_property.json")));
+        DATA_STORAGE.put("ui", reader.parse(Gdx.files.internal("ui/parameters/ui_property.json")));
     }
 
     public static BoundsParam getUiParam(String uiName) {
         if (ParamLate.contains(uiName)) return (BoundsParam) ParamLate.getParam(uiName);
 
         BoundsParam param = getBoundsParam(getJsonValue(uiName, "ui"));
-        ParamLate.putParam(uiName, param);
-
-        return param;
-    }
-
-    public static BoundsParam getEntityParam(String uiName) {
-        if (ParamLate.contains(uiName)) return (BoundsParam) ParamLate.getParam(uiName);
-
-        BoundsParam param = getBoundsParam(getJsonValue(uiName, "entity"));
         ParamLate.putParam(uiName, param);
 
         return param;

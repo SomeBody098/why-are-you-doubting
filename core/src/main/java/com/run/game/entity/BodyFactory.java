@@ -7,7 +7,6 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.run.game.Main;
 import com.run.game.dto.Dto;
 
 public class BodyFactory {
@@ -57,7 +56,7 @@ public class BodyFactory {
 //        return edgeShape;
 //    }
 
-    public static Body createCircleBody(BODY_TYPE bodyType, boolean fixedRotation, boolean isSensor, float posX, float posY, float radius, World world, Dto dto) {
+    public static Body createCircleBody(BODY_TYPE bodyType, boolean fixedRotation, boolean isSensor, float posX, float posY, float radius, float unitScale, World world, Dto dto) {
         BodyDef def = new BodyDef();
 
         def.type = getBodyType(bodyType);
@@ -65,7 +64,7 @@ public class BodyFactory {
 
         Body body = world.createBody(def);
 
-        Shape shape = createCircleShape((radius / 2) * Main.UNIT_SCALE);
+        Shape shape = createCircleShape((radius / 2) * unitScale);
 
         Fixture fixture = body.createFixture(shape, 1f);
         fixture.setUserData(dto);
@@ -114,7 +113,7 @@ public class BodyFactory {
 //        return chainShape;
 //    }
 
-    public static Body createPolygonBody(BODY_TYPE bodyType, boolean fixedRotation, boolean isSensor, float posX, float posY, float wight, float height, World world, Dto dto) {
+    public static Body createPolygonBody(BODY_TYPE bodyType, boolean fixedRotation, boolean isSensor, float posX, float posY, float wight, float height, float unitScale, World world, Dto dto) {
         BodyDef def = new BodyDef();
 
         def.type = getBodyType(bodyType);
@@ -123,8 +122,8 @@ public class BodyFactory {
         Body body = world.createBody(def);
 
         Shape shape = createPolygonShape(
-            (wight / 2) * Main.UNIT_SCALE,
-            (height / 2) * Main.UNIT_SCALE
+            (wight / 2) * unitScale,
+            (height / 2) * unitScale
         );
 
         Fixture fixture = body.createFixture(shape, 1f);

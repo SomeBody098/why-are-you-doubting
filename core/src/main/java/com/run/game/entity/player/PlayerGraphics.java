@@ -1,12 +1,10 @@
 package com.run.game.entity.player;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
-import com.run.game.Main;
 import com.run.game.entity.DIRECTION;
 
 public class PlayerGraphics implements Disposable {
@@ -19,17 +17,21 @@ public class PlayerGraphics implements Disposable {
         currentFrame = new TextureRegion(new Texture("textures/player.png"));
     }
 
-    public void draw(Batch batch, Vector2 position, float width, float height) {
-        float divW = (getWidth() / 2) * Main.UNIT_SCALE;
-        float divH = (getHeight() / 2) * Main.UNIT_SCALE;
+    public void draw(Batch batch, Vector2 position, float width, float height, float ppm, float unitScale) {
+        float divW = getWidth() / 2 * unitScale;
+        float divH = getHeight() / 2 * unitScale;
+
+        batch.begin();
 
         batch.draw(
             currentFrame,
             position.x - divW,
             position.y - divH,
-            width / Main.PPM / 2,
-            height / Main.PPM / 2
+            width / ppm,
+            height / ppm
         );
+
+        batch.end();
     }
 
     public void update(float delta){

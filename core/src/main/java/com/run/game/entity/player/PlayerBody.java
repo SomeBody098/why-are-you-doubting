@@ -11,7 +11,7 @@ import com.run.game.entity.Entity;
 
 public class PlayerBody implements Entity {
 
-    public static final float SPEED = Main.UNIT_SCALE;
+    private final float speed;
 
     private final Body body;
 
@@ -19,7 +19,7 @@ public class PlayerBody implements Entity {
 
     private DIRECTION direction = DIRECTION.NONE;
 
-    public PlayerBody(float x, float y, float wight, float height, World world, EmptyDto playerDTO) {
+    public PlayerBody(float x, float y, float wight, float height, float unitScale, World world, EmptyDto playerDTO) {
         body = BodyFactory.createPolygonBody(
             BodyFactory.BODY_TYPE.DYNAMIC,
             true,
@@ -27,12 +27,15 @@ public class PlayerBody implements Entity {
             x, y,
             wight / 2,
             height / 2,
+            unitScale,
             world,
             playerDTO
         );
 
         this.width = wight;
         this.height = height;
+
+        speed = unitScale;
     }
 
     public void updatePosition(Vector2 newPosition){
@@ -57,6 +60,10 @@ public class PlayerBody implements Entity {
 
     public float getHeight() {
         return height;
+    }
+
+    public float getSpeed() {
+        return speed;
     }
 
     @Override

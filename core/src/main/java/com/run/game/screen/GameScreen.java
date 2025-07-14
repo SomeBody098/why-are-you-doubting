@@ -1,20 +1,26 @@
 package com.run.game.screen;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.run.game.Main;
-import com.run.game.contact_listeners.GameContactListener;
-import com.run.game.controller.MapController;
-import com.run.game.controller.StageController;
+import com.run.game.entity.player.Player;
+import com.run.game.handler.GameContactListener;
+import com.run.game.map.MapController;
 import com.run.game.entity.EntityFactory;
-import com.run.game.controller.UiController;
+import com.run.game.ui.UiController;
+import com.run.game.handler.SensorHandler;
+import com.run.game.map.MapContainer;
 import com.run.game.map.MapFactory;
+import com.run.game.map.RoomName;
 import com.run.game.map.WorldName;
 import com.run.game.ui.UiFactory;
 import com.run.game.ui.joystick.Joystick;
@@ -24,50 +30,82 @@ public class GameScreen implements Screen {
     private final Main main;
     private final SpriteBatch batch;
 
-    private final OrthographicCamera gameCamera;
+    private OrthographicCamera gameCamera;
     private final OrthographicCamera uiCamera;
 
-    private final FitViewport gameViewport;
+    private FitViewport gameViewport;
     private final ScreenViewport uiViewport;
 
     private final World world;
 
     private UiController uiController;
-    private StageController gameController;
     private MapController mapController;
+
+    private Player player;
 
     private Box2DDebugRenderer debugRenderer;
 
-    public GameScreen(Main main, SpriteBatch batch, OrthographicCamera gameCamera, OrthographicCamera uiCamera, FitViewport gameViewport, ScreenViewport uiViewport, World world) {
+    public GameScreen(Main main, SpriteBatch batch, OrthographicCamera uiCamera, ScreenViewport uiViewport, World world) {
         this.main = main;
         this.batch = batch;
-        this.gameCamera = gameCamera;
         this.uiCamera = uiCamera;
-        this.gameViewport = gameViewport;
         this.uiViewport = uiViewport;
         this.world = world;
-
-        world.setContactListener(new GameContactListener());
     }
 
     @Override
     public void show() {
-        if (!MapFactory.isLoadTextureHomeWorld()){
+        if (loadTextureWorld()) {
+            createMapAndGameEntity();
+        }
+    }
+
+    private boolean loadTextureWorld(){
+        if (!MapFactory.isLoadTextureWorld(WorldName.HOME)){
             MapFactory.loadTextureWorld(WorldName.HOME);
             main.setScreen(new LoadingScreen(main, this, uiCamera, uiViewport));
-
-        } else if (mapController == null){
-            mapController = new MapController(MapFactory.createMap(WorldName.HOME), gameCamera, batch);
+            return false;
         }
 
-        if (uiController == null || gameController == null){
+        return true;
+    }
+
+    private void createMapAndGameEntity(){
+        if (mapController == null || uiController == null){
+            MapContainer container = MapFactory.createMap(WorldName.HOME);
+            createGameCameraAndViewport(container);
+            mapController = new MapController(container, gameCamera, batch);
+
+            world.setContactListener(new GameContactListener(new SensorHandler(mapController))); // FIXME: 12.07.2025 выглядит немного глупо и замудренно (P.S: это так и есть ;) )
+
             Stage stage = UiFactory.createGameUiStage();
-            Joystick joystick = (Joystick) stage.getActors().get(0);
-
             uiController = new UiController(stage);
-            gameController = new StageController(EntityFactory.createStageGame(joystick.getDto()));
-            debugRenderer = new Box2DDebugRenderer();
+            Joystick joystick = (Joystick) stage.getActors().get(0); // FIXME: 14.07.2025 опасный хардкод (что если на 0 индексе не джойстик? = облом)
+
+            EntityFactory.init(world, container.PPM, container.UNIT_SCALE);
+            player = EntityFactory.createPlayer(joystick.getDto(), container.getObject("spawn-player", Vector2.class));
+
+            debugRenderer = new Box2DDebugRenderer(); // FIXME: 14.07.2025 УДАЛИ ПРИ РЕЛИЗЕ
         }
+    }
+
+    private void createGameCameraAndViewport(MapContainer container){
+        Rectangle room = container.getBorderRoom(RoomName.START_ROOM);
+
+        gameCamera = new OrthographicCamera(
+            room.width * container.UNIT_SCALE,
+            room.height * container.UNIT_SCALE
+        );
+        gameCamera.position.set(
+            (room.x + (room.width / 2)) * container.UNIT_SCALE,
+            (room.y + (room.height / 2)) * container.UNIT_SCALE,
+            0
+        );
+        gameCamera.update();
+
+        Gdx.app.log("gameCamera", gameCamera.viewportHeight + "");
+
+        gameViewport = new FitViewport(gameCamera.viewportWidth, gameCamera.viewportHeight, gameCamera);
     }
 
     @Override
@@ -82,9 +120,13 @@ public class GameScreen implements Screen {
         batch.setProjectionMatrix(gameCamera.combined);
 
         mapController.render();
-        gameController.render(delta);
+
+        player.update(delta);
+        player.draw(batch);
 
         debugRenderer.render(world, gameCamera.combined); // FIXME: 09.07.2025 УДАЛИТЬ К РЕЛИЗУ!
+
+        world.step(delta, 6, 6);
     }
 
     private void renderUi(float delta){
@@ -118,7 +160,6 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-        gameController.dispose();
         uiController.dispose();
         world.dispose();
     }

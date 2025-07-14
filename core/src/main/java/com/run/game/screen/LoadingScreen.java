@@ -4,7 +4,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.run.game.Main;
-import com.run.game.controller.UiController;
+import com.run.game.ui.UiController;
 import com.run.game.map.MapFactory;
 import com.run.game.ui.UiFactory;
 

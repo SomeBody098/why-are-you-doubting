@@ -25,11 +25,11 @@ public class MapController implements Disposable {
         currentRoom = RoomName.START_ROOM;
     }
 
-    public void update(RoomName roomName){ // TODO: 14.07.2025 реализуй перемещение и игрока в точку spawn-player-entered-door, относительно из какой комнаты он вышел (параметр from_where)
+    public void update(RoomName roomName){
         currentRoom = roomName;
         Rectangle border = map.getBorderRoom(roomName);
 
-        gameCamera.setToOrtho( // FIXME: 14.07.2025 может сделует перенести игровую камеру В mapController и вынести ее из GameScreen? (Так как в основном камерой пользуеться как раз этот контроллер)
+        gameCamera.setToOrtho(
             false,
             border.width * map.UNIT_SCALE,
             border.height * map.UNIT_SCALE
@@ -46,6 +46,10 @@ public class MapController implements Disposable {
 
     public void render(){
         renderer.render();
+    }
+
+    public MapContainer getMap() {
+        return map;
     }
 
     public RoomName getCurrentRoom() {

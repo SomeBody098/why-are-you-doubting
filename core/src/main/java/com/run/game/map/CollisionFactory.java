@@ -13,13 +13,13 @@ import com.run.game.dto.MovingDto;
 import com.run.game.dto.EmptyDto;
 import com.run.game.entity.BodyFactory;
 
+import java.util.Optional;
+
 public class CollisionFactory {
 
     public static void createCollisionForTiledObjects(RoomName currentRoom, MapContainer map, World world){
-        MapLayer objectLayer = map.getMap().getLayers().get("objects");
-        if (objectLayer == null) return;
-
-        MapObjects objects = objectLayer.getObjects();
+        Optional<MapLayer> objectLayer = Optional.of(map.getMap().getLayers().get("objects"));
+        MapObjects objects = objectLayer.get().getObjects();
 
         Rectangle border = map.getBorderRoom(currentRoom);
 
@@ -77,7 +77,7 @@ public class CollisionFactory {
             new EmptyDto("obstacle")
         );
 
-        body.setActive(isActive);
+        body.setActive(true);
     }
 
     private static void createMoving(float x, float y, float width, float height, float unitScale, String where, World world, boolean isActive){
@@ -92,6 +92,6 @@ public class CollisionFactory {
             new MovingDto("moving", RoomName.getRoomNameByString(where))
         );
 
-        body.setActive(isActive);
+        body.setActive(true);
     }
 }

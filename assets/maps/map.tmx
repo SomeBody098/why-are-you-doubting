@@ -219,9 +219,10 @@
   <object id="21" x="96" y="32" width="32" height="32"/>
   <object id="22" x="96" y="80" width="32" height="32"/>
   <object id="30" x="32" y="128" width="96"/>
-  <object id="32" name="spawn-player-entered-door" x="42.7273" y="63.2727">
+  <object id="32" name="spawn-player-entered-moving" x="42.7273" y="63.2727">
    <properties>
     <property name="from_where" value="CORRIDOR_UP"/>
+    <property name="where" value="START_ROOM"/>
    </properties>
    <point/>
   </object>
@@ -235,16 +236,16 @@
     <property name="where" value="CORRIDOR_UP"/>
    </properties>
   </object>
-  <object id="53" x="32" y="16" width="96"/>
   <object id="54" x="32" y="16" height="112"/>
   <object id="55" x="208" y="48" height="64"/>
   <object id="56" x="208" y="112" width="64"/>
   <object id="58" x="272" y="48" height="64"/>
   <object id="59" x="208" y="48" width="64"/>
   <object id="60" x="128" y="16" height="112"/>
-  <object id="61" name="spawn-player-entered-door" x="228" y="96">
+  <object id="61" name="spawn-player-entered-moving" x="228" y="96">
    <properties>
     <property name="from_where" value="CORRIDOR_UP"/>
+    <property name="where" value="BATHROOM"/>
    </properties>
    <point/>
   </object>
@@ -267,17 +268,17 @@
     <property name="where" value="CORRIDOR_UP"/>
    </properties>
   </object>
-  <object id="80" x="592" y="32" width="16"/>
-  <object id="81" x="592" y="32" height="16"/>
-  <object id="82" name="spawn-player-entered-door" x="390.48" y="119.648">
+  <object id="82" name="spawn-player-entered-moving" x="390.48" y="119.648">
    <properties>
     <property name="from_where" value="CORRIDOR_UP"/>
+    <property name="where" value="BEDROOM1"/>
    </properties>
    <point/>
   </object>
-  <object id="83" name="spawn-player-entered-door" x="593.361" y="83.2331">
+  <object id="83" name="spawn-player-entered-moving" x="593.361" y="83.2331">
    <properties>
     <property name="from_where" value="CORRIDOR_UP"/>
+    <property name="where" value="BEDROOM2"/>
    </properties>
    <point/>
   </object>
@@ -306,7 +307,7 @@
     <property name="where" value="START_ROOM"/>
    </properties>
   </object>
-  <object id="104" name="door" x="797.818" y="80.0909" width="2.18182" height="31.9091">
+  <object id="104" name="moving" x="797.818" y="80.0909" width="2.18182" height="31.9091">
    <properties>
     <property name="where" value="BATHROOM"/>
    </properties>
@@ -316,38 +317,43 @@
     <property name="where" value="NONE"/>
    </properties>
   </object>
-  <object id="107" name="spawn-player-entered-door" x="727.75" y="89.25">
+  <object id="107" name="spawn-player-entered-moving" x="727.75" y="89.25">
    <properties>
     <property name="from_where" value="BEDROOM1"/>
+    <property name="where" value="CORRIDOR_UP"/>
    </properties>
    <point/>
   </object>
-  <object id="108" name="spawn-player-entered-door" x="696.5" y="94.25">
+  <object id="108" name="spawn-player-entered-moving" x="696.5" y="94.25">
    <properties>
     <property name="from_where" value="BEDROOM2"/>
+    <property name="where" value="CORRIDOR_UP"/>
    </properties>
    <point/>
   </object>
-  <object id="109" name="spawn-player-entered-door" x="744.75" y="93.75">
+  <object id="109" name="spawn-player-entered-moving" x="744.75" y="93.75">
    <properties>
     <property name="from_where" value="START_ROOM"/>
+    <property name="where" value="CORRIDOR_UP"/>
    </properties>
    <point/>
   </object>
-  <object id="110" name="spawn-player-entered-door" x="781" y="102.25">
+  <object id="110" name="spawn-player-entered-moving" x="781" y="102.25">
    <properties>
     <property name="from_where" value="BATHROOM"/>
+    <property name="where" value="CORRIDOR_UP"/>
    </properties>
    <point/>
   </object>
-  <object id="111" name="spawn-player-entered-door" x="690" y="94.5">
+  <object id="111" name="spawn-player-entered-moving" x="690" y="94.5">
    <properties>
     <property name="from_where" value="NONE"/>
+    <property name="where" value="CORRIDOR_UP"/>
    </properties>
    <point/>
   </object>
  </objectgroup>
- <objectgroup id="6" name="rooms">
+ <objectgroup id="6" name="rooms" visible="0" locked="1">
   <object id="112" name="START_ROOM" x="0" y="0" width="160" height="160"/>
   <object id="113" name="BATHROOM" x="160" y="0" width="160" height="160"/>
   <object id="115" name="BEDROOM1" x="320" y="0" width="160" height="160"/>

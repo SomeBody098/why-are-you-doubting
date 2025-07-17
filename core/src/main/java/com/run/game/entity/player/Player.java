@@ -4,7 +4,9 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
 import com.run.game.dto.JoystickDTO;
+import com.run.game.dto.PlayerDto;
 import com.run.game.entity.Entity;
+import com.run.game.map.RoomName;
 
 public class Player implements Entity, Disposable {
 
@@ -12,13 +14,15 @@ public class Player implements Entity, Disposable {
     private final float unitScale;
 
     private final PlayerBody body;
+    private final PlayerDto dto;
     private final PlayerInputHandler inputHandler;
     private final PlayerGraphics graphics;
 
     private final JoystickDTO joystickDTO;
 
-    public Player(PlayerBody body, PlayerInputHandler inputHandler, PlayerGraphics graphics, JoystickDTO joystickDTO, float ppm, float unitScale) {
+    public Player(PlayerBody body, PlayerDto dto, PlayerInputHandler inputHandler, PlayerGraphics graphics, JoystickDTO joystickDTO, float ppm, float unitScale) {
         this.body = body;
+        this.dto = dto;
         this.inputHandler = inputHandler;
         this.graphics = graphics;
         this.joystickDTO = joystickDTO;
@@ -26,9 +30,10 @@ public class Player implements Entity, Disposable {
         this.unitScale = unitScale;
     }
 
-    public void update(float delta) {
+    public void update(float delta, RoomName currentRoom) {
         updateBody(joystickDTO);
         updateGraphics(delta);
+        dto.setCurrentRoom(currentRoom);
     }
 
     private void updateBody(JoystickDTO joystickDTO) {
@@ -61,6 +66,10 @@ public class Player implements Entity, Disposable {
 
     public Vector2 getPosition(){
         return body.getPosition();
+    }
+
+    public void setPosition(Vector2 position){
+        body.updatePosition(position);
     }
 
     @Override

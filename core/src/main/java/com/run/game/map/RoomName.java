@@ -43,6 +43,8 @@ public enum RoomName {
                 return REST_ROOM;
             case "START_ROOM":
                 return START_ROOM;
+            case "WINDOW_ROOM":
+                return WINDOW_ROOM;
             case "NONE":
                 return NONE;
             default:

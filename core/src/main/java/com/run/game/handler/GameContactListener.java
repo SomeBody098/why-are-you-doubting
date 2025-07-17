@@ -7,7 +7,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.run.game.dto.MovingDto;
 import com.run.game.dto.Dto;
-import com.run.game.dto.EmptyDto;
+import com.run.game.dto.PlayerDto;
 import com.run.game.dto.SensorDto;
 
 public class GameContactListener implements ContactListener {
@@ -60,21 +60,21 @@ public class GameContactListener implements ContactListener {
     }
 
     private void playerHandler(Dto aDto, Dto bDto){
-        EmptyDto playerDTO = null;
+        PlayerDto playerDTO = null;
         Dto lastDto = null;
 
         if (isPlayerDto(aDto)) {
-            playerDTO = (EmptyDto) aDto;
+            playerDTO = (PlayerDto) aDto;
             lastDto = bDto;
 
         } else if (isPlayerDto(bDto)) {
-            playerDTO = (EmptyDto) bDto;
+            playerDTO = (PlayerDto) bDto;
             lastDto = aDto;
         }
 
         if (playerDTO == null) return;
 
-        if (isSensorDto(lastDto)) sensorHandler.handler((SensorDto) lastDto);
+        if (isSensorDto(lastDto)) sensorHandler.handler((SensorDto) lastDto, playerDTO);
     }
 
     private boolean isPlayerDto(Dto dto){

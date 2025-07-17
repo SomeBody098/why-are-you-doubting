@@ -13,7 +13,10 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.run.game.Main;
 import com.run.game.entity.player.Player;
+import com.run.game.event.EventBus;
+import com.run.game.event.EventType;
 import com.run.game.handler.GameContactListener;
+import com.run.game.map.RoomManager;
 import com.run.game.map.MapController;
 import com.run.game.entity.EntityFactory;
 import com.run.game.ui.UiController;
@@ -39,11 +42,13 @@ public class GameScreen implements Screen {
     private final World world;
 
     private UiController uiController;
-    private MapController mapController;
+    private RoomManager roomManager;
 
     private Player player;
 
     private Box2DDebugRenderer debugRenderer;
+
+    EventBus eventBus; // FIXME: 16.07.2025 ВРЕМЕННО!
 
     public GameScreen(Main main, SpriteBatch batch, OrthographicCamera uiCamera, ScreenViewport uiViewport, World world) {
         this.main = main;
@@ -71,12 +76,10 @@ public class GameScreen implements Screen {
     }
 
     private void createMapAndGameEntity(){
-        if (mapController == null || uiController == null){
+        if (roomManager == null || uiController == null){
             MapContainer container = MapFactory.createMap(WorldName.HOME);
             createGameCameraAndViewport(container);
-            mapController = new MapController(container, gameCamera, batch);
-
-            world.setContactListener(new GameContactListener(new SensorHandler(mapController))); // FIXME: 12.07.2025 выглядит немного глупо и замудренно (P.S: это так и есть ;) )
+            MapController mapController = new MapController(container, gameCamera, batch);
 
             Stage stage = UiFactory.createGameUiStage();
             uiController = new UiController(stage);
@@ -84,6 +87,12 @@ public class GameScreen implements Screen {
 
             EntityFactory.init(world, container.PPM, container.UNIT_SCALE);
             player = EntityFactory.createPlayer(joystick.getDto(), container.getObject("spawn-player", Vector2.class));
+
+            eventBus = new EventBus();
+
+            roomManager = new RoomManager(mapController, player);
+
+            world.setContactListener(new GameContactListener(new SensorHandler(eventBus, roomManager))); // FIXME: 12.07.2025 выглядит немного глупо и замудренно (P.S: это так и есть ;) )
 
             debugRenderer = new Box2DDebugRenderer(); // FIXME: 14.07.2025 УДАЛИ ПРИ РЕЛИЗЕ
         }
@@ -103,8 +112,6 @@ public class GameScreen implements Screen {
         );
         gameCamera.update();
 
-        Gdx.app.log("gameCamera", gameCamera.viewportHeight + "");
-
         gameViewport = new FitViewport(gameCamera.viewportWidth, gameCamera.viewportHeight, gameCamera);
     }
 
@@ -119,9 +126,10 @@ public class GameScreen implements Screen {
         gameCamera.update();
         batch.setProjectionMatrix(gameCamera.combined);
 
-        mapController.render();
+        roomManager.render();
+        eventBus.publish(EventType.TeleportPlayerEvent);
 
-        player.update(delta);
+        player.update(delta, roomManager.getCurrentRoom());
         player.draw(batch);
 
         debugRenderer.render(world, gameCamera.combined); // FIXME: 09.07.2025 УДАЛИТЬ К РЕЛИЗУ!

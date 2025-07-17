@@ -5,6 +5,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.run.game.Main;
 import com.run.game.dto.EmptyDto;
+import com.run.game.dto.PlayerDto;
 import com.run.game.entity.BodyFactory;
 import com.run.game.entity.DIRECTION;
 import com.run.game.entity.Entity;
@@ -19,7 +20,7 @@ public class PlayerBody implements Entity {
 
     private DIRECTION direction = DIRECTION.NONE;
 
-    public PlayerBody(float x, float y, float wight, float height, float unitScale, World world, EmptyDto playerDTO) {
+    public PlayerBody(float x, float y, float wight, float height, float unitScale, World world, PlayerDto playerDTO) {
         body = BodyFactory.createPolygonBody(
             BodyFactory.BODY_TYPE.DYNAMIC,
             true,

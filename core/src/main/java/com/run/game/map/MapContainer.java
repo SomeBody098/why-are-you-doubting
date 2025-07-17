@@ -9,6 +9,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
+import com.run.game.utils.exception.UnexpectedBehaviorException;
 
 import java.util.HashMap;
 
@@ -66,6 +67,24 @@ public class MapContainer implements Disposable {
         }
 
         throw new IllegalArgumentException(String.format("\"%s\" object not contains \"%s\"", name, clazz.getSimpleName()));
+    }
+
+    public Vector2 getSpawnPlayerEnteredMoving(RoomName where, RoomName fromWhere){
+        for (MapObject object: getMapObjects("objects")){
+            String name = object.getName();
+            if (name == null || !name.equals("spawn-player-entered-moving")) continue;
+
+            MapProperties properties = object.getProperties();
+            if (!properties.get("from_where", String.class).equals(fromWhere.getValue()) ||
+                !properties.get("where", String.class).equals(where.getValue())) continue;
+
+            return new Vector2(
+                properties.get("x", Float.class) * UNIT_SCALE,
+                properties.get("y", Float.class) * UNIT_SCALE
+            );
+        }
+
+        throw new UnexpectedBehaviorException("Not found \"spawn-player-entered-door\" with property \"from_where\" " + fromWhere.getValue());
     }
 
     private MapObjects getMapObjects(String name){

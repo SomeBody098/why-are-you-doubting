@@ -1,6 +1,5 @@
 package com.run.game.screen;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -27,6 +26,7 @@ import com.run.game.map.RoomName;
 import com.run.game.map.WorldName;
 import com.run.game.ui.UiFactory;
 import com.run.game.ui.joystick.Joystick;
+import com.run.game.utils.music.MusicManager;
 
 public class GameScreen implements Screen {
 
@@ -40,36 +40,42 @@ public class GameScreen implements Screen {
     private final ScreenViewport uiViewport;
 
     private final World world;
+    private final WorldName currentWorld;
 
     private UiController uiController;
     private RoomManager roomManager;
 
     private Player player;
 
+    private EventBus eventBus;
+
     private Box2DDebugRenderer debugRenderer;
 
-    EventBus eventBus; // FIXME: 16.07.2025 ВРЕМЕННО!
-
-    public GameScreen(Main main, SpriteBatch batch, OrthographicCamera uiCamera, ScreenViewport uiViewport, World world) {
+    public GameScreen(Main main, SpriteBatch batch, OrthographicCamera uiCamera, ScreenViewport uiViewport, World world, WorldName currentWorld) {
         this.main = main;
         this.batch = batch;
         this.uiCamera = uiCamera;
         this.uiViewport = uiViewport;
         this.world = world;
+        this.currentWorld = currentWorld;
     }
 
     @Override
     public void show() {
-        if (loadTextureWorld()) {
+        if (loadTextureWorldAndMusic()) {
             createMapAndGameEntity();
         }
     }
 
-    private boolean loadTextureWorld(){
-        if (!MapFactory.isLoadTextureWorld(WorldName.HOME)){
-            MapFactory.loadTextureWorld(WorldName.HOME);
+    private boolean loadTextureWorldAndMusic(){
+        if (!MapFactory.isLoadTextureWorld(currentWorld)){
+            MapFactory.loadTextureWorld(currentWorld);
+            MusicManager.loadMusic(currentWorld);
+
             main.setScreen(new LoadingScreen(main, this, uiCamera, uiViewport));
             return false;
+        } else {
+            MusicManager.initMusic(currentWorld, "house_theme");
         }
 
         return true;
@@ -77,7 +83,7 @@ public class GameScreen implements Screen {
 
     private void createMapAndGameEntity(){
         if (roomManager == null || uiController == null){
-            MapContainer container = MapFactory.createMap(WorldName.HOME);
+            MapContainer container = MapFactory.createMap(currentWorld);
             createGameCameraAndViewport(container);
             MapController mapController = new MapController(container, gameCamera, batch);
 
@@ -85,10 +91,9 @@ public class GameScreen implements Screen {
             uiController = new UiController(stage);
             Joystick joystick = (Joystick) stage.getActors().get(0); // FIXME: 14.07.2025 опасный хардкод (что если на 0 индексе не джойстик? = облом)
 
+            eventBus = new EventBus();
             EntityFactory.init(world, container.PPM, container.UNIT_SCALE);
             player = EntityFactory.createPlayer(joystick.getDto(), container.getObject("spawn-player", Vector2.class));
-
-            eventBus = new EventBus();
 
             roomManager = new RoomManager(mapController, player);
 
@@ -99,7 +104,7 @@ public class GameScreen implements Screen {
     }
 
     private void createGameCameraAndViewport(MapContainer container){
-        Rectangle room = container.getBorderRoom(RoomName.START_ROOM);
+        Rectangle room = container.getBorderRoom(RoomName.START_ROOM); // FIXME: 19.07.2025 хардкод
 
         gameCamera = new OrthographicCamera(
             room.width * container.UNIT_SCALE,

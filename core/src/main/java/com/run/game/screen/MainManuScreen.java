@@ -6,8 +6,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.run.game.Main;
+import com.run.game.map.WorldName;
 import com.run.game.ui.UiController;
 import com.run.game.ui.UiFactory;
+import com.run.game.utils.music.MusicManager;
 
 public class MainManuScreen implements Screen {
 
@@ -32,7 +34,7 @@ public class MainManuScreen implements Screen {
     @Override
     public void show() {
         if (uiController == null) {
-            GameScreen screen = new GameScreen(main, batch, uiCamera, uiViewport, world);
+            GameScreen screen = new GameScreen(main, batch, uiCamera, uiViewport, world, WorldName.HOME);
 
             uiController = new UiController(UiFactory.createMainMenuStage(
                 main, screen

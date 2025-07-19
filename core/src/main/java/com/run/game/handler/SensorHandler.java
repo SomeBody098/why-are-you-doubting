@@ -1,14 +1,14 @@
 package com.run.game.handler;
 
-import com.badlogic.gdx.Gdx;
 import com.run.game.dto.PlayerDto;
 import com.run.game.event.EventBus;
 import com.run.game.event.EventType;
-import com.run.game.map.MapController;
 import com.run.game.dto.MovingDto;
 import com.run.game.dto.SensorDto;
 import com.run.game.map.RoomManager;
+import com.run.game.map.WorldName;
 import com.run.game.utils.exception.UnexpectedBehaviorException;
+import com.run.game.utils.music.MusicManager;
 
 import java.util.function.Consumer;
 
@@ -38,8 +38,8 @@ public class SensorHandler {
         eventBus.subscribe(EventType.TeleportPlayerEvent, new Consumer<EventType>() {
             @Override
             public void accept(EventType eventType) {
+                MusicManager.initSound(WorldName.HOME, "door_opening");
                 roomManager.changeRoom(dto.getWhere(), playerDto.getCurrentRoom());
-                Gdx.app.log(eventType.name(), "Teleport player in room - " + dto.getWhere());
             }
         });
     }

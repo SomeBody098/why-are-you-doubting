@@ -13,43 +13,49 @@ public class ParamFactory {
         DATA_STORAGE = new ObjectMap<>();
         JsonReader reader = new JsonReader();
 
-        DATA_STORAGE.put("ui", reader.parse(Gdx.files.internal("ui/parameters/ui_property.json")));
+        DATA_STORAGE.put("ui", reader.parse(Gdx.files.internal("ui/ui_property.json")));
+        DATA_STORAGE.put("music", reader.parse(Gdx.files.internal("music/music_property.json")));
     }
 
     public static BoundsParam getUiParam(String uiName) {
         if (ParamLate.contains(uiName)) return (BoundsParam) ParamLate.getParam(uiName);
+        Float[] bounds = getBoundsParam(getJsonValue(uiName, "ui"));
 
-        BoundsParam param = getBoundsParam(getJsonValue(uiName, "ui"));
+        BoundsParam param = new BoundsParam(
+            bounds[0],
+            bounds[1],
+            bounds[2],
+            bounds[3]
+        );
         ParamLate.putParam(uiName, param);
 
         return param;
     }
 
-    private static BoundsParam getBoundsParam(JsonValue uiValue){
-        return new BoundsParam(
+    public static BoundsTextParam getUiTextParam(String uiName) {
+        if (ParamLate.contains(uiName)) return (BoundsTextParam) ParamLate.getParam(uiName);
+        JsonValue uiValue = getJsonValue(uiName, "ui");
+        Float[] bounds = getBoundsParam(uiValue);
+
+        BoundsTextParam param = new BoundsTextParam(
+            bounds[0],
+            bounds[1],
+            bounds[2],
+            bounds[3],
+            uiValue.getString("text")
+        );
+        ParamLate.putParam(uiName, param);
+
+        return param;
+    }
+
+    private static Float[] getBoundsParam(JsonValue uiValue){ // FIXME: 18.07.2025 не очень хорошо, что приходиться использовать массив (ну - хардкодить последовательность параметров), но в целом - пойдет
+        return new Float[]{
             uiValue.getFloat("position_x_percent"),
             uiValue.getFloat("position_y_percent"),
             uiValue.getFloat("wight_percent"),
             uiValue.getFloat("height_percent")
-        );
-    }
-
-    public static BoundsTextParam getUiTextParam(String uiName) { // FIXME: 07.07.2025 идентичен getUiParam! Придумай как не копировать код
-        if (ParamLate.contains(uiName)) return (BoundsTextParam) ParamLate.getParam(uiName);
-
-        JsonValue uiValue = getJsonValue(uiName, "ui");
-
-        BoundsTextParam param = new BoundsTextParam(
-            uiValue.getFloat("position_x_percent"),
-            uiValue.getFloat("position_y_percent"),
-            uiValue.getFloat("wight_percent"),
-            uiValue.getFloat("height_percent"),
-            uiValue.getString("text")
-        );
-
-        ParamLate.putParam(uiName, param);
-
-        return param;
+        };
     }
 
     private static JsonValue getJsonValue(String nameObject, String nameJson){

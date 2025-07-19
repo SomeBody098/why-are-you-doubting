@@ -7,6 +7,7 @@ import com.run.game.Main;
 import com.run.game.ui.UiController;
 import com.run.game.map.MapFactory;
 import com.run.game.ui.UiFactory;
+import com.run.game.utils.music.MusicManager;
 
 public class LoadingScreen implements Screen {
 
@@ -40,7 +41,7 @@ public class LoadingScreen implements Screen {
 
         controller.render(delta);
 
-        if (MapFactory.isDone()) moveToCurrentScreen();
+        if (MapFactory.isDone() && MusicManager.isDone()) moveToCurrentScreen();
     }
 
     private void moveToCurrentScreen() {

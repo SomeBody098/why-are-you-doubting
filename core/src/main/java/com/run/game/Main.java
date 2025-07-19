@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.run.game.map.MapFactory;
 import com.run.game.screen.MainManuScreen;
 import com.run.game.ui.UiFactory;
+import com.run.game.utils.music.MusicManager;
 
 public class Main extends Game {
 
@@ -27,6 +28,7 @@ public class Main extends Game {
 
         UiFactory.init(uiCamera, uiViewport, batch);
         MapFactory.init(world);
+        MusicManager.init();
 
         setScreen(new MainManuScreen(this, batch, uiCamera, uiViewport, world));
     }
@@ -53,6 +55,6 @@ public class Main extends Game {
     @Override
     public void dispose() {
         batch.dispose();
-
+        MusicManager.dispose();
     }
 }

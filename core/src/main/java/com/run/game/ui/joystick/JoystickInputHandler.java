@@ -5,6 +5,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.utils.Pool;
+import com.run.game.map.WorldName;
+import com.run.game.utils.music.MusicManager;
 
 public class JoystickInputHandler extends InputListener {
 
@@ -29,6 +31,8 @@ public class JoystickInputHandler extends InputListener {
     @Override
     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
         if (isTouchInJoystickArea(x, y) && JoystickInputHandler.this.pointer == -1) {
+            MusicManager.initSound(WorldName.HOME, "steps"); // FIXME: 19.07.2025 НЕНАДЕЖНО И ОПАСНО - но работает
+
             isActive = true;
             JoystickInputHandler.this.pointer = pointer;
             position.set(x, y);
@@ -41,6 +45,7 @@ public class JoystickInputHandler extends InputListener {
     @Override
     public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
         if (JoystickInputHandler.this.pointer == pointer) {
+            if (MusicManager.isSoundPlaying("steps")) MusicManager.stopSound("steps");  // FIXME: 19.07.2025 НЕНАДЕЖНО И ОПАСНО - но работает
             resetJoystick();
             return;
         }

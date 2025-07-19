@@ -2,8 +2,6 @@ package com.run.game.entity;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.run.game.dto.EmptyDto;
 import com.run.game.dto.JoystickDTO;
 import com.run.game.dto.PlayerDto;
 import com.run.game.entity.player.Player;

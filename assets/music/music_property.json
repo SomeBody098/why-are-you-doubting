@@ -1,0 +1,31 @@
+{
+  "HOME":{
+    "sound": {
+
+      "steps": {
+        "path": "music/steps.mp3",
+        "volume": 0.3,
+        "looping": true
+      },
+      "door_opening": {
+        "path": "music/door_opening.mp3",
+        "volume": 0.7,
+        "looping": false
+      },
+      "run_over_ladder": {
+        "path": "music/run_over_ladder.mp3",
+        "volume": 0.5,
+        "looping": false
+      }
+    },
+
+    "music": {
+      "house_theme": {
+        "path": "music/house_theme.mp3",
+        "volume": 0.3,
+        "looping": true
+      }
+    }
+  }
+
+}

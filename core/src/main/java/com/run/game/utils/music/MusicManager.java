@@ -11,7 +11,7 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.run.game.map.WorldName;
 
 import java.util.HashMap;
-import java.util.Map;
+import java.util.function.Consumer;
 
 public class MusicManager {
 
@@ -51,6 +51,11 @@ public class MusicManager {
         MusicStorage storage = MUSIC_STORAGES.get(worldName);
         MusicContainer container = storage.getMusicContainer(containerName);
 
+        if (playingMusic.containsKey(container.getName())) {
+            playMusic(container.getName());
+            return;
+        }
+
         Music music = manager.get(container.getPath(), Music.class);
         music.setVolume(container.getVolume());
         music.setLooping(container.isLooping());
@@ -64,6 +69,11 @@ public class MusicManager {
         MusicStorage storage = MUSIC_STORAGES.get(worldName);
         MusicContainer container = storage.getSoundContainer(containerName);
 
+        if (playingSound.containsKey(container.getName())) {
+            playSound(container.getName());
+            return;
+        }
+
         Sound sound = manager.get(container.getPath(), Sound.class);
         sound.setVolume(1, container.getVolume());
         sound.setLooping(1, container.isLooping());
@@ -74,35 +84,51 @@ public class MusicManager {
     }
 
     public static void playMusic(String name){
-        playingMusic.get(name).play();
+        handleMusic(name, Music::play);
     }
 
     public static void playSound(String name){
-        playingSound.get(name).play();
+        handleSound(name, Sound::play);
     }
 
     public static void pauseMusic(String name){
-        playingMusic.get(name).pause();
+        handleMusic(name, Music::pause);
     }
 
     public static void pauseSound(String name){
-        playingSound.get(name).pause();
+        handleSound(name, Sound::pause);
     }
 
     public static void stopMusic(String name){
-        Music music = playingMusic.get(name);
-        music.stop();
-
-        playingMusic.remove(name);
-        music.dispose();
+        handleMusic(name, Music::stop);
     }
 
     public static void stopSound(String name){
-        Sound sound = playingSound.get(name);
-        sound.stop();
+        handleSound(name, Sound::stop);
+    }
 
-        playingSound.remove(name);
-        sound.dispose();
+    public static void disposeMusic(String name){
+        handleMusic(name, Music::dispose);
+    }
+
+    public static void disposeSound(String name){
+        handleSound(name, Sound::dispose);
+    }
+
+    private static void handleMusic(String name, Consumer<Music> action) {
+        if (!isMusicPlaying(name)) {
+            Gdx.app.error("MusicManager", "Music not loaded: " + name);
+            return;
+        }
+        action.accept(playingMusic.get(name));
+    }
+
+    private static void handleSound(String name, Consumer<Sound> action) {
+        if (!isSoundPlaying(name)) {
+            Gdx.app.error("MusicManager", "Sound not loaded: " + name);
+            return;
+        }
+        action.accept(playingSound.get(name));
     }
 
     public static boolean isMusicPlaying(String name){

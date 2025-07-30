@@ -1,4 +1,4 @@
-package com.run.game.ui.joystick;
+package com.run.game.ui.obj.joystick;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;

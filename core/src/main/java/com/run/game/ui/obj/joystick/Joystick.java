@@ -1,6 +1,5 @@
-package com.run.game.ui.joystick;
+package com.run.game.ui.obj.joystick;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.run.game.dto.JoystickDTO;

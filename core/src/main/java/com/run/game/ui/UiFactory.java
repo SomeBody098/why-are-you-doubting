@@ -7,8 +7,6 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -16,7 +14,8 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.run.game.Main;
 import com.run.game.ui.action.ScreenSwitchAction;
-import com.run.game.ui.joystick.Joystick;
+import com.run.game.ui.obj.ProgressivelyLabel;
+import com.run.game.ui.obj.joystick.Joystick;
 import com.run.game.utils.exception.NotInitializedObjectException;
 import com.run.game.utils.param.ParamFactory;
 import com.run.game.utils.param.BoundsTextParam;
@@ -49,7 +48,7 @@ public class UiFactory {
     public static Stage createMainMenuStage(Main game, Screen targetScreen){
         Stage mainMenu = new Stage(viewport, batch);
 
-        mainMenu.addActor(createLabel());
+        mainMenu.addActor(createGameMenuLabel());
         mainMenu.addActor(createStartButton(game, targetScreen));
 
         return mainMenu;
@@ -87,9 +86,9 @@ public class UiFactory {
         return button;
     }
 
-    private static Label createLabel(){
+    private static ProgressivelyLabel createGameMenuLabel(){
         BoundsTextParam param = ParamFactory.getUiTextParam("name-game-label");
-        Label label = new Label(param.text, skin, "window");
+        ProgressivelyLabel label = new ProgressivelyLabel(param.text, skin, "window", -1);
 
         label.setAlignment(Align.center);
         setStandardBoundsForUiObject(label, param);

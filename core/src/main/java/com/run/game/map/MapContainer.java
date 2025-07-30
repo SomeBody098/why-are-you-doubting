@@ -75,8 +75,8 @@ public class MapContainer implements Disposable {
             if (name == null || !name.equals("spawn-player-entered-moving")) continue;
 
             MapProperties properties = object.getProperties();
-            if (!properties.get("from_where", String.class).equals(fromWhere.getValue()) ||
-                !properties.get("where", String.class).equals(where.getValue())) continue;
+            if (!properties.get("from_where", String.class).equals(fromWhere.name()) ||
+                !properties.get("where", String.class).equals(where.name())) continue;
 
             return new Vector2(
                 properties.get("x", Float.class) * UNIT_SCALE,
@@ -84,7 +84,7 @@ public class MapContainer implements Disposable {
             );
         }
 
-        throw new UnexpectedBehaviorException("Not found \"spawn-player-entered-door\" with property \"from_where\" " + fromWhere.getValue());
+        throw new UnexpectedBehaviorException("Not found \"spawn-player-entered-door\" with property \"from_where\" " + fromWhere.name());
     }
 
     private MapObjects getMapObjects(String name){

@@ -1,4 +1,4 @@
-package com.run.game.ui.joystick;
+package com.run.game.ui.obj.joystick;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool;

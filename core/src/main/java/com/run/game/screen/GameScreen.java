@@ -25,7 +25,7 @@ import com.run.game.map.MapFactory;
 import com.run.game.map.RoomName;
 import com.run.game.map.WorldName;
 import com.run.game.ui.UiFactory;
-import com.run.game.ui.joystick.Joystick;
+import com.run.game.ui.obj.joystick.Joystick;
 import com.run.game.utils.music.MusicManager;
 
 public class GameScreen implements Screen {

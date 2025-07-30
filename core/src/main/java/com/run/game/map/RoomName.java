@@ -3,26 +3,17 @@ package com.run.game.map;
 import com.badlogic.gdx.Gdx;
 
 public enum RoomName {
-    BATHROOM("BATHROOM"),
-    BEDROOM1("BEDROOM1"),
-    BEDROOM2("BEDROOM2"),
-    CORRIDOR_DOWN("CORRIDOR_DOWN"),
-    CORRIDOR_UP("CORRIDOR_UP"),
-    DINNING_ROOM("DINNING_ROOM"),
-    REST_ROOM("REST_ROOM"),
-    START_ROOM("START_ROOM"),
-    WINDOW_ROOM("WINDOW_ROOM"),
-    NONE("NONE");
-
-    private final String value;
-
-    RoomName(String value) {
-        this.value = value;
-    }
-
-    public String getValue() {
-        return value;
-    }
+    BATHROOM,
+    BEDROOM1,
+    BEDROOM2,
+    CORRIDOR_DOWN,
+    CORRIDOR_UP,
+    DINNING_ROOM,
+    REST_ROOM,
+    START_ROOM,
+    WINDOW_ROOM,
+    STORAGE_ROOM,
+    NONE;
 
     public static RoomName getRoomNameByString(String string){
         Gdx.app.log("str", string);
@@ -45,6 +36,8 @@ public enum RoomName {
                 return START_ROOM;
             case "WINDOW_ROOM":
                 return WINDOW_ROOM;
+            case "STORAGE_ROOM":
+                return STORAGE_ROOM;
             case "NONE":
                 return NONE;
             default:

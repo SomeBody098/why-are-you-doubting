@@ -31,7 +31,11 @@ public class CollisionFactory {
 
                 boolean isActive = border.overlaps(bounds);
 
-                if (object.getName() == null) {
+                String className = object.getProperties().get("type", String.class);
+
+                Gdx.app.log("class", className);
+
+                if (className == null) {
                     Gdx.app.log("ob", bounds.toString());
                     createObstacle(
                         bounds.x * map.UNIT_SCALE + divW,
@@ -47,7 +51,7 @@ public class CollisionFactory {
 
                 MapProperties properties = object.getProperties();
 
-                switch (object.getName()){
+                switch (className){
                     case "moving":
                         createMoving(
                             bounds.x * map.UNIT_SCALE + divW,

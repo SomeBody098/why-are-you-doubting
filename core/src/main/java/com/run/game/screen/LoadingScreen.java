@@ -5,9 +5,9 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.run.game.Main;
 import com.run.game.ui.UiController;
-import com.run.game.map.MapFactory;
 import com.run.game.ui.UiFactory;
-import com.run.game.utils.music.MusicManager;
+
+import map.creator.map.factory.AsynchronousFactory;
 
 public class LoadingScreen implements Screen {
 
@@ -16,21 +16,29 @@ public class LoadingScreen implements Screen {
 
     private final OrthographicCamera uiCamera;
     private final ScreenViewport uiViewport;
+    private final AsynchronousFactory[] asynchronousFactors;
 
+    private final UiFactory uiFactory;
     private UiController controller;
 
-    public LoadingScreen(Main main, Screen currentScreen, OrthographicCamera uiCamera, ScreenViewport uiViewport) {
+    public LoadingScreen(Main main, Screen currentScreen, OrthographicCamera uiCamera, ScreenViewport uiViewport, UiFactory uiFactory, AsynchronousFactory... asynchronousFactors) {
         this.main = main;
         this.currentScreen = currentScreen;
         this.uiCamera = uiCamera;
         this.uiViewport = uiViewport;
+        this.uiFactory = uiFactory;
+        this.asynchronousFactors = asynchronousFactors;
     }
 
     @Override
     public void show() {
         if (controller == null){
-            float progress = MapFactory.getProgress() * 100;
-            controller = new UiController(UiFactory.createLoadingStage(0, progress, 1));
+            float progress = 0;
+            for (AsynchronousFactory factory : asynchronousFactors) {
+                progress += (factory.getProgress() * 100) / asynchronousFactors.length;
+            }
+
+            controller = new UiController(uiFactory.createLoadingStage(0, progress, 1));
         }
     }
 
@@ -38,10 +46,15 @@ public class LoadingScreen implements Screen {
     public void render(float delta) {
         uiViewport.apply();
         uiCamera.update();
-
         controller.render(delta);
 
-        if (MapFactory.isDone() && MusicManager.isDone()) moveToCurrentScreen();
+        for (AsynchronousFactory factory : asynchronousFactors) {
+            if (!factory.isDone()) {
+                return;
+            }
+        }
+
+        moveToCurrentScreen();
     }
 
     private void moveToCurrentScreen() {

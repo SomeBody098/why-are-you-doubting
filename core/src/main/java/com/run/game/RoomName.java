@@ -1,6 +1,4 @@
-package com.run.game.map;
-
-import com.badlogic.gdx.Gdx;
+package com.run.game;
 
 public enum RoomName {
     BATHROOM,
@@ -16,7 +14,6 @@ public enum RoomName {
     NONE;
 
     public static RoomName getRoomNameByString(String string){
-        Gdx.app.log("str", string);
         switch (string.toUpperCase()){
             case "BATHROOM":
                 return BATHROOM;
@@ -42,6 +39,25 @@ public enum RoomName {
                 return NONE;
             default:
                 throw new IllegalArgumentException("Unknown name room!");
+        }
+    }
+
+    public static boolean stringIsContainsRoomName(String string){
+        switch (string.toUpperCase()){
+            case "BATHROOM":
+            case "BEDROOM1":
+            case "BEDROOM2":
+            case "CORRIDOR_DOWN":
+            case "CORRIDOR_UP":
+            case "DINNING_ROOM":
+            case "REST_ROOM":
+            case "START_ROOM":
+            case "WINDOW_ROOM":
+            case "STORAGE_ROOM":
+            case "NONE":
+                return true;
+            default:
+                return false;
         }
     }
 }

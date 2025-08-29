@@ -11,31 +11,34 @@ import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.run.game.Main;
 import com.run.game.ui.action.ScreenSwitchAction;
 import com.run.game.ui.obj.ProgressivelyLabel;
 import com.run.game.ui.obj.joystick.Joystick;
-import com.run.game.utils.exception.NotInitializedObjectException;
+import com.run.game.utils.music.MusicManager;
 import com.run.game.utils.param.ParamFactory;
 import com.run.game.utils.param.BoundsTextParam;
 import com.run.game.utils.param.BoundsParam;
 
-public class UiFactory {
+import map.creator.map.utils.exception.NotInitializedObjectException;
 
-    private static float GLOBAL_WIGHT;
-    private static float GLOBAL_HEIGHT;
+public class UiFactory implements Disposable {
 
-    private static OrthographicCamera uiCamera;
-    private static Viewport viewport;
-    private static Batch batch;
+    private final float GLOBAL_WIGHT;
+    private final float GLOBAL_HEIGHT;
 
-    private static Skin skin;
+    private final OrthographicCamera uiCamera;
+    private final Viewport viewport;
+    private final Batch batch;
 
-    public static void init(OrthographicCamera uiCamera, Viewport viewport, Batch batch){
-        UiFactory.uiCamera = uiCamera;
-        UiFactory.viewport = viewport;
-        UiFactory.batch = batch;
+    private final Skin skin;
+
+    public UiFactory(OrthographicCamera uiCamera, Viewport viewport, Batch batch) {
+        this.uiCamera = uiCamera;
+        this.viewport = viewport;
+        this.batch = batch;
 
         GLOBAL_WIGHT = uiCamera.viewportWidth;
         GLOBAL_HEIGHT = uiCamera.viewportHeight;
@@ -45,7 +48,7 @@ public class UiFactory {
         skin.load(Gdx.files.internal("ui/uiskin.json"));
     }
 
-    public static Stage createMainMenuStage(Main game, Screen targetScreen){
+    public Stage createMainMenuStage(Main game, Screen targetScreen){
         Stage mainMenu = new Stage(viewport, batch);
 
         mainMenu.addActor(createGameMenuLabel());
@@ -54,7 +57,7 @@ public class UiFactory {
         return mainMenu;
     }
 
-    public static Stage createLoadingStage(float min, float max, float stepSize){
+    public Stage createLoadingStage(float min, float max, float stepSize){
         Stage mainMenu = new Stage(viewport, batch);
 
         mainMenu.addActor(createProgressBar(min, max, stepSize));
@@ -62,10 +65,10 @@ public class UiFactory {
         return mainMenu;
     }
 
-    public static Stage createGameUiStage(){
+    public Stage createGameUiStage(MusicManager musicManager){
         Stage gameUi = new Stage(viewport, batch);
 
-        Joystick joystick = createJoystick();
+        Joystick joystick = createJoystick(musicManager);
         gameUi.addActor(joystick);
         gameUi.addActor(createButtonInteract());
 
@@ -74,7 +77,7 @@ public class UiFactory {
         return gameUi;
     }
 
-    private static TextButton createStartButton(Main game, Screen targetScreen){
+    private TextButton createStartButton(Main game, Screen targetScreen){
         isUiCameraInitialized();
         BoundsTextParam param = ParamFactory.getUiTextParam("start-button");
 
@@ -86,50 +89,53 @@ public class UiFactory {
         return button;
     }
 
-    private static ProgressivelyLabel createGameMenuLabel(){
+    private ProgressivelyLabel createGameMenuLabel(){
         BoundsTextParam param = ParamFactory.getUiTextParam("name-game-label");
-        ProgressivelyLabel label = new ProgressivelyLabel(param.text, skin, "window", -1);
-
+        ProgressivelyLabel label = new ProgressivelyLabel(param.text, skin, "window", -1, 0.5f);
+        label.setName("name-game-label");
         label.setAlignment(Align.center);
         setStandardBoundsForUiObject(label, param);
 
         return label;
     }
 
-    private static TextButton createButtonInteract(){
+    private TextButton createButtonInteract(){
         BoundsTextParam param = ParamFactory.getUiTextParam("button-interact");
         TextButton button = new TextButton(param.text, skin, "default");
-
+        button.setName("button-interact");
         setStandardBoundsForUiObject(button, param);
 
         return button;
     }
 
-    private static Joystick createJoystick(){
+    private Joystick createJoystick(MusicManager musicManager){
         BoundsParam param = ParamFactory.getUiParam("joystick");
         Joystick joystick = new Joystick();
 
         float radius = param.wight_percent * joystick.getWightCircle();
 
         joystick.createBounds(
+            musicManager,
             param.position_x_percent * GLOBAL_WIGHT,
             param.position_y_percent * GLOBAL_HEIGHT,
             radius
         );
 
+        joystick.setName("joystick");
+
         return joystick;
     }
 
-    private static ProgressBar createProgressBar(float min, float max, float stepSize){
+    private ProgressBar createProgressBar(float min, float max, float stepSize){
         BoundsParam param = ParamFactory.getUiParam("progress-bar");
         ProgressBar progressBar = new ProgressBar(min, max, stepSize, false, skin, "default-horizontal");
-
+        progressBar.setName("progress-bar");
         setStandardBoundsForUiObject(progressBar, param);
 
         return progressBar;
     }
 
-    private static void setStandardBoundsForUiObject(Actor uiObject, BoundsParam param){
+    private void setStandardBoundsForUiObject(Actor uiObject, BoundsParam param){
         float wight = param.wight_percent * uiObject.getWidth();
         float height = param.height_percent * uiObject.getHeight();
 
@@ -140,9 +146,14 @@ public class UiFactory {
         );
     }
 
-    private static void isUiCameraInitialized(){
+    private void isUiCameraInitialized(){
         if (uiCamera == null){
             throw new NotInitializedObjectException("uiCamera is not initialized!");
         }
+    }
+
+    @Override
+    public void dispose() {
+        skin.dispose();
     }
 }

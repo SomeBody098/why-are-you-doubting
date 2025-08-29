@@ -1,12 +1,13 @@
 package com.run.game.screen;
 
+import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.run.game.Main;
-import com.run.game.map.WorldName;
+import map.creator.map.factory.MapFactory;
 import com.run.game.ui.UiController;
 import com.run.game.ui.UiFactory;
 import com.run.game.utils.music.MusicManager;
@@ -20,23 +21,31 @@ public class MainManuScreen implements Screen {
     private final ScreenViewport uiViewport;
 
     private final World world;
+    private final MapFactory mapFactory;
+    private final UiFactory uiFactory;
+    private final MusicManager musicManager;
+    private final Engine engine;
 
     private UiController uiController;
 
-    public MainManuScreen(Main main, SpriteBatch batch, OrthographicCamera uiCamera, ScreenViewport uiViewport, World world) {
+    public MainManuScreen(Main main, SpriteBatch batch, OrthographicCamera uiCamera, ScreenViewport uiViewport, World world, UiFactory uiFactory, MapFactory mapFactory, MusicManager musicManager, Engine engine) {
         this.main = main;
         this.batch = batch;
         this.uiCamera = uiCamera;
         this.uiViewport = uiViewport;
         this.world = world;
+        this.uiFactory = uiFactory;
+        this.mapFactory = mapFactory;
+        this.musicManager = musicManager;
+        this.engine = engine;
     }
 
     @Override
     public void show() {
         if (uiController == null) {
-            GameScreen screen = new GameScreen(main, batch, uiCamera, uiViewport, world, WorldName.HOME);
+            GameScreen screen = new GameScreen(main, batch, uiCamera, uiViewport, world, mapFactory, uiFactory, musicManager, engine);
 
-            uiController = new UiController(UiFactory.createMainMenuStage(
+            uiController = new UiController(uiFactory.createMainMenuStage(
                 main, screen
             ));
         }

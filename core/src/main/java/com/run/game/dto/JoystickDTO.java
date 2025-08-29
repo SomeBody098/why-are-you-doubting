@@ -1,6 +1,6 @@
 package com.run.game.dto;
 
-import com.run.game.entity.DIRECTION;
+import com.run.game.DIRECTION;
 
 public class JoystickDTO extends Dto {
 

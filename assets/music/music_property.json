@@ -1,7 +1,6 @@
 {
-  "HOME":{
+  "home": {
     "sound": {
-
       "steps": {
         "path": "music/steps.mp3",
         "volume": 0.3,
@@ -18,7 +17,6 @@
         "looping": false
       }
     },
-
     "music": {
       "house_theme": {
         "path": "music/house_theme.mp3",
@@ -27,5 +25,4 @@
       }
     }
   }
-
 }

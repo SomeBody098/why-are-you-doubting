@@ -1,23 +1,26 @@
-package com.run.game.entity.player;
+package com.run.game.component.graphics;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
-import com.run.game.entity.DIRECTION;
+import com.run.game.DIRECTION;
 
-public class PlayerGraphics implements Disposable {
+import map.creator.map.component.ObjectComponent;
+
+public class GraphicsMovingObjectComponent extends ObjectComponent implements Disposable {
 
     private DIRECTION direction = DIRECTION.NONE;
-
+    private final float unitScale;
     private final TextureRegion currentFrame;
 
-    public PlayerGraphics() {
-        currentFrame = new TextureRegion(new Texture("textures/player.png"));
+    public GraphicsMovingObjectComponent(String owner, TextureRegion currentFrame, float unitScale) {
+        super("graphics-moving-object", "graphics", owner);
+        this.currentFrame = currentFrame;
+        this.unitScale = unitScale;
     }
 
-    public void draw(Batch batch, Vector2 position, float width, float height, float ppm, float unitScale) {
+    public void draw(Batch batch, Vector2 position) {
         float divW = getWidth() / 2 * unitScale;
         float divH = getHeight() / 2 * unitScale;
 
@@ -27,14 +30,15 @@ public class PlayerGraphics implements Disposable {
             currentFrame,
             position.x - divW,
             position.y - divH,
-            width / ppm,
-            height / ppm
+            getWidth() * unitScale,
+            getHeight() * unitScale
         );
 
         batch.end();
     }
 
-    public void update(float delta){
+    public void update(DIRECTION direction){
+        setDirection(direction);
         handleDirectionFlipping(currentFrame);
     }
 
@@ -61,6 +65,6 @@ public class PlayerGraphics implements Disposable {
 
     @Override
     public void dispose() {
-
+        currentFrame.getTexture().dispose();
     }
 }

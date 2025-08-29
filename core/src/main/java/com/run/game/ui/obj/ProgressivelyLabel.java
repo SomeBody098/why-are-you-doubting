@@ -6,13 +6,21 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class ProgressivelyLabel extends Label {
 
-    private final CharSequence text;
+    private CharSequence text;
     private float index;
+    private float speed;
+    private boolean isTypedAllTheText;
 
-    public ProgressivelyLabel(CharSequence text, Skin skin, String styleName, int startChars) {
+    public ProgressivelyLabel(CharSequence text, Skin skin, String styleName, int startChars, float speed) {
         super(text, skin, styleName);
+        newTyping(text, startChars, speed);
 
+        isTypedAllTheText = false;
+    }
+
+    public void newTyping(CharSequence text, int startChars, float speed){
         this.text = text;
+        this.speed = speed;
 
         if (startChars == -1) {
             super.setText("");
@@ -21,6 +29,8 @@ public class ProgressivelyLabel extends Label {
             super.setText(text.subSequence(0, startChars));
             index = startChars;
         }
+
+        isTypedAllTheText = false;
     }
 
     @Override
@@ -30,10 +40,15 @@ public class ProgressivelyLabel extends Label {
         if (index == -1) return;
         if (index < text.length()) {
             super.setText(text.subSequence(0, (int) Math.floor(index)));
-            index += 0.5f;
+            index += speed;
         } else {
             super.setText(text);
             index = -1;
+            isTypedAllTheText = true;
         }
+    }
+
+    public boolean isTypedAllTheText() {
+        return isTypedAllTheText;
     }
 }

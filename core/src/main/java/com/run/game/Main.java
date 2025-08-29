@@ -1,5 +1,6 @@
 package com.run.game;
 
+import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -8,29 +9,40 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.run.game.map.MapFactory;
 import com.run.game.screen.MainManuScreen;
 import com.run.game.ui.UiFactory;
 import com.run.game.utils.music.MusicManager;
+
+import map.creator.map.factory.MapFactory;
 
 public class Main extends Game {
 
     private SpriteBatch batch;
 
+    private Engine engine;
+    private World world;
+
+    private MapFactory mapFactory;
+    private UiFactory uiFactory;
+    private MusicManager musicManager;
+
     @Override
     public void create() {
         batch = new SpriteBatch();
+        engine = new Engine();
+
+        engine.addSystem(new map.creator.map.system.TriggerSystem());
 
         OrthographicCamera uiCamera = createUiCamera();
         ScreenViewport uiViewport = new ScreenViewport(uiCamera);
 
-        World world = new World(new Vector2(), false);
+        world = new World(new Vector2(), false);
 
-        UiFactory.init(uiCamera, uiViewport, batch);
-        MapFactory.init(world);
-        MusicManager.init();
+        mapFactory = new MapFactory(world, engine, true);
+        uiFactory = new UiFactory(uiCamera, uiViewport, batch);
+        musicManager = new MusicManager();
 
-        setScreen(new MainManuScreen(this, batch, uiCamera, uiViewport, world));
+        setScreen(new MainManuScreen(this, batch, uiCamera, uiViewport, world, uiFactory, mapFactory, musicManager, engine));
     }
 
     private OrthographicCamera createUiCamera(){
@@ -50,11 +62,15 @@ public class Main extends Game {
     public void render() {
         ScreenUtils.clear(0f, 0f, 0f, 1f);
         screen.render(Gdx.graphics.getDeltaTime());
+        engine.update(Gdx.graphics.getDeltaTime());
     }
 
     @Override
     public void dispose() {
         batch.dispose();
-        MusicManager.dispose();
+        mapFactory.dispose();
+        world.dispose();
+        musicManager.dispose();
+        uiFactory.dispose();
     }
 }

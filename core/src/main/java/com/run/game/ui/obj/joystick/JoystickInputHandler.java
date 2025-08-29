@@ -4,10 +4,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.utils.Pool;
-import com.run.game.map.WorldName;
 import com.run.game.utils.music.MusicManager;
 
 public class JoystickInputHandler extends InputListener {
+
+    private final MusicManager musicManager;
 
     private final Vector2 position;
 
@@ -20,17 +21,18 @@ public class JoystickInputHandler extends InputListener {
     private final float radius;
     private boolean isActive = false;
 
-    public JoystickInputHandler(Vector2 position, Vector2 finalPosition, Pool<Vector2> vectorPool, float radius) {
+    public JoystickInputHandler(Vector2 position, Vector2 finalPosition, Pool<Vector2> vectorPool, MusicManager musicManager, float radius) {
         this.position = position;
         this.finalPosition = finalPosition;
         this.vectorPool = vectorPool;
+        this.musicManager = musicManager;
         this.radius = radius;
     }
 
     @Override
     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
         if (isTouchInJoystickArea(x, y) && JoystickInputHandler.this.pointer == -1) {
-            MusicManager.initSound(WorldName.HOME, "steps"); // FIXME: 19.07.2025 НЕНАДЕЖНО И ОПАСНО - но работает
+            musicManager.initSound("home", "steps"); // FIXME: 19.07.2025 НЕНАДЕЖНО И ОПАСНО - но работает
 
             isActive = true;
             JoystickInputHandler.this.pointer = pointer;
@@ -44,7 +46,7 @@ public class JoystickInputHandler extends InputListener {
     @Override
     public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
         if (JoystickInputHandler.this.pointer == pointer) {
-            if (MusicManager.isSoundPlaying("steps")) MusicManager.stopSound("steps");  // FIXME: 19.07.2025 НЕНАДЕЖНО И ОПАСНО - но работает
+            if (musicManager.isSoundPlaying("steps")) musicManager.stopSound("steps");  // FIXME: 19.07.2025 НЕНАДЕЖНО И ОПАСНО - но работает
             resetJoystick();
             return;
         }

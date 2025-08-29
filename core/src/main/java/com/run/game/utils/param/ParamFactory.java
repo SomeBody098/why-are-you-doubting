@@ -49,7 +49,7 @@ public class ParamFactory {
         return param;
     }
 
-    private static Float[] getBoundsParam(JsonValue uiValue){ // FIXME: 18.07.2025 не очень хорошо, что приходиться использовать массив (ну - хардкодить последовательность параметров), но в целом - пойдет
+    private static Float[] getBoundsParam(JsonValue uiValue){
         return new Float[]{
             uiValue.getFloat("position_x_percent"),
             uiValue.getFloat("position_y_percent"),

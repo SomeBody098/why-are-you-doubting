@@ -2,7 +2,7 @@ package com.run.game.ui.obj.joystick;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool;
-import com.run.game.entity.DIRECTION;
+import com.run.game.DIRECTION;
 
 public class JoystickBody {
 

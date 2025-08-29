@@ -3,7 +3,9 @@ package com.run.game.ui.obj.joystick;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.run.game.dto.JoystickDTO;
-import com.run.game.utils.exception.NotInitializedObjectException;
+import com.run.game.utils.music.MusicManager;
+
+import map.creator.map.utils.exception.NotInitializedObjectException;
 
 public class Joystick extends Actor {
 
@@ -20,12 +22,13 @@ public class Joystick extends Actor {
         dto = new JoystickDTO("joystick");
     }
 
-    public void createBounds(float x, float y, float radius){
+    public void createBounds(MusicManager musicManager, float x, float y, float radius){
         body = new JoystickBody(x, y, radius);
         inputHandler = new JoystickInputHandler(
             body.getPositionStick().cpy(),
             body.getPositionCircle().cpy(),
             body.getVectorPool(),
+            musicManager,
             body.getRadius()
         );
 

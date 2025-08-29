@@ -1,32 +1,48 @@
 package com.run.game.screen;
 
+import com.badlogic.ashley.core.Engine;
+import com.badlogic.ashley.core.Family;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.run.game.Main;
-import com.run.game.entity.player.Player;
-import com.run.game.event.EventBus;
-import com.run.game.event.EventType;
-import com.run.game.handler.GameContactListener;
-import com.run.game.map.RoomManager;
-import com.run.game.map.MapController;
-import com.run.game.entity.EntityFactory;
+import com.run.game.component.input.PlayerInputHandlerComponent;
+import com.run.game.component.navigation.RoomComponent;
+import com.run.game.component.walking.WalkingBodyComponent;
+import com.run.game.creator.MovingCreator;
+import com.run.game.creator.PlayerCreator;
+import com.run.game.creator.RoomCreator;
+import com.run.game.system.DrawGraphicsSystem;
+import com.run.game.system.MovingSystem;
+import com.run.game.system.NoteSystem;
+import com.run.game.system.ViewRoomSystem;
 import com.run.game.ui.UiController;
-import com.run.game.handler.SensorHandler;
-import com.run.game.map.MapContainer;
-import com.run.game.map.MapFactory;
-import com.run.game.map.RoomName;
-import com.run.game.map.WorldName;
+import com.run.game.RoomName;
 import com.run.game.ui.UiFactory;
 import com.run.game.ui.obj.joystick.Joystick;
 import com.run.game.utils.music.MusicManager;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import map.creator.map.controller.MapContainer;
+import map.creator.map.controller.MapController;
+import map.creator.map.entity.ObjectEntity;
+import map.creator.map.factory.MapFactory;
+import map.creator.map.factory.object.ObjectCache;
+import map.creator.map.system.MapContactListener;
+import map.creator.map.system.TriggerSystem;
 
 public class GameScreen implements Screen {
 
@@ -40,71 +56,81 @@ public class GameScreen implements Screen {
     private final ScreenViewport uiViewport;
 
     private final World world;
-    private final WorldName currentWorld;
+
+    private final String pathToMap;
+    private final String nameMusicStorage;
+
+    private final MapFactory mapFactory;
+    private final UiFactory uiFactory;
+    private final MusicManager musicManager;
+
+    private final Engine engine;
 
     private UiController uiController;
-    private RoomManager roomManager;
 
-    private Player player;
-
-    private EventBus eventBus;
+    private MapController mapController;
 
     private Box2DDebugRenderer debugRenderer;
 
-    public GameScreen(Main main, SpriteBatch batch, OrthographicCamera uiCamera, ScreenViewport uiViewport, World world, WorldName currentWorld) {
+    public GameScreen(Main main, SpriteBatch batch, OrthographicCamera uiCamera, ScreenViewport uiViewport, World world, MapFactory mapFactory, UiFactory uiFactory, MusicManager musicManager, Engine engine) {
         this.main = main;
         this.batch = batch;
         this.uiCamera = uiCamera;
         this.uiViewport = uiViewport;
         this.world = world;
-        this.currentWorld = currentWorld;
+        this.mapFactory = mapFactory;
+        this.uiFactory = uiFactory;
+        this.musicManager = musicManager;
+        this.engine = engine;
+
+        pathToMap = "maps/map.tmx";
+        nameMusicStorage = "home";
     }
 
     @Override
     public void show() {
-        if (loadTextureWorldAndMusic()) {
-            createMapAndGameEntity();
+        if (isLoadMap()) {
+            createMapControllerAndGameEntity();
+            registerSystems();
         }
     }
 
-    private boolean loadTextureWorldAndMusic(){
-        if (!MapFactory.isLoadTextureWorld(currentWorld)){
-            MapFactory.loadTextureWorld(currentWorld);
-            MusicManager.loadMusic(currentWorld);
+    private boolean isLoadMap(){
+        if (!mapFactory.isLoadMap(pathToMap)){
+            Stage stage = uiFactory.createGameUiStage(musicManager);
+            uiController = new UiController(stage);
+            Joystick joystick = (Joystick) uiController.get("joystick");
 
-            main.setScreen(new LoadingScreen(main, this, uiCamera, uiViewport));
+            mapFactory.registerCreator("room", new RoomCreator());
+            mapFactory.registerCreator("player", new PlayerCreator(joystick.getDto(), new TextureRegion(new Texture("textures/player.png"))));
+            mapFactory.registerCreator("moving", new MovingCreator(musicManager));
+
+            mapFactory.createMap(pathToMap, "objects", "rooms");
+            musicManager.loadMusic(nameMusicStorage);
+
+            main.setScreen(new LoadingScreen(main, this, uiCamera, uiViewport, uiFactory, mapFactory, musicManager));
             return false;
-        } else {
-            MusicManager.initMusic(currentWorld, "house_theme");
         }
+
+        musicManager.initMusic(nameMusicStorage, "house_theme");
 
         return true;
     }
 
-    private void createMapAndGameEntity(){
-        if (roomManager == null || uiController == null){
-            MapContainer container = MapFactory.createMap(currentWorld);
+    private void createMapControllerAndGameEntity(){
+        if (mapController == null){
+            MapContainer container = mapFactory.getMap(pathToMap);
             createGameCameraAndViewport(container);
-            MapController mapController = new MapController(container, gameCamera, batch);
+            mapController = new MapController(container, gameCamera, batch);
 
-            Stage stage = UiFactory.createGameUiStage();
-            uiController = new UiController(stage);
-            Joystick joystick = (Joystick) stage.getActors().get(0); // FIXME: 14.07.2025 опасный хардкод (что если на 0 индексе не джойстик? = облом)
-
-            eventBus = new EventBus();
-            EntityFactory.init(world, container.PPM, container.UNIT_SCALE);
-            player = EntityFactory.createPlayer(joystick.getDto(), container.getObject("spawn-player", Vector2.class));
-
-            roomManager = new RoomManager(mapController, player);
-
-            world.setContactListener(new GameContactListener(new SensorHandler(eventBus, roomManager))); // FIXME: 12.07.2025 выглядит немного глупо и замудренно (P.S: это так и есть ;) )
+            world.setContactListener(new MapContactListener(engine, mapFactory.getObjectsFactory().getCache()));
 
             debugRenderer = new Box2DDebugRenderer(); // FIXME: 14.07.2025 УДАЛИ ПРИ РЕЛИЗЕ
         }
     }
 
     private void createGameCameraAndViewport(MapContainer container){
-        Rectangle room = container.getBorderRoom(RoomName.START_ROOM); // FIXME: 19.07.2025 хардкод
+        Rectangle room = ((RectangleMapObject) container.getObjectOnNameInLayer("rooms", RoomName.START_ROOM.name())).getRectangle();
 
         gameCamera = new OrthographicCamera(
             room.width * container.UNIT_SCALE,
@@ -120,10 +146,31 @@ public class GameScreen implements Screen {
         gameViewport = new FitViewport(gameCamera.viewportWidth, gameCamera.viewportHeight, gameCamera);
     }
 
+    private void registerSystems(){
+        engine.addSystem(new MovingSystem());
+        engine.addSystem(new DrawGraphicsSystem(batch, gameCamera, gameViewport));
+        engine.addSystem(new ViewRoomSystem(gameCamera));
+        engine.addSystem(new NoteSystem(uiController));
+        engine.addSystem(new TriggerSystem());
+    }
+
     @Override
     public void render(float delta) {
         renderGameObjects(delta);
         renderUi(delta);
+
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)){ // TODO: 28.08.2025 УБЕРИ!!!!!!!
+            gameCamera.position.x--;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
+            gameCamera.position.x++;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)){
+            gameCamera.position.y--;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.UP)){
+            gameCamera.position.y++;
+        }
     }
 
     private void renderGameObjects(float delta){
@@ -131,15 +178,11 @@ public class GameScreen implements Screen {
         gameCamera.update();
         batch.setProjectionMatrix(gameCamera.combined);
 
-        roomManager.render();
-        eventBus.publish(EventType.TeleportPlayerEvent);
-
-        player.update(delta, roomManager.getCurrentRoom());
-        player.draw(batch);
-
-        debugRenderer.render(world, gameCamera.combined); // FIXME: 09.07.2025 УДАЛИТЬ К РЕЛИЗУ!
+        mapController.render(gameCamera);
 
         world.step(delta, 6, 6);
+
+        debugRenderer.render(world, gameCamera.combined); // FIXME: 09.07.2025 УДАЛИТЬ К РЕЛИЗУ!
     }
 
     private void renderUi(float delta){

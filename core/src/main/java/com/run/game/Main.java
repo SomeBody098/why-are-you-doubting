@@ -62,7 +62,6 @@ public class Main extends Game {
     public void render() {
         ScreenUtils.clear(0f, 0f, 0f, 1f);
         screen.render(Gdx.graphics.getDeltaTime());
-        engine.update(Gdx.graphics.getDeltaTime());
     }
 
     @Override

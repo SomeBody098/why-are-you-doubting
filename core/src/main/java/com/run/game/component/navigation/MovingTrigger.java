@@ -1,6 +1,5 @@
 package com.run.game.component.navigation;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.run.game.component.walking.WalkingBodyComponent;
 import com.run.game.utils.music.MusicManager;

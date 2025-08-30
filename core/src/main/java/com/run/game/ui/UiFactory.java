@@ -71,6 +71,7 @@ public class UiFactory implements Disposable {
         Joystick joystick = createJoystick(musicManager);
         gameUi.addActor(joystick);
         gameUi.addActor(createButtonInteract());
+        gameUi.addActor(createNoteLabel());
 
         gameUi.addListener(joystick.getInputHandler());
 
@@ -94,6 +95,17 @@ public class UiFactory implements Disposable {
         ProgressivelyLabel label = new ProgressivelyLabel(param.text, skin, "window", -1, 0.5f);
         label.setName("name-game-label");
         label.setAlignment(Align.center);
+        setStandardBoundsForUiObject(label, param);
+
+        return label;
+    }
+
+    private ProgressivelyLabel createNoteLabel(){
+        BoundsTextParam param = ParamFactory.getUiTextParam("note");
+        ProgressivelyLabel label = new ProgressivelyLabel(param.text, skin, "window", -1, 0.5f);
+        label.setName("note");
+        label.setAlignment(Align.center);
+        label.setVisible(false);
         setStandardBoundsForUiObject(label, param);
 
         return label;

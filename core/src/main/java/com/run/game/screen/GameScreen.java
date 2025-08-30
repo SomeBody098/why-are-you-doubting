@@ -1,7 +1,6 @@
 package com.run.game.screen;
 
 import com.badlogic.ashley.core.Engine;
-import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
@@ -9,6 +8,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -17,13 +17,12 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.run.game.Main;
-import com.run.game.component.input.PlayerInputHandlerComponent;
-import com.run.game.component.navigation.RoomComponent;
-import com.run.game.component.walking.WalkingBodyComponent;
 import com.run.game.creator.MovingCreator;
+import com.run.game.creator.NoteCreator;
 import com.run.game.creator.PlayerCreator;
 import com.run.game.creator.RoomCreator;
 import com.run.game.system.DrawGraphicsSystem;
+import com.run.game.system.DrawWalkingGraphicsSystem;
 import com.run.game.system.MovingSystem;
 import com.run.game.system.NoteSystem;
 import com.run.game.system.ViewRoomSystem;
@@ -33,14 +32,12 @@ import com.run.game.ui.UiFactory;
 import com.run.game.ui.obj.joystick.Joystick;
 import com.run.game.utils.music.MusicManager;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import map.creator.map.controller.MapContainer;
 import map.creator.map.controller.MapController;
-import map.creator.map.entity.ObjectEntity;
 import map.creator.map.factory.MapFactory;
-import map.creator.map.factory.object.ObjectCache;
 import map.creator.map.system.MapContactListener;
 import map.creator.map.system.TriggerSystem;
 
@@ -104,6 +101,7 @@ public class GameScreen implements Screen {
             mapFactory.registerCreator("room", new RoomCreator());
             mapFactory.registerCreator("player", new PlayerCreator(joystick.getDto(), new TextureRegion(new Texture("textures/player.png"))));
             mapFactory.registerCreator("moving", new MovingCreator(musicManager));
+            mapFactory.registerCreator("note", new NoteCreator(new TextureRegion(new Texture("textures/note.png"))));
 
             mapFactory.createMap(pathToMap, "objects", "rooms");
             musicManager.loadMusic(nameMusicStorage);
@@ -148,10 +146,17 @@ public class GameScreen implements Screen {
 
     private void registerSystems(){
         engine.addSystem(new MovingSystem());
+        engine.addSystem(new DrawWalkingGraphicsSystem(batch, gameCamera, gameViewport));
         engine.addSystem(new DrawGraphicsSystem(batch, gameCamera, gameViewport));
         engine.addSystem(new ViewRoomSystem(gameCamera));
-        engine.addSystem(new NoteSystem(uiController));
         engine.addSystem(new TriggerSystem());
+
+        Map<String, MapProperties> dataObjects = mapFactory.getObjectsFactory().getCache().getDataObjects();
+        Map<String, MapProperties> noteProperties =
+            dataObjects.entrySet().stream().filter(entry -> entry.getKey()
+                .contains("noteProperty")).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> b));
+
+        engine.addSystem(new NoteSystem(uiController, noteProperties, mapFactory.getObjectsFactory().getBodyFactory().getUnitScale()));
     }
 
     @Override
@@ -179,6 +184,7 @@ public class GameScreen implements Screen {
         batch.setProjectionMatrix(gameCamera.combined);
 
         mapController.render(gameCamera);
+        engine.update(Gdx.graphics.getDeltaTime());
 
         world.step(delta, 6, 6);
 

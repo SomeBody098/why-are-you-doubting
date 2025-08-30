@@ -23,6 +23,14 @@
     "text": "Why are you doubting?"
   },
 
+  "note": {
+    "position_x_percent": 0.5,
+    "position_y_percent": 0.95,
+    "wight_percent": 1,
+    "height_percent": 1,
+    "text": ""
+  },
+
   "joystick": {
     "position_x_percent": 0.2,
     "position_y_percent": 0.2,

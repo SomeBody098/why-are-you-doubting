@@ -3,11 +3,13 @@ package com.run.game.system;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.run.game.component.graphics.GraphicsMovingObjectComponent;
-import com.run.game.component.walking.WalkingBodyComponent;
+import com.run.game.component.graphics.GraphicsObjectComponent;
+
+import map.creator.map.component.body.BodyComponent;
 
 public class DrawGraphicsSystem extends IteratingSystem {
 
@@ -16,7 +18,7 @@ public class DrawGraphicsSystem extends IteratingSystem {
     private final Viewport viewport;
 
     public DrawGraphicsSystem(Batch batch, Camera camera, Viewport viewport) {
-        super(Family.all(GraphicsMovingObjectComponent.class, WalkingBodyComponent.class).get());
+        super(Family.all(GraphicsObjectComponent.class, BodyComponent.class).get());
         this.batch = batch;
         this.camera = camera;
         this.viewport = viewport;
@@ -24,12 +26,12 @@ public class DrawGraphicsSystem extends IteratingSystem {
 
     @Override
     protected void processEntity(Entity entity, float delta) {
-        GraphicsMovingObjectComponent component = entity.getComponent(GraphicsMovingObjectComponent.class);
-        WalkingBodyComponent walking = entity.getComponent(WalkingBodyComponent.class);
-        component.update(walking.direction);
+        GraphicsObjectComponent component = entity.getComponent(GraphicsObjectComponent.class);
+        BodyComponent bodyComponent = entity.getComponent(BodyComponent.class);
 
+        Gdx.app.log("ggg", "drawing");
         viewport.apply();
         batch.setProjectionMatrix(camera.combined);
-        component.draw(batch, walking.getPosition());
+        component.draw(batch, bodyComponent.getBody().getPosition());
     }
 }

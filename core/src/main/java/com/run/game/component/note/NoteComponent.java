@@ -4,7 +4,7 @@ import map.creator.map.component.ObjectComponent;
 
 public class NoteComponent extends ObjectComponent {
 
-    private final String message;
+    private String message;
 
     public NoteComponent(String message, String owner) {
         super("note", "note", owner);
@@ -13,5 +13,9 @@ public class NoteComponent extends ObjectComponent {
 
     public String getMessage() {
         return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

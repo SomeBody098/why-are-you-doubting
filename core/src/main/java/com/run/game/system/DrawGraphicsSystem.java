@@ -29,7 +29,6 @@ public class DrawGraphicsSystem extends IteratingSystem {
         GraphicsObjectComponent component = entity.getComponent(GraphicsObjectComponent.class);
         BodyComponent bodyComponent = entity.getComponent(BodyComponent.class);
 
-        Gdx.app.log("ggg", "drawing");
         viewport.apply();
         batch.setProjectionMatrix(camera.combined);
         component.draw(batch, bodyComponent.getBody().getPosition());

@@ -1,30 +1,65 @@
 package com.run.game.system;
 
-import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.Family;
-import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.math.Vector2;
-import com.run.game.component.input.PlayerInputHandlerComponent;
+import com.run.game.component.navigation.TeleportComponent;
+import com.run.game.component.note.CountGetNotesComponent;
 import com.run.game.component.walking.WalkingBodyComponent;
+import com.run.game.utils.music.MusicManager;
 
-public class MovingSystem extends IteratingSystem {
+import map.creator.map.component.data.ContactDataComponent;
+import map.creator.map.entity.ObjectEntity;
+import map.creator.map.system.ObjectEntityFilter;
+import map.creator.map.system.contact.impl.ContactBeginIteratingSystem;
 
-    public MovingSystem() {
-        super(Family.all(PlayerInputHandlerComponent.class, WalkingBodyComponent.class).get());
+public class MovingSystem extends ContactBeginIteratingSystem {
+
+    private final MusicManager musicManager;
+    private final NoteLabelSystem noteLabelSystem;
+
+    public MovingSystem(MusicManager musicManager, NoteLabelSystem noteLabelSystem) {
+        super(new ObjectEntityFilter("player", "moving"));
+        this.musicManager = musicManager;
+        this.noteLabelSystem = noteLabelSystem;
     }
 
     @Override
-    protected void processEntity(Entity entity, float v) {
-        PlayerInputHandlerComponent inputHandler = entity.getComponent(PlayerInputHandlerComponent.class);
-        WalkingBodyComponent body = entity.getComponent(WalkingBodyComponent.class);
+    public boolean beginContact(ContactDataComponent contactDataComponent, float deltaTime) {
+        ObjectEntity AEntity = contactDataComponent.AEntity;
+        ObjectEntity BEntity = contactDataComponent.BEntity;
 
-        Vector2 newPosition = inputHandler.handleInput(
-            body.getPosition(),
-            body.getSpeed()
-        );
+        if (AEntity.getName().equals("player")){
+            process(BEntity, AEntity);
 
-        body.updatePosition(newPosition);
-        body.updateDirection(inputHandler.getDirection());
+        } else if (BEntity.getName().equals("player")){
+            process(AEntity, BEntity);
+
+        } else {
+            return false;
+        }
+
+        return true;
     }
 
+    private void process(ObjectEntity moving, ObjectEntity player){
+        int countNotes = moving.getComponent(TeleportComponent.class).getCountNotes();
+
+        if (countNotes == -1 || player.getComponent(CountGetNotesComponent.class).getCountNotes() == countNotes) {
+            Vector2 teleportPosition = moving.getComponent(TeleportComponent.class).getTeleportPosition();
+            playMusic(moving);
+            player.getComponent(WalkingBodyComponent.class).updatePosition(teleportPosition);
+        } else {
+            noteLabelSystem.startWrite("Collect the " + countNotes + "  notes first");
+        }
+    }
+
+    private void playMusic(ObjectEntity entity){
+        String soundLadder = "run_over_ladder";
+        String soundDoor = "door_opening";
+
+        if (entity.getName().contains("ladder")) {
+            musicManager.initSound("home", soundLadder);
+        } else {
+            musicManager.initSound("home", soundDoor);
+        }
+    }
 }

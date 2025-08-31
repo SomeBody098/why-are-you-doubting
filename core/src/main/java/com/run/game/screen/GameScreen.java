@@ -21,14 +21,18 @@ import com.run.game.creator.MovingCreator;
 import com.run.game.creator.NoteCreator;
 import com.run.game.creator.PlayerCreator;
 import com.run.game.creator.RoomCreator;
+import com.run.game.creator.TriggerStopMusicCreator;
 import com.run.game.system.DrawGraphicsSystem;
 import com.run.game.system.DrawWalkingGraphicsSystem;
 import com.run.game.system.MovingSystem;
+import com.run.game.system.WalkingSystem;
+import com.run.game.system.NoteLabelSystem;
 import com.run.game.system.NoteSystem;
 import com.run.game.system.ViewRoomSystem;
 import com.run.game.ui.UiController;
 import com.run.game.RoomName;
 import com.run.game.ui.UiFactory;
+import com.run.game.ui.obj.ProgressivelyLabel;
 import com.run.game.ui.obj.joystick.Joystick;
 import com.run.game.utils.music.MusicManager;
 
@@ -99,9 +103,10 @@ public class GameScreen implements Screen {
             Joystick joystick = (Joystick) uiController.get("joystick");
 
             mapFactory.registerCreator("room", new RoomCreator());
+            mapFactory.registerCreator("moving", new MovingCreator());
             mapFactory.registerCreator("player", new PlayerCreator(joystick.getDto(), new TextureRegion(new Texture("textures/player.png"))));
-            mapFactory.registerCreator("moving", new MovingCreator(musicManager));
             mapFactory.registerCreator("note", new NoteCreator(new TextureRegion(new Texture("textures/note.png"))));
+            mapFactory.registerCreator("trigger-stop-music", new TriggerStopMusicCreator(musicManager, "house_theme"));
 
             mapFactory.createMap(pathToMap, "objects", "rooms");
             musicManager.loadMusic(nameMusicStorage);
@@ -121,7 +126,7 @@ public class GameScreen implements Screen {
             createGameCameraAndViewport(container);
             mapController = new MapController(container, gameCamera, batch);
 
-            world.setContactListener(new MapContactListener(engine, mapFactory.getObjectsFactory().getCache()));
+            world.setContactListener(new MapContactListener(engine, mapFactory.getObjectsFactory().getCache(), true));
 
             debugRenderer = new Box2DDebugRenderer(); // FIXME: 14.07.2025 УДАЛИ ПРИ РЕЛИЗЕ
         }
@@ -145,18 +150,27 @@ public class GameScreen implements Screen {
     }
 
     private void registerSystems(){
-        engine.addSystem(new MovingSystem());
+        engine.addSystem(new WalkingSystem());
         engine.addSystem(new DrawWalkingGraphicsSystem(batch, gameCamera, gameViewport));
         engine.addSystem(new DrawGraphicsSystem(batch, gameCamera, gameViewport));
         engine.addSystem(new ViewRoomSystem(gameCamera));
-        engine.addSystem(new TriggerSystem());
 
         Map<String, MapProperties> dataObjects = mapFactory.getObjectsFactory().getCache().getDataObjects();
         Map<String, MapProperties> noteProperties =
             dataObjects.entrySet().stream().filter(entry -> entry.getKey()
                 .contains("noteProperty")).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> b));
 
-        engine.addSystem(new NoteSystem(uiController, noteProperties, mapFactory.getObjectsFactory().getBodyFactory().getUnitScale()));
+        NoteLabelSystem noteLabelSystem = new NoteLabelSystem((ProgressivelyLabel) uiController.get("note"));
+
+        engine.addSystem(
+            new NoteSystem(
+                noteLabelSystem, noteProperties,
+                mapFactory.getObjectsFactory().getBodyFactory().getUnitScale())
+        );
+
+        engine.addSystem(new MovingSystem(
+            musicManager, noteLabelSystem
+        ));
     }
 
     @Override
@@ -183,8 +197,9 @@ public class GameScreen implements Screen {
         gameCamera.update();
         batch.setProjectionMatrix(gameCamera.combined);
 
-        mapController.render(gameCamera);
-        engine.update(Gdx.graphics.getDeltaTime());
+        mapController.render(gameCamera, "background", "background+", "items");
+        engine.update(delta);
+        mapController.render(gameCamera, "topground");
 
         world.step(delta, 6, 6);
 

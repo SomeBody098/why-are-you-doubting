@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.run.game.component.graphics.GraphicsMovingObjectComponent;
 import com.run.game.component.input.PlayerInputHandlerComponent;
+import com.run.game.component.note.CountGetNotesComponent;
 import com.run.game.component.walking.WalkingBodyComponent;
 import com.run.game.dto.JoystickDTO;
 import map.creator.map.entity.ObjectEntity;
@@ -58,7 +59,8 @@ public class PlayerCreator implements ObjectCreator {
         entity
             .add(new PlayerInputHandlerComponent(name, dto))
             .add(new WalkingBodyComponent(body, name, bodyFactory.getUnitScale()))
-            .add(new GraphicsMovingObjectComponent(name, currentFrame, bodyFactory.getUnitScale()));
+            .add(new GraphicsMovingObjectComponent(name, currentFrame, bodyFactory.getUnitScale()))
+            .add(new CountGetNotesComponent(name));
 
         return entity;
     }

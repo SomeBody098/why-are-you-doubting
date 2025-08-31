@@ -1,6 +1,5 @@
 package com.run.game.creator;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.math.Shape2D;
 import com.badlogic.gdx.math.Vector2;
@@ -8,9 +7,9 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.run.game.RoomName;
 import com.run.game.component.navigation.MovingComponent;
-import com.run.game.component.navigation.MovingTrigger;
+import com.run.game.component.navigation.TeleportComponent;
+import com.run.game.system.NoteLabelSystem;
 import com.run.game.utils.music.MusicManager;
-
 import map.creator.map.component.body.BodyComponent;
 import map.creator.map.entity.ObjectEntity;
 import map.creator.map.factory.body.BodyFactory;
@@ -22,12 +21,6 @@ import map.creator.map.factory.object.ObjectCreator;
 import java.util.Map;
 
 public class MovingCreator implements ObjectCreator {
-
-    private final MusicManager musicManager;
-
-    public MovingCreator(MusicManager musicManager) {
-        this.musicManager = musicManager;
-    }
 
     @Override
     public ObjectEntity createObject(String name, MapProperties properties, Map<String, MapProperties> dataObjects, BodyFactory bodyFactory, FormBody formBody, Shape2D boundsObject) {
@@ -44,7 +37,7 @@ public class MovingCreator implements ObjectCreator {
             .bounds(boundsObject)
             .bodyDef(bodyDef)
             .fixtureDef(fixtureDef)
-            .userData(new UserData("moving", "trigger", name))
+            .userData(new UserData(name, "moving", name))
             .build();
 
         RoomName from_where = RoomName.getRoomNameByString(properties.get("from_where", String.class));
@@ -81,9 +74,12 @@ public class MovingCreator implements ObjectCreator {
                     bodyFactory.createCollision(param),
                     name
                 ))
-            .add(new MovingTrigger(
-                name, teleportPosition, musicManager
-            ));
+            .add(new TeleportComponent(
+                name,
+                teleportPosition,
+                properties.containsKey("block_if_no_notes") ? properties.get("block_if_no_notes", Integer.class) : -1
+                )
+            );
 
         return entity;
     }

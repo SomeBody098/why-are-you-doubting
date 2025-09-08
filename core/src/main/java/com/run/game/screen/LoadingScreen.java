@@ -38,7 +38,7 @@ public class LoadingScreen implements Screen {
                 progress += (factory.getProgress() * 100) / asynchronousFactors.length;
             }
 
-            controller = new UiController(uiFactory.createLoadingStage(0, progress, 1));
+            controller = new UiController(uiFactory.createLoadingStage(0, progress, 1), uiCamera);
         }
     }
 
@@ -66,6 +66,7 @@ public class LoadingScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         uiViewport.update(width, height);
+        controller.resize(width, height);
     }
 
     @Override

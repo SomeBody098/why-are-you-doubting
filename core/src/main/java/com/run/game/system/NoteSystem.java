@@ -41,12 +41,20 @@ public class NoteSystem extends ContactBeginIteratingSystem {
 
         noteLabelSystem.startWrite(noteComponent.getMessage());
 
-        body.getBody().setTransform(
-            currentProperties.get("x", Float.class) * unitScale,
-            currentProperties.get("y", Float.class) * unitScale,
-            0
-        );
-        noteComponent.setMessage(currentProperties.get("message", String.class));
+        if (currentProperties == null) {
+            body.getBody().setTransform(
+                -10,
+                -10,
+                0
+            );
+        } else {
+            body.getBody().setTransform(
+                currentProperties.get("x", Float.class) * unitScale,
+                currentProperties.get("y", Float.class) * unitScale,
+                0
+            );
+            noteComponent.setMessage(currentProperties.get("message", String.class));
+        }
 
         count++;
 

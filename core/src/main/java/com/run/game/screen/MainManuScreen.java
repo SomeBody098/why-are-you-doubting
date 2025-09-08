@@ -47,7 +47,7 @@ public class MainManuScreen implements Screen {
 
             uiController = new UiController(uiFactory.createMainMenuStage(
                 main, screen
-            ));
+            ), uiCamera);
         }
     }
 
@@ -61,7 +61,8 @@ public class MainManuScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
+        uiViewport.update(width, height);
+        uiController.resize(width, height);
     }
 
     @Override

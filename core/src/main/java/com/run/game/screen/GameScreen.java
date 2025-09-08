@@ -99,7 +99,7 @@ public class GameScreen implements Screen {
     private boolean isLoadMap(){
         if (!mapFactory.isLoadMap(pathToMap)){
             Stage stage = uiFactory.createGameUiStage(musicManager);
-            uiController = new UiController(stage);
+            uiController = new UiController(stage, uiCamera);
             Joystick joystick = (Joystick) uiController.get("joystick");
 
             mapFactory.registerCreator("room", new RoomCreator());
@@ -108,7 +108,7 @@ public class GameScreen implements Screen {
             mapFactory.registerCreator("note", new NoteCreator(new TextureRegion(new Texture("textures/note.png"))));
             mapFactory.registerCreator("trigger-stop-music", new TriggerStopMusicCreator(musicManager, "house_theme"));
 
-            mapFactory.createMap(pathToMap, "objects", "rooms");
+            mapFactory.createMap(pathToMap, "objects", "notes", "rooms");
             musicManager.loadMusic(nameMusicStorage);
 
             main.setScreen(new LoadingScreen(main, this, uiCamera, uiViewport, uiFactory, mapFactory, musicManager));
@@ -177,19 +177,6 @@ public class GameScreen implements Screen {
     public void render(float delta) {
         renderGameObjects(delta);
         renderUi(delta);
-
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)){ // TODO: 28.08.2025 УБЕРИ!!!!!!!
-            gameCamera.position.x--;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-            gameCamera.position.x++;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)){
-            gameCamera.position.y--;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.UP)){
-            gameCamera.position.y++;
-        }
     }
 
     private void renderGameObjects(float delta){
@@ -218,6 +205,7 @@ public class GameScreen implements Screen {
     public void resize(int width, int height) {
         uiViewport.update(width, height, true);
         gameViewport.update(width, height);
+        uiController.resize(width, height);
     }
 
     @Override

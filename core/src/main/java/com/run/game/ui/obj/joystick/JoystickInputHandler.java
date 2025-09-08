@@ -1,5 +1,7 @@
 package com.run.game.ui.obj.joystick;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -32,7 +34,7 @@ public class JoystickInputHandler extends InputListener {
     @Override
     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
         if (isTouchInJoystickArea(x, y) && JoystickInputHandler.this.pointer == -1) {
-            musicManager.initSound("home", "steps"); // FIXME: 19.07.2025 НЕНАДЕЖНО И ОПАСНО - но работает
+            musicManager.initSound("home", "steps");
 
             isActive = true;
             JoystickInputHandler.this.pointer = pointer;
@@ -40,13 +42,15 @@ public class JoystickInputHandler extends InputListener {
             return true;
         }
 
+        managementButtons(pointer);
+
         return super.touchDown(event, x, y, pointer, button);
     }
 
     @Override
     public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
         if (JoystickInputHandler.this.pointer == pointer) {
-            if (musicManager.isSoundPlaying("steps")) musicManager.stopSound("steps");  // FIXME: 19.07.2025 НЕНАДЕЖНО И ОПАСНО - но работает
+            if (musicManager.isSoundPlaying("steps")) musicManager.stopSound("steps");
             resetJoystick();
             return;
         }
@@ -59,7 +63,7 @@ public class JoystickInputHandler extends InputListener {
         if (pointer == JoystickInputHandler.this.pointer && isActive) {
             Vector2 tempPosition = vectorPool.obtain();
 
-            tempPosition.set(x - finalPosition.x, y - finalPosition.y); // Ограничиваем движение стика радиусом джойстика
+            tempPosition.set(x - finalPosition.x, y - finalPosition.y);
 
             if (tempPosition.len() > radius) {
                 tempPosition.nor().scl(radius);
@@ -69,8 +73,14 @@ public class JoystickInputHandler extends InputListener {
 
             vectorPool.free(tempPosition);
 
+            if (!musicManager.isSoundPlaying("steps")){
+                musicManager.playMusic("steps");
+            }
+
             return;
         }
+
+        managementButtons(pointer);
 
         super.touchDragged(event, x, y, pointer);
     }
@@ -79,7 +89,6 @@ public class JoystickInputHandler extends InputListener {
         Vector2 tempPosition = vectorPool.obtain();
         tempPosition.set(screenX, screenY);
 
-        // Проверяем, находится ли касание в зоне джойстика
         boolean isTouchInJoystickArea = tempPosition.dst(finalPosition) <= radius;
 
         vectorPool.free(tempPosition);
@@ -91,6 +100,29 @@ public class JoystickInputHandler extends InputListener {
         position.set(finalPosition);
         isActive = false;
         pointer = -1;
+    }
+
+    private void managementButtons(int pointer) {
+        if (Gdx.input.isButtonPressed(Input.Keys.UP)) {
+            isActive = true;
+            JoystickInputHandler.this.pointer = pointer;
+            position.set(0, radius);
+
+        } else if (Gdx.input.isButtonPressed(Input.Keys.DOWN)) {
+            isActive = true;
+            JoystickInputHandler.this.pointer = pointer;
+            position.set(0, -radius);
+
+        } else if (Gdx.input.isButtonPressed(Input.Keys.RIGHT)){
+            isActive = true;
+            JoystickInputHandler.this.pointer = pointer;
+            position.set(radius, 0);
+
+        } else if (Gdx.input.isButtonPressed(Input.Keys.LEFT)){
+            isActive = true;
+            JoystickInputHandler.this.pointer = pointer;
+            position.set(-radius, 0);
+        }
     }
 
     public Vector2 getPosition() {

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="52" height="72" tilewidth="16" tileheight="16" infinite="0" nextlayerid="10" nextobjectid="377">
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="52" height="72" tilewidth="16" tileheight="16" infinite="0" nextlayerid="11" nextobjectid="413">
  <tileset firstgid="1" source="tileset.tsx"/>
  <layer id="1" name="background" width="52" height="72">
   <data encoding="csv">
@@ -622,7 +622,6 @@
    </properties>
    <point/>
   </object>
-  <object id="260" type="static" x="16" y="416" width="800"/>
   <object id="261" type="static" x="16" y="416" height="725.247"/>
   <object id="262" type="static" x="16" y="1136" width="800" height="0.127107"/>
   <object id="263" type="static" x="816" y="416" height="724.349"/>
@@ -717,22 +716,205 @@
   <object id="363" type="static" x="17.8271" y="675.654" width="11.4323" height="11.4323"/>
   <object id="364" type="static" x="48.9135" y="705.827" width="14.1729" height="14.1729"/>
   <object id="365" type="static" x="209.37" y="865.827" width="12.8026" height="12.8026"/>
-  <object id="368" name="noteProperty" type="note" x="79.938" y="100.12">
+  <object id="375" name="trigger-stop-music" type="trigger-stop-music" x="32" y="448" width="16" height="16"/>
+  <object id="377" type="static" x="16" y="416" width="496"/>
+  <object id="378" type="static" x="544" y="416" width="272"/>
+  <object id="379" name="door" type="moving" x="528" y="400" width="16" height="16">
+   <properties>
+    <property name="block_if_no_notes" type="int" value="15"/>
+    <property name="from_where" value="NONE"/>
+    <property name="where" value="DINNING_ROOM"/>
+   </properties>
+  </object>
+  <object id="380" name="displacement" type="data" x="683.434" y="302.346">
    <properties>
     <property name="data" type="bool" value="true"/>
-    <property name="message" value="some text here"/>
+    <property name="from_where" value="NONE"/>
+    <property name="where" value="DINNING_ROOM"/>
    </properties>
    <point/>
   </object>
-  <object id="370" name="note" type="note" x="76.6633" y="94.5756" width="6" height="6"/>
-  <object id="371" name="noteProperty" type="note" x="274.786" y="91.4522">
+  <object id="410" type="static" x="528" y="400" height="16"/>
+  <object id="411" type="static" x="528" y="400" width="16"/>
+  <object id="412" type="static" x="544" y="400" height="16"/>
+ </objectgroup>
+ <objectgroup id="10" name="notes" visible="0">
+  <object id="384" name="noteProperty0" type="note" x="274.611" y="91.8774">
    <properties>
     <property name="data" type="bool" value="true"/>
     <property name="message" value="some text here dobule"/>
    </properties>
    <point/>
   </object>
-  <object id="375" name="trigger-stop-music" type="trigger-stop-music" x="32" y="448" width="16" height="16"/>
+  <object id="385" name="noteProperty" type="note" x="79.5615" y="100.207">
+   <properties>
+    <property name="data" type="bool" value="true"/>
+    <property name="message" value="some text here"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="386" name="note" type="note" x="76.2868" y="94.6622" width="6" height="6"/>
+  <object id="387" name="noteProperty2" type="note" x="550.924" y="105.149">
+   <properties>
+    <property name="data" type="bool" value="true"/>
+    <property name="message" value="some text here dobule"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="388" name="noteProperty1" type="note" x="65.714" y="264.201">
+   <properties>
+    <property name="data" type="bool" value="true"/>
+    <property name="message" value="some text here dobule"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="389" name="noteProperty3" type="note" x="755.228" y="247.65">
+   <properties>
+    <property name="data" type="bool" value="true"/>
+    <property name="message" value="some text here dobule"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="390" name="noteProperty4" type="note" x="401.417" y="254.23">
+   <properties>
+    <property name="data" type="bool" value="true"/>
+    <property name="message" value="some text here dobule"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="391" name="noteProperty5" type="note" x="402.041" y="125.511">
+   <properties>
+    <property name="data" type="bool" value="true"/>
+    <property name="message" value="some text here dobule"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="392" name="noteProperty6" type="note" x="564.83" y="256.534">
+   <properties>
+    <property name="data" type="bool" value="true"/>
+    <property name="message" value="some text here dobule"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="393" name="noteProperty7" type="note" x="779.579" y="72.363">
+   <properties>
+    <property name="data" type="bool" value="true"/>
+    <property name="message" value="some text here dobule"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="394" name="noteProperty8" type="note" x="240.885" y="302.052">
+   <properties>
+    <property name="data" type="bool" value="true"/>
+    <property name="message" value="some text here dobule"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="395" name="noteProperty9" type="note" x="478.562" y="444.957">
+   <properties>
+    <property name="data" type="bool" value="true"/>
+    <property name="message" value="some text here dobule"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="396" name="noteProperty10" type="note" x="706.506" y="630.39">
+   <properties>
+    <property name="data" type="bool" value="true"/>
+    <property name="message" value="some text here dobule"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="397" name="noteProperty11" type="note" x="37.6533" y="688.287">
+   <properties>
+    <property name="data" type="bool" value="true"/>
+    <property name="message" value="some text here dobule"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="398" name="noteProperty12" type="note" x="795.174" y="1055.51">
+   <properties>
+    <property name="data" type="bool" value="true"/>
+    <property name="message" value="some text here dobule"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="399" name="noteProperty13" type="note" x="635.248" y="718.248">
+   <properties>
+    <property name="data" type="bool" value="true"/>
+    <property name="message" value="some text here dobule"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="400" name="noteProperty14" type="note" x="772.652" y="298.084">
+   <properties>
+    <property name="data" type="bool" value="true"/>
+    <property name="message" value="some text here dobule"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="401" name="noteProperty15" type="note" x="426.409" y="269.554">
+   <properties>
+    <property name="data" type="bool" value="true"/>
+    <property name="message" value="some text here dobule"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="402" name="noteProperty16" type="note" x="82.8427" y="286.796">
+   <properties>
+    <property name="data" type="bool" value="true"/>
+    <property name="message" value="some text here dobule"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="403" name="noteProperty17" type="note" x="430.193" y="141.295">
+   <properties>
+    <property name="data" type="bool" value="true"/>
+    <property name="message" value="some text here dobule"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="404" name="noteProperty18" type="note" x="208.579" y="310.345">
+   <properties>
+    <property name="data" type="bool" value="true"/>
+    <property name="message" value="some text here dobule"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="405" name="noteProperty19" type="note" x="589.992" y="265.77">
+   <properties>
+    <property name="data" type="bool" value="true"/>
+    <property name="message" value="some text here dobule"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="406" name="noteProperty20" type="note" x="587.468" y="114.382">
+   <properties>
+    <property name="data" type="bool" value="true"/>
+    <property name="message" value="some text here dobule"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="407" name="noteProperty21" type="note" x="242.641" y="92.9352">
+   <properties>
+    <property name="data" type="bool" value="true"/>
+    <property name="message" value="some text here dobule"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="408" name="noteProperty22" type="note" x="726.661" y="84.5248">
+   <properties>
+    <property name="data" type="bool" value="true"/>
+    <property name="message" value="some text here dobule"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="409" name="noteProperty23" type="note" x="100.084" y="129.521">
+   <properties>
+    <property name="data" type="bool" value="true"/>
+    <property name="message" value="thanks for playing in my first game :)"/>
+   </properties>
+   <point/>
+  </object>
  </objectgroup>
  <objectgroup id="6" name="rooms" visible="0">
   <object id="112" name="START_ROOM" type="room" x="16" y="16" width="160" height="160"/>

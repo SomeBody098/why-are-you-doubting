@@ -42,13 +42,15 @@ public class MovingSystem extends ContactBeginIteratingSystem {
 
     private void process(ObjectEntity moving, ObjectEntity player){
         int countNotes = moving.getComponent(TeleportComponent.class).getCountNotes();
+        int countGetNotes = player.getComponent(CountGetNotesComponent.class).getCountNotes();
 
-        if (countNotes == -1 || player.getComponent(CountGetNotesComponent.class).getCountNotes() == countNotes) {
+        if (countNotes == -1 || countGetNotes == countNotes) {
             Vector2 teleportPosition = moving.getComponent(TeleportComponent.class).getTeleportPosition();
             playMusic(moving);
             player.getComponent(WalkingBodyComponent.class).updatePosition(teleportPosition);
-        } else {
-            noteLabelSystem.startWrite("Collect the " + countNotes + "  notes first");
+
+        } else if (countGetNotes < countNotes){
+            noteLabelSystem.startWrite("Collect the " + (countNotes - countGetNotes) + "  notes first");
         }
     }
 

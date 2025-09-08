@@ -25,6 +25,7 @@ public class NoteLabelSystem {
 
     public void startWrite(String message){
         isActive = true;
+        timer = 0;
 
         noteLabel.newTyping(message, -1, 0.25f);
         noteLabel.setVisible(true);

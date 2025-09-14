@@ -4,7 +4,7 @@ import map.creator.map.component.ObjectComponent;
 
 public class CountGetNotesComponent extends ObjectComponent {
 
-    private int countNotes;
+    private int countNotes = 0;
 
     public CountGetNotesComponent(String owner) {
         super("count-notes", "count", owner);

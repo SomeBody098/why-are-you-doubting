@@ -17,7 +17,7 @@ public class NoteLabelSystem {
 
         if (!noteLabel.isTypedAllTheText()) return;
         timer += deltaTime;
-        if (timer < (float) noteLabel.getText().length / 10) return;
+        if (timer < (float) noteLabel.getText().length / 5) return;
 
         noteLabel.setVisible(false);
         isActive = false;

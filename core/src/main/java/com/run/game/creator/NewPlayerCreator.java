@@ -1,17 +1,20 @@
 package com.run.game.creator;
 
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Shape2D;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.run.game.component.graphics.GraphicsMovingObjectComponent;
+import com.run.game.component.graphics.AnimationPlayerMovingObjectComponent;
 import com.run.game.component.input.PlayerInputHandlerComponent;
 import com.run.game.component.note.CountGetNotesComponent;
 import com.run.game.component.walking.WalkingBodyComponent;
 import com.run.game.dto.JoystickDTO;
+
+import java.util.Map;
+
 import map.creator.map.entity.ObjectEntity;
 import map.creator.map.factory.body.BodyFactory;
 import map.creator.map.factory.body.BodyParam;
@@ -19,17 +22,14 @@ import map.creator.map.factory.body.FormBody;
 import map.creator.map.factory.body.UserData;
 import map.creator.map.factory.object.ObjectCreator;
 
-import java.util.Map;
-
-public class PlayerCreator implements ObjectCreator {
+public class NewPlayerCreator implements ObjectCreator {
 
     private final JoystickDTO dto;
+    private final TextureAtlas atlas;
 
-    private final TextureRegion currentFrame;
-
-    public PlayerCreator(JoystickDTO dto, TextureRegion currentFrame) {
+    public NewPlayerCreator(JoystickDTO dto, TextureAtlas atlas) {
         this.dto = dto;
-        this.currentFrame = currentFrame;
+        this.atlas = atlas;
     }
 
     @Override
@@ -59,9 +59,10 @@ public class PlayerCreator implements ObjectCreator {
         entity
             .add(new PlayerInputHandlerComponent(name, dto))
             .add(new WalkingBodyComponent(body, name, bodyFactory.getUnitScale()))
-            .add(new GraphicsMovingObjectComponent(name, currentFrame, bodyFactory.getUnitScale(), true))
+            .add(new AnimationPlayerMovingObjectComponent(name, atlas, bodyFactory.getUnitScale(), true))
             .add(new CountGetNotesComponent(name));
 
         return entity;
     }
+
 }

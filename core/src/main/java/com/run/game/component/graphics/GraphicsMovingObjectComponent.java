@@ -7,8 +7,8 @@ public class GraphicsMovingObjectComponent extends GraphicsObjectComponent {
 
     private DIRECTION direction = DIRECTION.NONE;
 
-    public GraphicsMovingObjectComponent(String owner, TextureRegion currentFrame, float unitScale) {
-        super(owner, currentFrame, unitScale);
+    public GraphicsMovingObjectComponent(String owner, TextureRegion currentFrame, float unitScale, boolean isPlayer) {
+        super(owner, currentFrame, unitScale, isPlayer);
     }
 
     public void update(DIRECTION direction){

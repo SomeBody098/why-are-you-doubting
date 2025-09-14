@@ -31,8 +31,6 @@ public class Main extends Game {
         batch = new SpriteBatch();
         engine = new Engine();
 
-        engine.addSystem(new map.creator.map.system.TriggerSystem());
-
         OrthographicCamera uiCamera = createUiCamera();
         ScreenViewport uiViewport = new ScreenViewport(uiCamera);
 

@@ -70,7 +70,6 @@ public class UiFactory implements Disposable {
 
         Joystick joystick = createJoystick(musicManager);
         gameUi.addActor(joystick);
-        gameUi.addActor(createButtonInteract());
         gameUi.addActor(createNoteLabel());
 
         gameUi.addListener(joystick.getInputHandler());
@@ -109,15 +108,6 @@ public class UiFactory implements Disposable {
         setStandardBoundsForUiObject(label, param);
 
         return label;
-    }
-
-    private TextButton createButtonInteract(){
-        BoundsTextParam param = ParamFactory.getUiTextParam("button-interact");
-        TextButton button = new TextButton(param.text, skin, "default");
-        button.setName("button-interact");
-        setStandardBoundsForUiObject(button, param);
-
-        return button;
     }
 
     private Joystick createJoystick(MusicManager musicManager){

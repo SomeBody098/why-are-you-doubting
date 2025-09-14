@@ -38,7 +38,7 @@ public enum RoomName {
             case "NONE":
                 return NONE;
             default:
-                throw new IllegalArgumentException("Unknown name room!");
+                throw new IllegalArgumentException("Unknown name room " + string + "!");
         }
     }
 

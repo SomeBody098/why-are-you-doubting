@@ -16,6 +16,8 @@ public class MovingSystem extends ContactBeginIteratingSystem {
     private final MusicManager musicManager;
     private final NoteLabelSystem noteLabelSystem;
 
+    private boolean isTransition = false;
+
     public MovingSystem(MusicManager musicManager, NoteLabelSystem noteLabelSystem) {
         super(new ObjectEntityFilter("player", "moving"));
         this.musicManager = musicManager;
@@ -45,6 +47,8 @@ public class MovingSystem extends ContactBeginIteratingSystem {
         int countGetNotes = player.getComponent(CountGetNotesComponent.class).getCountNotes();
 
         if (countNotes == -1 || countGetNotes == countNotes) {
+            if (moving.getName().equals("doorTransition")) isTransition = true;
+
             Vector2 teleportPosition = moving.getComponent(TeleportComponent.class).getTeleportPosition();
             playMusic(moving);
             player.getComponent(WalkingBodyComponent.class).updatePosition(teleportPosition);
@@ -64,4 +68,9 @@ public class MovingSystem extends ContactBeginIteratingSystem {
             musicManager.initSound("home", soundDoor);
         }
     }
+
+    public boolean isTransition() {
+        return isTransition;
+    }
+
 }

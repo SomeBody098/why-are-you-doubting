@@ -1,34 +1,35 @@
 package com.run.game.screen;
 
 import com.badlogic.ashley.core.Engine;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.run.game.Main;
-import com.run.game.creator.MovingCreator;
+import com.run.game.RoomName;
+import com.run.game.creator.NewPlayerCreator;
 import com.run.game.creator.NoteCreator;
-import com.run.game.creator.PlayerCreator;
-import com.run.game.creator.RoomCreator;
-import com.run.game.creator.TriggerStopMusicCreator;
 import com.run.game.system.DrawGraphicsSystem;
+import com.run.game.system.DrawWalkingAnimationGraphicsSystem;
 import com.run.game.system.DrawWalkingGraphicsSystem;
 import com.run.game.system.MovingSystem;
-import com.run.game.system.WalkingSystem;
 import com.run.game.system.NoteLabelSystem;
 import com.run.game.system.NoteSystem;
 import com.run.game.system.ViewRoomSystem;
+import com.run.game.system.WalkingSystem;
 import com.run.game.ui.UiController;
-import com.run.game.RoomName;
 import com.run.game.ui.UiFactory;
 import com.run.game.ui.obj.ProgressivelyLabel;
 import com.run.game.ui.obj.joystick.Joystick;
@@ -43,7 +44,7 @@ import map.creator.map.factory.MapFactory;
 import map.creator.map.system.MapContactListener;
 import map.creator.map.system.TriggerSystem;
 
-public class GameScreen implements Screen {
+public class NewGameScreen implements Screen {
 
     private final Main main;
     private final SpriteBatch batch;
@@ -57,67 +58,59 @@ public class GameScreen implements Screen {
     private final World world;
 
     private final String pathToMap;
-    private final String nameMusicStorage;
 
     private final MapFactory mapFactory;
-    private final UiFactory uiFactory;
     private final MusicManager musicManager;
 
     private final Engine engine;
 
-    private UiController uiController;
+    private final UiController uiController;
 
     private MapController mapController;
 
-    private MovingSystem movingSystem;
+    private final Box2DDebugRenderer debugRenderer;
 
-    private Box2DDebugRenderer debugRenderer;
+    private Texture texture;
+    private final Color color;
 
-    public GameScreen(Main main, SpriteBatch batch, OrthographicCamera uiCamera, ScreenViewport uiViewport, World world, MapFactory mapFactory, UiFactory uiFactory, MusicManager musicManager, Engine engine) {
+    public NewGameScreen(Main main, SpriteBatch batch, OrthographicCamera uiCamera, ScreenViewport uiViewport, World world, MapFactory mapFactory, UiController uiController, MusicManager musicManager, Engine engine) {
         this.main = main;
         this.batch = batch;
         this.uiCamera = uiCamera;
         this.uiViewport = uiViewport;
         this.world = world;
         this.mapFactory = mapFactory;
-        this.uiFactory = uiFactory;
+        this.uiController = uiController;
         this.musicManager = musicManager;
         this.engine = engine;
 
-        pathToMap = "maps/legacy/map.tmx";
-        nameMusicStorage = "home";
+        pathToMap = "maps/new/newMap.tmx";
+
+        texture = new Texture("textures/black.png");
+        color = new Color();
+        color.a = 1;
+
+        debugRenderer = new Box2DDebugRenderer(); // FIXME: 14.07.2025 УДАЛИ ПРИ РЕЛИЗЕ
     }
+
 
     @Override
     public void show() {
-        if (isLoadMap()) {
-            createMapControllerAndGameEntity();
-            registerSystems();
-        }
-    }
+        engine.removeAllSystems();
 
-    private boolean isLoadMap(){
         if (!mapFactory.isLoadMap(pathToMap)){
-            Stage stage = uiFactory.createGameUiStage(musicManager);
-            uiController = new UiController(stage, uiCamera);
-            Joystick joystick = (Joystick) uiController.get("joystick");
+            mapFactory.unregisterCreator("player");
+            mapFactory.unregisterCreator("trigger-stop-music");
+            mapFactory.unregisterCreator("note");
 
-            mapFactory.registerCreator("room", new RoomCreator());
-            mapFactory.registerCreator("moving", new MovingCreator());
-            mapFactory.registerCreator("player", new PlayerCreator(joystick.getDto(), new TextureRegion(new Texture("textures/player.png"))));
-            mapFactory.registerCreator("note", new NoteCreator(new TextureRegion(new Texture("textures/note.png"))));
-            mapFactory.registerCreator("trigger-stop-music", new TriggerStopMusicCreator(musicManager, "house_theme"));
+            mapFactory.registerCreator("player", new NewPlayerCreator(((Joystick) uiController.get("joystick")).getDto(), new TextureAtlas("textures/newPlayer.atlas")));
+            mapFactory.registerCreator("note", new NoteCreator(new TextureRegion(new Texture("textures/new_note.png"))));
 
             mapFactory.createMap(pathToMap, "objects", "notes", "rooms");
-            musicManager.loadMusic(nameMusicStorage);
 
-            main.setScreen(new LoadingScreen(main, this, uiCamera, uiViewport, uiFactory, mapFactory, musicManager));
-            return false;
+            while (!mapFactory.isDone()){} // I don't care!
+            createMapControllerAndGameEntity();
         }
-
-        musicManager.initMusic(nameMusicStorage, "house_theme");
-
-        return true;
     }
 
     private void createMapControllerAndGameEntity(){
@@ -128,12 +121,12 @@ public class GameScreen implements Screen {
 
             world.setContactListener(new MapContactListener(engine, mapFactory.getObjectsFactory().getCache(), true));
 
-            debugRenderer = new Box2DDebugRenderer(); // FIXME: 14.07.2025 УДАЛИ ПРИ РЕЛИЗЕ
+            registerSystems();
         }
     }
 
     private void createGameCameraAndViewport(MapContainer container){
-        Rectangle room = ((RectangleMapObject) container.getObjectOnNameInLayer("rooms", RoomName.START_ROOM.name())).getRectangle();
+        Rectangle room = ((RectangleMapObject) container.getObjectOnNameInLayer("rooms", RoomName.DINNING_ROOM.name())).getRectangle();
 
         gameCamera = new OrthographicCamera(
             room.width * container.UNIT_SCALE,
@@ -152,7 +145,7 @@ public class GameScreen implements Screen {
     private void registerSystems(){
         engine.addSystem(new WalkingSystem());
         engine.addSystem(new TriggerSystem());
-        engine.addSystem(new DrawWalkingGraphicsSystem(batch, gameCamera, gameViewport));
+        engine.addSystem(new DrawWalkingAnimationGraphicsSystem(batch, gameCamera, gameViewport));
         engine.addSystem(new DrawGraphicsSystem(batch, gameCamera, gameViewport));
         engine.addSystem(new ViewRoomSystem(gameCamera));
 
@@ -169,37 +162,53 @@ public class GameScreen implements Screen {
                 mapFactory.getObjectsFactory().getBodyFactory().getUnitScale())
         );
 
-        movingSystem = new MovingSystem(
+        engine.addSystem(new MovingSystem(
             musicManager, noteLabelSystem
-        );
-
-        engine.addSystem(movingSystem);
+        ));
     }
 
     @Override
     public void render(float delta) {
         renderGameObjects(delta);
         renderUi(delta);
-
-        if (movingSystem.isTransition()){
-            main.setScreen(new NewGameScreen(main, batch, uiCamera, uiViewport, world, mapFactory, uiController, musicManager, engine));
-            dispose();
-        }
     }
 
-    private void renderGameObjects(float delta){
+    private float timer = 0;
+    private void renderGameObjects(float delta) {
         gameViewport.apply();
         gameCamera.update();
         batch.setProjectionMatrix(gameCamera.combined);
 
+        if (timer <= 5) {
+            engine.getSystem(NoteSystem.class).update(delta);
+            timer += delta;
+            return;
+        }
+
         mapController.render(gameCamera, "background", "background+", "items");
         engine.update(delta);
         mapController.render(gameCamera, "topground");
-//        engine.getSystem(DrawWalkingGraphicsSystem.class).update(delta);
+//        engine.getSystem(DrawWalkingAnimationGraphicsSystem.class).update(delta);
 
         world.step(delta, 6, 6);
 
-        debugRenderer.render(world, gameCamera.combined); // FIXME: 09.07.2025 УДАЛИТЬ К РЕЛИЗУ!
+        if (color.a > 0) {
+            color.a -= 0.001F;
+
+            Color pastColor = batch.getColor();
+            batch.setColor(color);
+
+            batch.begin();
+            batch.draw(texture, gameCamera.position.x - gameCamera.viewportWidth / 2, gameCamera.position.y - gameCamera.viewportHeight / 2);
+            batch.end();
+
+            batch.setColor(pastColor);
+        } else if (texture != null){
+            texture.dispose();
+            texture = null;
+        }
+
+//        debugRenderer.render(world, gameCamera.combined); // FIXME: 09.07.2025 УДАЛИТЬ К РЕЛИЗУ!
     }
 
     private void renderUi(float delta){
@@ -212,8 +221,8 @@ public class GameScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        uiViewport.update(width, height, true);
         gameViewport.update(width, height);
+        uiViewport.update(width, height, true);
         uiController.resize(width, height);
     }
 
@@ -234,6 +243,8 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
+        uiController.dispose();
         mapController.dispose();
+        main.dispose();
     }
 }

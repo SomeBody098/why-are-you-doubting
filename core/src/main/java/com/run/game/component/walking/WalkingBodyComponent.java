@@ -8,9 +8,9 @@ import map.creator.map.component.body.BodyComponent;
 
 public class WalkingBodyComponent extends BodyComponent {
 
-    public final float speed;
-
-    public DIRECTION direction = DIRECTION.NONE;
+    private final float speed;
+    private boolean isWalk = false;
+    private DIRECTION direction = DIRECTION.NONE;
 
     public WalkingBodyComponent(Body body, String owner, float speed) {
         super(body, owner);
@@ -21,14 +21,21 @@ public class WalkingBodyComponent extends BodyComponent {
         getBody().setTransform(newPosition, 0);
     }
 
-    public void updateDirection(DIRECTION direction){
-        this.direction = direction;
-    }
-
     public Vector2 getPosition(){
         return getBody().getPosition();
     }
 
+    public boolean isWalk() {
+        return isWalk;
+    }
+
+    public void setWalk(boolean walk) {
+        isWalk = walk;
+    }
+
+    public void setDirection(DIRECTION direction){
+        this.direction = direction;
+    }
     public DIRECTION getDirection() {
         return direction;
     }

@@ -17,14 +17,18 @@ public class WalkingSystem extends IteratingSystem {
     protected void processEntity(Entity entity, float v) {
         PlayerInputHandlerComponent inputHandler = entity.getComponent(PlayerInputHandlerComponent.class);
         WalkingBodyComponent body = entity.getComponent(WalkingBodyComponent.class);
+        Vector2 pastPosition = body.getPosition().cpy();
 
         Vector2 newPosition = inputHandler.handleInput(
-            body.getPosition(),
+            pastPosition,
             body.getSpeed()
         );
 
+        boolean isWalk = !body.getPosition().toString().equals(newPosition.toString());
+        body.setWalk(isWalk);
+
         body.updatePosition(newPosition);
-        body.updateDirection(inputHandler.getDirection());
+        body.setDirection(inputHandler.getDirection());
     }
 
 }

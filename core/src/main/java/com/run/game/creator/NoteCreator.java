@@ -1,9 +1,7 @@
 package com.run.game.creator;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapProperties;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Shape2D;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -52,7 +50,7 @@ public class NoteCreator implements ObjectCreator {
 
         ObjectEntity note = new ObjectEntity(name, "note");
         note.add(new NoteComponent(noteProperties.get("message", String.class), name))
-            .add(new GraphicsObjectComponent(name, textureRegion, bodyFactory.getUnitScale()))
+            .add(new GraphicsObjectComponent(name, textureRegion, bodyFactory.getUnitScale(), false))
             .add(new BodyComponent(body, name));
 
         return note;

@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
-import com.run.game.DIRECTION;
 
 import map.creator.map.component.ObjectComponent;
 
@@ -28,33 +27,33 @@ public class GraphicsObjectComponent extends ObjectComponent implements Disposab
         float divW = getWidth() / 2 * unitScale;
         float divH = getHeight() / 2 * unitScale;
 
-//        TextureRegion frame;
-//        if (isPlayer){
-//            frame = getHalfOfFrame();
-//        } else {
-//            frame = currentFrame;
-//        }
+        TextureRegion frame;
+        if (isPlayer){
+            frame = getHalfOfFrame();
+        } else {
+            frame = currentFrame;
+        }
 
         batch.begin();
         batch.draw(
-            currentFrame,
+            frame,
             position.x - divW,
-            position.y - divH,
+            position.y - divH - (isPlayer ? (!isFirstPartTextureDraw ? -divH : 0) : 0),
             getWidth() * unitScale,
-            getHeight() * unitScale
+            getHeight() / (isPlayer ? 2 : 1) * unitScale
         );
         batch.end();
     }
 
     private TextureRegion getHalfOfFrame(){
         TextureRegion frame;
-        TextureRegion[][] regions = currentFrame.split(currentFrame.getRegionWidth() / 2, currentFrame.getRegionHeight() / 2);
+        TextureRegion[][] regions = currentFrame.split(currentFrame.getRegionWidth(), currentFrame.getRegionHeight() / 2);
 
         if (!isFirstPartTextureDraw) {
-            frame = regions[0][0];
+            frame = regions[1][0];
             isFirstPartTextureDraw = true;
         } else {
-            frame = regions[0][1];
+            frame = regions[0][0];
             isFirstPartTextureDraw = false;
         }
 

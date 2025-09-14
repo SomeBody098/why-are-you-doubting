@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -71,8 +70,6 @@ public class GameScreen implements Screen {
 
     private MovingSystem movingSystem;
 
-    private Box2DDebugRenderer debugRenderer;
-
     public GameScreen(Main main, SpriteBatch batch, OrthographicCamera uiCamera, ScreenViewport uiViewport, World world, MapFactory mapFactory, UiFactory uiFactory, MusicManager musicManager, Engine engine) {
         this.main = main;
         this.batch = batch;
@@ -104,7 +101,7 @@ public class GameScreen implements Screen {
 
             mapFactory.registerCreator("room", new RoomCreator());
             mapFactory.registerCreator("moving", new MovingCreator());
-            mapFactory.registerCreator("player", new PlayerCreator(joystick.getDto(), new TextureRegion(new Texture("textures/player.png"))));
+            mapFactory.registerCreator("player", new PlayerCreator(joystick.getDto(), new TextureRegion(new Texture("textures/playerLeft.png")), new TextureRegion(new Texture("textures/playerRight.png"))));
             mapFactory.registerCreator("note", new NoteCreator(new TextureRegion(new Texture("textures/note.png"))));
             mapFactory.registerCreator("trigger-stop-music", new TriggerStopMusicCreator(musicManager, "house_theme"));
 
@@ -127,8 +124,6 @@ public class GameScreen implements Screen {
             mapController = new MapController(container, gameCamera, batch);
 
             world.setContactListener(new MapContactListener(engine, mapFactory.getObjectsFactory().getCache(), true));
-
-            debugRenderer = new Box2DDebugRenderer(); // FIXME: 14.07.2025 УДАЛИ ПРИ РЕЛИЗЕ
         }
     }
 
@@ -192,14 +187,14 @@ public class GameScreen implements Screen {
         gameCamera.update();
         batch.setProjectionMatrix(gameCamera.combined);
 
-        mapController.render(gameCamera, "background", "background+", "items");
+        mapController.render(gameCamera, "background", "background+");
         engine.update(delta);
-        mapController.render(gameCamera, "topground");
-//        engine.getSystem(DrawWalkingGraphicsSystem.class).update(delta);
+        mapController.render(gameCamera, "items", "topground");
+        engine.getSystem(DrawWalkingGraphicsSystem.class).update(delta);
+        engine.getSystem(DrawGraphicsSystem.class).update(delta);
+        engine.getSystem(ViewRoomSystem.class).update(delta);
 
         world.step(delta, 6, 6);
-
-        debugRenderer.render(world, gameCamera.combined); // FIXME: 09.07.2025 УДАЛИТЬ К РЕЛИЗУ!
     }
 
     private void renderUi(float delta){

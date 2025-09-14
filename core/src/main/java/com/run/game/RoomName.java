@@ -41,23 +41,4 @@ public enum RoomName {
                 throw new IllegalArgumentException("Unknown name room " + string + "!");
         }
     }
-
-    public static boolean stringIsContainsRoomName(String string){
-        switch (string.toUpperCase()){
-            case "BATHROOM":
-            case "BEDROOM1":
-            case "BEDROOM2":
-            case "CORRIDOR_DOWN":
-            case "CORRIDOR_UP":
-            case "DINNING_ROOM":
-            case "REST_ROOM":
-            case "START_ROOM":
-            case "WINDOW_ROOM":
-            case "STORAGE_ROOM":
-            case "NONE":
-                return true;
-            default:
-                return false;
-        }
-    }
 }

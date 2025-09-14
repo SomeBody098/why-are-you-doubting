@@ -11,12 +11,13 @@ import com.run.game.component.walking.WalkingBodyComponent;
 import map.creator.map.component.data.ContactDataComponent;
 import map.creator.map.entity.ObjectEntity;
 import map.creator.map.system.ObjectEntityFilter;
-import map.creator.map.system.contact.impl.ContactBeginIteratingSystem;
 import map.creator.map.system.contact.impl.ContactFullIteratingSystem;
 
 public class ViewRoomSystem extends ContactFullIteratingSystem {
 
     private final Camera camera;
+
+    private boolean isCalledAfterAllRendering = false;
 
     public ViewRoomSystem(OrthographicCamera camera) {
         super(new ObjectEntityFilter("player", "room"));
@@ -25,6 +26,11 @@ public class ViewRoomSystem extends ContactFullIteratingSystem {
 
     @Override
     public boolean beginContact(ContactDataComponent contactDataComponent, float deltaTime) {
+        if (!isCalledAfterAllRendering) {
+            isCalledAfterAllRendering = true;
+            return false;
+        }
+
         ObjectEntity AEntity = contactDataComponent.AEntity;
         ObjectEntity BEntity = contactDataComponent.BEntity;
         RoomComponent roomComponent;
@@ -65,11 +71,18 @@ public class ViewRoomSystem extends ContactFullIteratingSystem {
             );
         }
 
+        isCalledAfterAllRendering = false;
+
         return true;
     }
 
     @Override
     public boolean stayContact(ContactDataComponent contactDataComponent, float v) {
+        if (!isCalledAfterAllRendering) {
+            isCalledAfterAllRendering = true;
+            return false;
+        }
+
         ObjectEntity AEntity = contactDataComponent.AEntity;
         ObjectEntity BEntity = contactDataComponent.BEntity;
         RoomComponent roomComponent;
@@ -97,6 +110,8 @@ public class ViewRoomSystem extends ContactFullIteratingSystem {
                 );
             }
         }
+
+        isCalledAfterAllRendering = false;
 
         return true;
     }

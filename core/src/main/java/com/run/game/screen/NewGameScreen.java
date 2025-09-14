@@ -1,8 +1,6 @@
 package com.run.game.screen;
 
 import com.badlogic.ashley.core.Engine;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -13,7 +11,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -30,7 +27,6 @@ import com.run.game.system.NoteSystem;
 import com.run.game.system.ViewRoomSystem;
 import com.run.game.system.WalkingSystem;
 import com.run.game.ui.UiController;
-import com.run.game.ui.UiFactory;
 import com.run.game.ui.obj.ProgressivelyLabel;
 import com.run.game.ui.obj.joystick.Joystick;
 import com.run.game.utils.music.MusicManager;
@@ -68,8 +64,6 @@ public class NewGameScreen implements Screen {
 
     private MapController mapController;
 
-    private final Box2DDebugRenderer debugRenderer;
-
     private Texture texture;
     private final Color color;
 
@@ -89,8 +83,6 @@ public class NewGameScreen implements Screen {
         texture = new Texture("textures/black.png");
         color = new Color();
         color.a = 1;
-
-        debugRenderer = new Box2DDebugRenderer(); // FIXME: 14.07.2025 УДАЛИ ПРИ РЕЛИЗЕ
     }
 
 
@@ -185,10 +177,13 @@ public class NewGameScreen implements Screen {
             return;
         }
 
-        mapController.render(gameCamera, "background", "background+", "items");
+        mapController.render(gameCamera, "background", "background+");
         engine.update(delta);
-        mapController.render(gameCamera, "topground");
-//        engine.getSystem(DrawWalkingAnimationGraphicsSystem.class).update(delta);
+        mapController.render(gameCamera, "items");
+        engine.getSystem(DrawWalkingAnimationGraphicsSystem.class).update(delta);
+        engine.getSystem(DrawGraphicsSystem.class).update(delta);
+        mapController.render(gameCamera, "topground", "shadows");
+        engine.getSystem(ViewRoomSystem.class).update(delta);
 
         world.step(delta, 6, 6);
 
@@ -207,8 +202,6 @@ public class NewGameScreen implements Screen {
             texture.dispose();
             texture = null;
         }
-
-//        debugRenderer.render(world, gameCamera.combined); // FIXME: 09.07.2025 УДАЛИТЬ К РЕЛИЗУ!
     }
 
     private void renderUi(float delta){

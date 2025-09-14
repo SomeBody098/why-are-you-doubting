@@ -7,21 +7,27 @@ public class GraphicsMovingObjectComponent extends GraphicsObjectComponent {
 
     private DIRECTION direction = DIRECTION.NONE;
 
-    public GraphicsMovingObjectComponent(String owner, TextureRegion currentFrame, float unitScale, boolean isPlayer) {
-        super(owner, currentFrame, unitScale, isPlayer);
+    private final TextureRegion frameRight;
+    private final TextureRegion frameLeft;
+
+    public GraphicsMovingObjectComponent(String owner, TextureRegion currentFrameLeft, TextureRegion currentFrameRight, float unitScale, boolean isPlayer) {
+        super(owner, currentFrameLeft, unitScale, isPlayer);
+
+        frameLeft = currentFrameLeft;
+        frameRight = currentFrameRight;
     }
 
     public void update(DIRECTION direction){
         setDirection(direction);
-        handleDirectionFlipping(getCurrentFrame());
+        handleDirectionFlipping();
     }
 
-    private void handleDirectionFlipping(TextureRegion frame) {
-        if (direction == DIRECTION.RIGHT && !frame.isFlipX()) {
-            frame.flip(true, false);
+    private void handleDirectionFlipping() {
+        if (direction == DIRECTION.RIGHT) {
+            setCurrentFrame(frameRight);
         }
-        else if (direction == DIRECTION.LEFT && frame.isFlipX()) {
-            frame.flip(true, false);
+        else if (direction == DIRECTION.LEFT) {
+            setCurrentFrame(frameLeft);
         }
     }
 

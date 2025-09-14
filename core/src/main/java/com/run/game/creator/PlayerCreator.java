@@ -25,11 +25,13 @@ public class PlayerCreator implements ObjectCreator {
 
     private final JoystickDTO dto;
 
-    private final TextureRegion currentFrame;
+    private final TextureRegion frameRight;
+    private final TextureRegion frameLeft;
 
-    public PlayerCreator(JoystickDTO dto, TextureRegion currentFrame) {
+    public PlayerCreator(JoystickDTO dto, TextureRegion frameLeft, TextureRegion frameRight) {
         this.dto = dto;
-        this.currentFrame = currentFrame;
+        this.frameLeft = frameLeft;
+        this.frameRight = frameRight;
     }
 
     @Override
@@ -59,7 +61,7 @@ public class PlayerCreator implements ObjectCreator {
         entity
             .add(new PlayerInputHandlerComponent(name, dto))
             .add(new WalkingBodyComponent(body, name, bodyFactory.getUnitScale()))
-            .add(new GraphicsMovingObjectComponent(name, currentFrame, bodyFactory.getUnitScale(), true))
+            .add(new GraphicsMovingObjectComponent(name, frameLeft, frameRight, bodyFactory.getUnitScale(), true))
             .add(new CountGetNotesComponent(name));
 
         return entity;

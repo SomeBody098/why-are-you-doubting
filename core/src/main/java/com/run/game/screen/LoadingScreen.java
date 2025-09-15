@@ -33,12 +33,7 @@ public class LoadingScreen implements Screen {
     @Override
     public void show() {
         if (controller == null){
-            float progress = 0;
-            for (AsynchronousFactory factory : asynchronousFactors) {
-                progress += (factory.getProgress() * 100) / asynchronousFactors.length;
-            }
-
-            controller = new UiController(uiFactory.createLoadingStage(0, progress, 1), uiCamera);
+            controller = new UiController(uiFactory.createLoadingStage(), uiCamera);
         }
     }
 

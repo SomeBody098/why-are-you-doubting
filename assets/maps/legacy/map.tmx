@@ -305,7 +305,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="4" name="objects">
+ <objectgroup id="4" name="objects" visible="0">
   <object id="18" name="door" type="moving" x="48" y="32" width="16" height="16">
    <properties>
     <property name="from_where" value="START_ROOM"/>
@@ -742,14 +742,14 @@
   <object id="384" name="noteProperty0" type="note" x="274.611" y="91.8774">
    <properties>
     <property name="data" type="bool" value="true"/>
-    <property name="message" value="some text here dobule"/>
+    <property name="message" value="Do you dream of doing something unique?"/>
    </properties>
    <point/>
   </object>
   <object id="385" name="noteProperty" type="note" x="79.5615" y="100.207">
    <properties>
     <property name="data" type="bool" value="true"/>
-    <property name="message" value="some text here"/>
+    <property name="message" value="Do you have a dream to do something?"/>
    </properties>
    <point/>
   </object>
@@ -757,98 +757,101 @@
   <object id="387" name="noteProperty2" type="note" x="550.924" y="105.149">
    <properties>
     <property name="data" type="bool" value="true"/>
-    <property name="message" value="some text here dobule"/>
+    <property name="message" value="So majestic, so exciting, so unique, isn't it?"/>
    </properties>
    <point/>
   </object>
   <object id="388" name="noteProperty1" type="note" x="131.047" y="277.201">
    <properties>
     <property name="data" type="bool" value="true"/>
-    <property name="message" value="some text here dobule"/>
+    <property name="message" value="You must have imagined it - your project"/>
    </properties>
    <point/>
   </object>
   <object id="389" name="noteProperty3" type="note" x="693.228" y="300.65">
    <properties>
     <property name="data" type="bool" value="true"/>
-    <property name="message" value="some text here dobule"/>
+    <property name="message" value="And when you think about it in detail, you are even more convinced of it!"/>
    </properties>
    <point/>
   </object>
   <object id="390" name="noteProperty4" type="note" x="394.084" y="249.563">
    <properties>
     <property name="data" type="bool" value="true"/>
-    <property name="message" value="some text here dobule"/>
+    <property name="message" value="But something is wrong%d%d... %i Where is this project?"/>
    </properties>
    <point/>
   </object>
   <object id="391" name="noteProperty5" type="note" x="438.041" y="107.511">
    <properties>
     <property name="data" type="bool" value="true"/>
-    <property name="message" value="some text here dobule"/>
+    <property name="message" value="%dWhy don't you do it?"/>
    </properties>
    <point/>
   </object>
   <object id="392" name="noteProperty6" type="note" x="599.83" y="277.867">
    <properties>
     <property name="data" type="bool" value="true"/>
-    <property name="message" value="some text here dobule"/>
+    <property name="message" value="Did you stop or didn't even start...%w%d why?"/>
    </properties>
    <point/>
   </object>
   <object id="393" name="noteProperty7" type="note" x="779.579" y="72.363">
    <properties>
     <property name="data" type="bool" value="true"/>
-    <property name="message" value="some text here dobule"/>
+    <property name="message" value="%dWhy can't you make it?"/>
    </properties>
    <point/>
   </object>
   <object id="394" name="noteProperty8" type="note" x="240.885" y="302.052">
    <properties>
     <property name="data" type="bool" value="true"/>
-    <property name="message" value="some text here dobule"/>
+    <property name="message" value="%d%dWhy you%d..."/>
    </properties>
    <point/>
   </object>
   <object id="395" name="noteProperty10" type="note" x="478.562" y="444.957">
    <properties>
     <property name="data" type="bool" value="true"/>
-    <property name="message" value="some text here dobule"/>
+    <property name="message">Yes%w%w - I understand%w the your project must be great, 
+but because of this, you just can't master it - you know? </property>
    </properties>
    <point/>
   </object>
   <object id="396" name="noteProperty11" type="note" x="706.506" y="630.39">
    <properties>
     <property name="data" type="bool" value="true"/>
-    <property name="message" value="some text here dobule"/>
+    <property name="message" value="Yes%w%w - what will others say?%w%w You need to impress them. %d%d. . . "/>
    </properties>
    <point/>
   </object>
   <object id="397" name="noteProperty12" type="note" x="37.6533" y="688.287">
    <properties>
     <property name="data" type="bool" value="true"/>
-    <property name="message" value="some text here dobule"/>
+    <property name="message" value="But because of all this, your project will %d%dnever be released. "/>
    </properties>
    <point/>
   </object>
   <object id="398" name="noteProperty13" type="note" x="795.174" y="1055.51">
    <properties>
     <property name="data" type="bool" value="true"/>
-    <property name="message" value="some text here dobule"/>
+    <property name="message">Whose sentence is more terrifying: 
+a crowd of strangers or your own, 
+pronounced in silence a year later?</property>
    </properties>
    <point/>
   </object>
   <object id="399" name="noteProperty14" type="note" x="635.248" y="718.248">
    <properties>
     <property name="data" type="bool" value="true"/>
-    <property name="message" value="some text here dobule"/>
+    <property name="message" value="Maybe it's worth it - just %d%d%ddo it?"/>
    </properties>
    <point/>
   </object>
   <object id="413" name="noteProperty9" type="note" x="39.25" y="458.75">
    <properties>
     <property name="data" type="bool" value="true"/>
-    <property name="message" value="something"/>
+    <property name="message" value="%d%dWhy are you doubting?"/>
    </properties>
    <point/>
   </object>

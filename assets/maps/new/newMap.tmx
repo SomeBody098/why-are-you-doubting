@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="51" height="21" tilewidth="32" tileheight="32" infinite="0" nextlayerid="19" nextobjectid="166">
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="51" height="21" tilewidth="32" tileheight="32" infinite="0" nextlayerid="19" nextobjectid="170">
  <tileset firstgid="1" source="tilesetNew.tsx"/>
  <layer id="4" name="background" width="51" height="21">
   <data encoding="csv">
@@ -7,18 +7,18 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,5,6,3,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,3,6,3,6,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,15,16,17,16,17,0,0,0,0,0,0,0,0,0,0,0,0,0,3,6,6,4,3,6,5,3,5,5,
 0,0,0,14,16,14,15,17,14,0,0,0,0,5,3,4,5,0,0,0,0,0,0,2,2,2,2,2,0,0,0,0,0,4,8,9,4,5,6,0,0,14,14,16,17,16,15,15,16,16,15,
-0,0,0,2,2,2,2,2,2,0,0,0,0,15,17,16,17,0,0,0,0,0,0,2,2,2,2,2,0,0,0,0,0,15,19,20,15,16,17,0,0,2,2,2,2,2,2,2,13,2,2,
+0,0,0,2,2,2,2,2,2,0,0,0,0,15,17,16,17,0,0,0,0,0,0,2,2,2,2,13,0,0,0,0,0,15,19,20,15,16,17,0,0,2,2,2,2,2,2,2,13,2,2,
 0,0,0,2,2,2,2,2,2,0,0,0,0,12,97,12,12,0,0,0,0,0,0,2,2,2,2,2,0,0,0,0,0,2,2,2,2,2,2,0,0,2,2,2,2,2,2,2,2,2,2,
 0,0,0,2,2,2,2,2,2,0,0,0,0,12,12,12,99,0,0,0,0,0,0,2,13,2,2,2,0,0,0,0,0,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,2,13,2,2,2,2,0,0,0,0,97,12,12,12,0,0,0,0,0,0,2,2,2,2,2,0,0,0,0,0,2,13,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2,2,0,0,0,0,0,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2,2,0,0,0,0,0,13,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,6,57,3,3,6,6,3,0,
 0,0,0,4,6,6,3,6,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,56,4,57,6,0,0,0,0,0,0,9,9,9,9,0,0,0,0,17,17,17,17,16,15,17,17,0,
 0,0,0,16,16,17,16,17,15,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,14,15,16,17,0,0,0,0,0,0,19,20,20,20,0,0,0,0,2,2,2,2,2,2,2,2,0,
-0,0,0,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,13,2,2,2,0,0,0,0,0,0,2,2,2,13,0,0,0,0,2,2,2,2,2,2,2,2,0,
+0,0,0,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,13,2,2,2,0,0,0,0,0,0,2,2,2,13,0,0,0,0,2,13,2,2,2,2,2,2,0,
 0,0,0,2,2,2,2,2,2,0,0,4,6,6,3,3,4,4,5,4,4,0,0,0,2,2,2,2,0,0,0,0,0,0,2,2,2,2,0,0,0,0,2,2,2,2,2,2,2,2,0,
 0,0,0,2,2,2,2,2,2,0,0,17,17,17,15,16,16,15,17,16,15,0,0,0,2,2,2,2,0,0,0,0,0,0,2,2,2,2,0,0,0,0,2,2,2,2,2,2,2,2,0,
 0,0,0,13,2,2,2,2,2,0,0,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2,2,2,13,2,0,
@@ -461,7 +461,7 @@
   </object>
   <object id="142" name="player" type="player" x="1366.92" y="591.094" width="14.32" height="27.62"/>
  </objectgroup>
- <objectgroup id="17" name="notes" visible="0">
+ <objectgroup id="17" name="notes">
   <object id="154" name="noteProperty" type="note" x="1378.27" y="611.045">
    <properties>
     <property name="data" type="bool" value="true"/>
@@ -473,70 +473,108 @@
   <object id="156" name="noteProperty0" type="note" x="1553.83" y="588.5">
    <properties>
     <property name="data" type="bool" value="true"/>
-    <property name="message" value="some text here dobule"/>
+    <property name="message">By the way, after you do what you want,
+you can improve something. %wFor example, your project!</property>
    </properties>
    <point/>
   </object>
   <object id="157" name="noteProperty1" type="note" x="783.5" y="208.5">
    <properties>
     <property name="data" type="bool" value="true"/>
-    <property name="message" value="some text here dobule"/>
+    <property name="message">So if this &quot;better&quot; is inevitable.%w
+Is it worth worrying about what you will do badly?%w
+You'll do better anyway!</property>
    </properties>
    <point/>
   </object>
   <object id="158" name="noteProperty2" type="note" x="784.602" y="500.642">
    <properties>
     <property name="data" type="bool" value="true"/>
-    <property name="message" value="some text here dobule"/>
+    <property name="message" value="And if you try to do everything well at once,%w
+    you thereby get rid of yourself and the project seems unattainable"/>
    </properties>
    <point/>
   </object>
   <object id="159" name="noteProperty3" type="note" x="113.95" y="593.163">
    <properties>
     <property name="data" type="bool" value="true"/>
-    <property name="message" value="some text here dobule"/>
+    <property name="message" value="Of course, unattainable%w - you set a goal to build a penthouse,%w
+    while you did not even install a sign! "/>
    </properties>
    <point/>
   </object>
   <object id="160" name="noteProperty4" type="note" x="1104.12" y="234.664">
    <properties>
     <property name="data" type="bool" value="true"/>
-    <property name="message" value="some text here dobule"/>
+    <property name="message" value="Instead,%w try to make things simpler"/>
    </properties>
    <point/>
   </object>
   <object id="161" name="noteProperty5" type="note" x="1198.81" y="502.107">
    <properties>
     <property name="data" type="bool" value="true"/>
-    <property name="message" value="some text here dobule"/>
+    <property name="message" value="For example, %w how I made this game! "/>
    </properties>
    <point/>
   </object>
   <object id="162" name="noteProperty6" type="note" x="450.596" y="185.233">
    <properties>
     <property name="data" type="bool" value="true"/>
-    <property name="message" value="some text here dobule"/>
+    <property name="message">Just think about it%w - this waste paper collecting game
+is an idiotic simple game%w - but%w%d%d it exists. </property>
    </properties>
    <point/>
   </object>
   <object id="163" name="noteProperty7" type="note" x="428.098" y="616.521">
    <properties>
     <property name="data" type="bool" value="true"/>
-    <property name="message" value="some text here dobule"/>
+    <property name="message" value="And what I planned for myself before
+    is a multi-level horror quest in which... blah blah blah%w%i - you can go crazy!"/>
    </properties>
    <point/>
   </object>
-  <object id="164" name="noteProperty8" type="note" x="1551.63" y="149.221">
+  <object id="164" name="noteProperty12" type="note" x="1551.63" y="149.221">
    <properties>
     <property name="data" type="bool" value="true"/>
     <property name="message" value="And the last thing I want to say%d%d..."/>
    </properties>
    <point/>
   </object>
-  <object id="165" name="noteProperty9" type="note" x="144" y="243">
+  <object id="165" name="noteProperty13" type="note" x="144" y="243">
    <properties>
     <property name="data" type="bool" value="true"/>
     <property name="message" value="%d%dThank you for playing my first game :)"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="166" name="noteProperty8" type="note" x="875.333" y="145.667">
+   <properties>
+    <property name="data" type="bool" value="true"/>
+    <property name="message">If this is your first project,%d expect that
+everything will not work out smoothly.</property>
+   </properties>
+   <point/>
+  </object>
+  <object id="167" name="noteProperty9" type="note" x="1392" y="494.667">
+   <properties>
+    <property name="data" type="bool" value="true"/>
+    <property name="message" value="Let everything go down%w - but your project must live!"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="168" name="noteProperty10" type="note" x="1104" y="526.667">
+   <properties>
+    <property name="data" type="bool" value="true"/>
+    <property name="message">&quot;We are what we do day in and day out.
+Thus, perfection is not an action, but a habit.&quot;
+%w%w%i                     - The Aristotle.</property>
+   </properties>
+   <point/>
+  </object>
+  <object id="169" name="noteProperty11" type="note" x="1070.67" y="280">
+   <properties>
+    <property name="data" type="bool" value="true"/>
+    <property name="message" value="I believe in you!%w Do, create, create and most importantly%d - don't give up! "/>
    </properties>
    <point/>
   </object>

@@ -171,12 +171,6 @@ public class NewGameScreen implements Screen {
         gameCamera.update();
         batch.setProjectionMatrix(gameCamera.combined);
 
-        if (timer <= 5) {
-            engine.getSystem(NoteSystem.class).update(delta);
-            timer += delta;
-            return;
-        }
-
         mapController.render(gameCamera, "background", "background+");
         engine.update(delta);
         mapController.render(gameCamera, "items");
@@ -188,7 +182,11 @@ public class NewGameScreen implements Screen {
         world.step(delta, 6, 6);
 
         if (color.a > 0) {
-            color.a -= 0.001F;
+            if (timer >= 3) {
+                color.a -= 0.001F;
+            } else {
+                timer += delta;
+            }
 
             Color pastColor = batch.getColor();
             batch.setColor(color);

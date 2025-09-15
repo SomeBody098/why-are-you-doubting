@@ -25,7 +25,7 @@
 
   "note": {
     "position_x_percent": 0.5,
-    "position_y_percent": 0.95,
+    "position_y_percent": 0.92,
     "wight_percent": 1,
     "height_percent": 1,
     "text": ""
@@ -38,7 +38,7 @@
     "height_percent": 1
   },
 
-  "progress-bar": {
+  "loading-label": {
     "position_x_percent": 0.1,
     "position_y_percent": 0.1,
     "wight_percent": 10,

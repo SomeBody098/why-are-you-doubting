@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -57,10 +58,10 @@ public class UiFactory implements Disposable {
         return mainMenu;
     }
 
-    public Stage createLoadingStage(float min, float max, float stepSize){
+    public Stage createLoadingStage(){
         Stage mainMenu = new Stage(viewport, batch);
 
-        mainMenu.addActor(createProgressBar(min, max, stepSize));
+        mainMenu.addActor(createLoadingLabel());
 
         return mainMenu;
     }
@@ -128,13 +129,13 @@ public class UiFactory implements Disposable {
         return joystick;
     }
 
-    private ProgressBar createProgressBar(float min, float max, float stepSize){
-        BoundsParam param = ParamFactory.getUiParam("progress-bar");
-        ProgressBar progressBar = new ProgressBar(min, max, stepSize, false, skin, "default-horizontal");
-        progressBar.setName("progress-bar");
-        setStandardBoundsForUiObject(progressBar, param);
+    private Label createLoadingLabel(){
+        BoundsParam param = ParamFactory.getUiParam("loading-label");
+        Label label = new Label("loading", skin, "window");
+        label.setName("loading-label");
+        setStandardBoundsForUiObject(label, param);
 
-        return progressBar;
+        return label;
     }
 
     private void setStandardBoundsForUiObject(Actor uiObject, BoundsParam param){

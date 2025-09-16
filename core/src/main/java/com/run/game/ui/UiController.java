@@ -90,12 +90,10 @@ public class UiController implements Disposable {
     }
 
     public void resize(int width, int height){
-        stage.getViewport().update(width, height);
+        stage.getViewport().update(width, height, true);
 
         float percentX = width / viewportWidth;
         float percentY = height / viewportHeight;
-
-        Gdx.app.log("perc", "percentX - " + percentX + " percentY - " + percentY);
 
         for (int i = 0; i < stage.getActors().size; i++) {
             Actor actor = stage.getActors().get(i);

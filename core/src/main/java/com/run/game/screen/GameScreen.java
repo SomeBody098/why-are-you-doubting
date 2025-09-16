@@ -1,6 +1,7 @@
 package com.run.game.screen;
 
 import com.badlogic.ashley.core.Engine;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -101,8 +102,8 @@ public class GameScreen implements Screen {
 
             mapFactory.registerCreator("room", new RoomCreator());
             mapFactory.registerCreator("moving", new MovingCreator());
-            mapFactory.registerCreator("player", new PlayerCreator(joystick.getDto(), new TextureRegion(new Texture("textures/playerLeft.png")), new TextureRegion(new Texture("textures/playerRight.png"))));
-            mapFactory.registerCreator("note", new NoteCreator(new TextureRegion(new Texture("textures/note.png"))));
+            mapFactory.registerCreator("player", new PlayerCreator(joystick.getDto(), new TextureRegion(new Texture(Gdx.files.internal("textures/playerLeft.png"))), new TextureRegion(new Texture(Gdx.files.internal("textures/playerRight.png")))));
+            mapFactory.registerCreator("note", new NoteCreator(new TextureRegion(new Texture(Gdx.files.internal("textures/note.png")))));
             mapFactory.registerCreator("trigger-stop-music", new TriggerStopMusicCreator(musicManager, "house_theme"));
 
             mapFactory.createMap(pathToMap, "objects", "notes", "rooms");

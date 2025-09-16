@@ -1,6 +1,7 @@
 package com.run.game.screen;
 
 import com.badlogic.ashley.core.Engine;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -20,7 +21,6 @@ import com.run.game.creator.NewPlayerCreator;
 import com.run.game.creator.NoteCreator;
 import com.run.game.system.DrawGraphicsSystem;
 import com.run.game.system.DrawWalkingAnimationGraphicsSystem;
-import com.run.game.system.DrawWalkingGraphicsSystem;
 import com.run.game.system.MovingSystem;
 import com.run.game.system.NoteLabelSystem;
 import com.run.game.system.NoteSystem;
@@ -80,7 +80,7 @@ public class NewGameScreen implements Screen {
 
         pathToMap = "maps/new/newMap.tmx";
 
-        texture = new Texture("textures/black.png");
+        texture = new Texture(Gdx.files.internal("textures/black.png"));
         color = new Color();
         color.a = 1;
     }
@@ -95,8 +95,8 @@ public class NewGameScreen implements Screen {
             mapFactory.unregisterCreator("trigger-stop-music");
             mapFactory.unregisterCreator("note");
 
-            mapFactory.registerCreator("player", new NewPlayerCreator(((Joystick) uiController.get("joystick")).getDto(), new TextureAtlas("textures/newPlayer.atlas")));
-            mapFactory.registerCreator("note", new NoteCreator(new TextureRegion(new Texture("textures/new_note.png"))));
+            mapFactory.registerCreator("player", new NewPlayerCreator(((Joystick) uiController.get("joystick")).getDto(), new TextureAtlas(Gdx.files.internal("textures/newPlayer.atlas"))));
+            mapFactory.registerCreator("note", new NoteCreator(new TextureRegion(new Texture(Gdx.files.internal("textures/new_note.png")))));
 
             mapFactory.createMap(pathToMap, "objects", "notes", "rooms");
 

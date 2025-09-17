@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
+import com.badlogic.gdx.maps.tiled.TiledMapTile;
+import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -185,14 +187,19 @@ public class GameScreen implements Screen {
 
     private void renderGameObjects(float delta){
         gameViewport.apply();
+
+        float S = 0.005f;
+        gameCamera.position.x = Math.round(gameCamera.position.x / S) * S;
+        gameCamera.position.y = Math.round(gameCamera.position.y / S) * S;
+
         gameCamera.update();
         batch.setProjectionMatrix(gameCamera.combined);
 
+        engine.getSystem(WalkingSystem.class).update(delta);
         mapController.render(gameCamera, "background", "background+");
         engine.update(delta);
         mapController.render(gameCamera, "items", "topground");
         engine.getSystem(DrawWalkingGraphicsSystem.class).update(delta);
-        engine.getSystem(DrawGraphicsSystem.class).update(delta);
         engine.getSystem(ViewRoomSystem.class).update(delta);
 
         world.step(delta, 6, 6);

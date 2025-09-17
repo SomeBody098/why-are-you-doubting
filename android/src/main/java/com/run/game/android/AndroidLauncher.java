@@ -13,6 +13,17 @@ public class AndroidLauncher extends AndroidApplication {
         super.onCreate(savedInstanceState);
         AndroidApplicationConfiguration configuration = new AndroidApplicationConfiguration();
         configuration.useImmersiveMode = true; // Recommended, but not required.
+        configuration.useWakelock = true;
+        configuration.numSamples = 0;
+        setColorAndDepth(configuration);
         initialize(new Main(), configuration);
+    }
+
+    private void setColorAndDepth(AndroidApplicationConfiguration configuration){
+        configuration.r = 8;
+        configuration.g = 8;
+        configuration.b = 8;
+        configuration.a = 8;
+        configuration.depth = 16;
     }
 }

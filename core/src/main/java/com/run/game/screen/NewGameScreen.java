@@ -3,6 +3,7 @@ package com.run.game.screen;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -83,6 +84,9 @@ public class NewGameScreen implements Screen {
         texture = new Texture(Gdx.files.internal("textures/black.png"));
         color = new Color();
         color.a = 1;
+
+        gameCamera = new OrthographicCamera(10, 10);
+        gameViewport = new FitViewport(gameCamera.viewportWidth, gameCamera.viewportHeight, gameCamera);
     }
 
 
@@ -99,16 +103,13 @@ public class NewGameScreen implements Screen {
             mapFactory.registerCreator("note", new NoteCreator(new TextureRegion(new Texture(Gdx.files.internal("textures/new_note.png")))));
 
             mapFactory.createMap(pathToMap, "objects", "notes", "rooms");
-
-            while (!mapFactory.isDone()){} // I don't care!
-            createMapControllerAndGameEntity();
         }
     }
 
     private void createMapControllerAndGameEntity(){
         if (mapController == null){
             MapContainer container = mapFactory.getMap(pathToMap);
-            createGameCameraAndViewport(container);
+            updateGameCamera(container);
             mapController = new MapController(container, gameCamera, batch);
 
             world.setContactListener(new MapContactListener(engine, mapFactory.getObjectsFactory().getCache(), true));
@@ -117,21 +118,15 @@ public class NewGameScreen implements Screen {
         }
     }
 
-    private void createGameCameraAndViewport(MapContainer container){
+    private void updateGameCamera(MapContainer container){
         Rectangle room = ((RectangleMapObject) container.getObjectOnNameInLayer("rooms", RoomName.DINNING_ROOM.name())).getRectangle();
 
-        gameCamera = new OrthographicCamera(
-            room.width * container.UNIT_SCALE,
-            room.height * container.UNIT_SCALE
-        );
         gameCamera.position.set(
             (room.x + (room.width / 2)) * container.UNIT_SCALE,
             (room.y + (room.height / 2)) * container.UNIT_SCALE,
             0
         );
         gameCamera.update();
-
-        gameViewport = new FitViewport(gameCamera.viewportWidth, gameCamera.viewportHeight, gameCamera);
     }
 
     private void registerSystems(){
@@ -161,12 +156,14 @@ public class NewGameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        renderGameObjects(delta);
+        if (mapFactory.isDone()) renderGameObjects(delta);
         renderUi(delta);
     }
 
     private float timer = 0;
     private void renderGameObjects(float delta) {
+        createMapControllerAndGameEntity();
+
         gameViewport.apply();
         gameCamera.update();
         batch.setProjectionMatrix(gameCamera.combined);

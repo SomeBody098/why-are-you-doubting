@@ -9,12 +9,19 @@ import com.run.game.component.walking.WalkingBodyComponent;
 
 public class WalkingSystem extends IteratingSystem {
 
+    private boolean isCalledAfterAllRendering = false;
+
     public WalkingSystem() {
         super(Family.all(PlayerInputHandlerComponent.class, WalkingBodyComponent.class).get());
     }
 
     @Override
     protected void processEntity(Entity entity, float v) {
+        if (!isCalledAfterAllRendering) {
+            isCalledAfterAllRendering = true;
+            return;
+        }
+
         PlayerInputHandlerComponent inputHandler = entity.getComponent(PlayerInputHandlerComponent.class);
         WalkingBodyComponent body = entity.getComponent(WalkingBodyComponent.class);
         Vector2 pastPosition = body.getPosition().cpy();
@@ -29,6 +36,8 @@ public class WalkingSystem extends IteratingSystem {
 
         body.updatePosition(newPosition);
         body.setDirection(inputHandler.getDirection());
+
+        isCalledAfterAllRendering = false;
     }
 
 }

@@ -9,7 +9,7 @@ apply plugin: 'com.android.application'
 
 
 android {
-  namespace "com.run.game"
+  namespace "com.run.game.somebody098.whyareyoudoubting"
   compileSdk 34
   sourceSets {
     main {
@@ -35,7 +35,7 @@ android {
     minSdkVersion 19
     targetSdkVersion 34
     versionCode 1
-    versionName "1.0"
+    versionName "1.0.0"
     multiDexEnabled true
   }
   compileOptions {
@@ -43,10 +43,33 @@ android {
     targetCompatibility "8"
     coreLibraryDesugaringEnabled true
   }
+
+  signingConfigs {
+    release {
+      def localProperties = project.file("../local.properties")
+      if (localProperties.exists()) {
+        Properties properties = new Properties()
+        localProperties.withInputStream { instr ->
+          properties.load(instr)
+
+          def keyFile = file("my-release-key.jks")
+
+          if (keyFile.exists()) {
+            storeFile file("my-release-key.jks")
+            storePassword properties.getProperty("storePassword")
+            keyAlias properties.getProperty("alias")
+            keyPassword properties.getProperty("storePassword")
+          }
+        }
+      }
+    }
+  }
   buildTypes {
     release {
-      minifyEnabled true
+      signingConfig signingConfigs.release
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+      minifyEnabled true
+      shrinkResources true
     }
   }
 }

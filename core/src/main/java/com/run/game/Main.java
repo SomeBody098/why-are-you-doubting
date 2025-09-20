@@ -38,7 +38,7 @@ public class Main extends Game {
         world = new World(new Vector2(), false);
 
         mapFactory = new MapFactory(world, engine, true);
-        uiFactory = new UiFactory(uiCamera, uiViewport, batch);
+        uiFactory = new UiFactory(batch);
         musicManager = new MusicManager();
 
         setScreen(new MainManuScreen(this, batch, uiCamera, uiViewport, world, uiFactory, mapFactory, musicManager, engine));

@@ -9,8 +9,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
-import com.badlogic.gdx.maps.tiled.TiledMapTile;
-import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -99,8 +97,8 @@ public class GameScreen implements Screen {
     private boolean isLoadMap(){
         if (!mapFactory.isLoadMap(pathToMap)){
             Stage stage = uiFactory.createGameUiStage(musicManager);
-            uiController = new UiController(stage, uiCamera);
-            Joystick joystick = (Joystick) uiController.get("joystick");
+            uiController = new UiController(stage);
+            Joystick joystick = (Joystick) uiController.findActor("joystick");
 
             mapFactory.registerCreator("room", new RoomCreator());
             mapFactory.registerCreator("moving", new MovingCreator());
@@ -159,7 +157,7 @@ public class GameScreen implements Screen {
             dataObjects.entrySet().stream().filter(entry -> entry.getKey()
                 .contains("noteProperty")).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> b));
 
-        NoteLabelSystem noteLabelSystem = new NoteLabelSystem((ProgressivelyLabel) uiController.get("note"));
+        NoteLabelSystem noteLabelSystem = new NoteLabelSystem((ProgressivelyLabel) uiController.findActor("note"));
 
         engine.addSystem(
             new NoteSystem(
@@ -187,11 +185,6 @@ public class GameScreen implements Screen {
 
     private void renderGameObjects(float delta){
         gameViewport.apply();
-
-        float S = 0.005f;
-        gameCamera.position.x = Math.round(gameCamera.position.x / S) * S;
-        gameCamera.position.y = Math.round(gameCamera.position.y / S) * S;
-
         gameCamera.update();
         batch.setProjectionMatrix(gameCamera.combined);
 

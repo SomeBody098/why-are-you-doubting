@@ -3,7 +3,6 @@ package com.run.game.ui.obj.joystick;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.math.Vector2;
 
 public class JoystickGraphics {
 
@@ -15,19 +14,18 @@ public class JoystickGraphics {
         stickTexture = new Texture("ui/virtualJoystickTexture/stick.png");
     }
 
-    public void draw(Batch uiBatch, Color color, Vector2 positionCircle, Vector2 positionStick, float radius, float parentAlpha) {
+    public void draw(Batch uiBatch, Color color, float centerX, float centerY, float stickX, float stickY, float radius, float parentAlpha) {
         uiBatch.setColor(color.r, color.g, color.b, color.a * parentAlpha);
 
         uiBatch.draw(circleTexture,
-            positionCircle.x - radius,
-            positionCircle.y - radius,
-            radius * 2,
-            radius * 2
+            centerX - radius, centerY - radius,
+            radius * 2, radius * 2
         );
 
+        float stickRadius = radius / 2;
         uiBatch.draw(stickTexture,
-            positionStick.x - (float) stickTexture.getWidth() / 2,
-            positionStick.y - (float) stickTexture.getHeight() / 2
+            stickX - stickRadius, stickY - stickRadius,
+            radius, radius
         );
 
         uiBatch.setColor(Color.WHITE);

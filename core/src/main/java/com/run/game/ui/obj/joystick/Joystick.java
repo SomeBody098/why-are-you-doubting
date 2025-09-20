@@ -1,6 +1,7 @@
 package com.run.game.ui.obj.joystick;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.run.game.dto.JoystickDTO;
 import com.run.game.utils.music.MusicManager;
@@ -41,11 +42,12 @@ public class Joystick extends Actor {
         isBodyCreated();
         super.draw(uiBatch, parentAlpha);
 
-        graphics.draw(
-            uiBatch, getColor(),
-            body.getPositionCircle(),
-            body.getPositionStick(),
-            body.getRadius(),
+        graphics.draw(uiBatch, getColor(),
+            getX() + getWidth() / 2,
+            getY() + getHeight() / 2,
+            getX() + body.getPositionStick().x - getWidth() / 4,
+            getY() + body.getPositionStick().y - getHeight() / 4,
+            getWidth() / 2,
             parentAlpha
         );
     }
@@ -54,6 +56,9 @@ public class Joystick extends Actor {
     public void act(float delta) {
         isBodyCreated();
         super.act(delta);
+
+        body.setRadius(getWidth());
+        inputHandler.setRadius(getWidth() / 2);
 
         body.setPositionStick(inputHandler.getPosition());
         body.act(inputHandler.isActive());

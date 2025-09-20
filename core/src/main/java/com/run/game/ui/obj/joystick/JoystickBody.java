@@ -11,7 +11,7 @@ public class JoystickBody {
 
     private final Pool<Vector2> vectorPool;
 
-    private final float radius;
+    private float radius;
 
     private DIRECTION direction = DIRECTION.NONE;
 
@@ -29,9 +29,8 @@ public class JoystickBody {
 
     public void act(boolean isActive) {
         if (isActive) {
-            Vector2 dir = getNorPositionStick(); // Получаем нормализованный вектор направления
+            Vector2 dir = getNorPositionStick();
 
-            // Определяем основное направление (с порогом чувствительности)
             if (Math.abs(dir.x) > Math.abs(dir.y)) {
                 direction = (dir.x > 0.3f) ? DIRECTION.RIGHT :
                     (dir.x < -0.3f) ? DIRECTION.LEFT :
@@ -92,6 +91,10 @@ public class JoystickBody {
 
     public float getRadius() {
         return radius;
+    }
+
+    public void setRadius(float radius) {
+        this.radius = radius;
     }
 
     public void dispose(){

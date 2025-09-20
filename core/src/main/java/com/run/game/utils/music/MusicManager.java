@@ -77,10 +77,10 @@ public class MusicManager implements AsynchronousFactory, Disposable {
         }
 
         Sound sound = manager.get(container.getPath(), Sound.class);
-        sound.setVolume(1, container.getVolume());
-        sound.setLooping(1, container.isLooping());
+        long soundId = sound.play();
 
-        sound.play();
+        sound.setVolume(soundId, container.getVolume());
+        sound.setLooping(soundId, container.isLooping());
 
         playingSound.put(container.getName(), sound);
     }
@@ -103,10 +103,12 @@ public class MusicManager implements AsynchronousFactory, Disposable {
 
     public void stopMusic(String name){
         handleMusic(name, Music::stop);
+        playingMusic.remove(name);
     }
 
     public void stopSound(String name){
         handleSound(name, Sound::stop);
+        playingSound.remove(name);
     }
 
     public void disposeMusic(String name){

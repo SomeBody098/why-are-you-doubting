@@ -1,26 +1,31 @@
 {
   "home": {
     "sound": {
-      "steps": {
-        "path": "music/steps.mp3",
-        "volume": 0.3,
+      "walk": {
+        "path": "music/walk.wav",
+        "volume": 3,
         "looping": true
       },
       "door_opening": {
-        "path": "music/door_opening.mp3",
-        "volume": 0.7,
+        "path": "music/door_opening.wav",
+        "volume": 2,
         "looping": false
       },
       "run_over_ladder": {
-        "path": "music/run_over_ladder.mp3",
-        "volume": 0.5,
+        "path": "music/run_over_ladder.wav",
+        "volume": 1,
         "looping": false
       }
     },
     "music": {
       "house_theme": {
-        "path": "music/house_theme.mp3",
-        "volume": 0.3,
+        "path": "music/house_theme.wav",
+        "volume": 0.2,
+        "looping": true
+      },
+      "wind": {
+        "path": "music/calm-wind-in-winter.wav",
+        "volume": 1,
         "looping": true
       }
     }

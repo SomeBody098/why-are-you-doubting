@@ -459,7 +459,7 @@
    </properties>
    <point/>
   </object>
-  <object id="142" name="player" type="player" x="1366.92" y="591.094" width="14.32" height="27.62"/>
+  <object id="142" name="player" type="player" x="1366.92" y="591.094" width="14.32" height="23.62"/>
  </objectgroup>
  <objectgroup id="17" name="notes">
   <object id="154" name="noteProperty" type="note" x="1378.27" y="611.045">
@@ -558,7 +558,8 @@ everything will not work out smoothly.</property>
   <object id="167" name="noteProperty9" type="note" x="1392" y="494.667">
    <properties>
     <property name="data" type="bool" value="true"/>
-    <property name="message" value="Let everything go down%w - but your project must live!"/>
+    <property name="message" value="Let you not achieve the result you originally wanted%w
+    - but your project must live!"/>
    </properties>
    <point/>
   </object>

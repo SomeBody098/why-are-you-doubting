@@ -20,7 +20,7 @@ public class JoystickInputHandler extends InputListener {
 
     private int pointer = -1;
 
-    private final float radius;
+    private float radius;
     private boolean isActive = false;
 
     public JoystickInputHandler(Vector2 position, Vector2 finalPosition, Pool<Vector2> vectorPool, MusicManager musicManager, float radius) {
@@ -34,7 +34,7 @@ public class JoystickInputHandler extends InputListener {
     @Override
     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
         if (isTouchInJoystickArea(x, y) && JoystickInputHandler.this.pointer == -1) {
-            musicManager.initSound("home", "steps");
+            musicManager.initSound("home", "walk");
 
             isActive = true;
             JoystickInputHandler.this.pointer = pointer;
@@ -50,7 +50,9 @@ public class JoystickInputHandler extends InputListener {
     @Override
     public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
         if (JoystickInputHandler.this.pointer == pointer) {
-            if (musicManager.isSoundPlaying("steps")) musicManager.stopSound("steps");
+            if (musicManager.isSoundPlaying("walk")) {
+                musicManager.stopSound("walk");
+            }
             resetJoystick();
             return;
         }
@@ -72,10 +74,6 @@ public class JoystickInputHandler extends InputListener {
             position.set(finalPosition).add(tempPosition);
 
             vectorPool.free(tempPosition);
-
-            if (!musicManager.isSoundPlaying("steps")){
-                musicManager.playMusic("steps");
-            }
 
             return;
         }
@@ -127,6 +125,10 @@ public class JoystickInputHandler extends InputListener {
 
     public Vector2 getPosition() {
         return position;
+    }
+
+    public void setRadius(float radius) {
+        this.radius = radius;
     }
 
     public boolean isActive() {

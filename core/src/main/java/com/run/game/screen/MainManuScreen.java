@@ -47,7 +47,7 @@ public class MainManuScreen implements Screen {
 
             uiController = new UiController(uiFactory.createMainMenuStage(
                 main, screen
-            ), uiCamera);
+            ));
         }
     }
 

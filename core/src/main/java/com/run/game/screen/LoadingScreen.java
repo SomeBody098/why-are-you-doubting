@@ -33,7 +33,7 @@ public class LoadingScreen implements Screen {
     @Override
     public void show() {
         if (controller == null){
-            controller = new UiController(uiFactory.createLoadingStage(), uiCamera);
+            controller = new UiController(uiFactory.createLoadingStage());
         }
     }
 

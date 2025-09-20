@@ -46,10 +46,10 @@ public class NewGameScreen implements Screen {
     private final Main main;
     private final SpriteBatch batch;
 
-    private OrthographicCamera gameCamera;
+    private final OrthographicCamera gameCamera;
     private final OrthographicCamera uiCamera;
 
-    private FitViewport gameViewport;
+    private final FitViewport gameViewport;
     private final ScreenViewport uiViewport;
 
     private final World world;
@@ -99,11 +99,13 @@ public class NewGameScreen implements Screen {
             mapFactory.unregisterCreator("trigger-stop-music");
             mapFactory.unregisterCreator("note");
 
-            mapFactory.registerCreator("player", new NewPlayerCreator(((Joystick) uiController.get("joystick")).getDto(), new TextureAtlas(Gdx.files.internal("textures/newPlayer.atlas"))));
+            mapFactory.registerCreator("player", new NewPlayerCreator(((Joystick) uiController.findActor("joystick")).getDto(), new TextureAtlas(Gdx.files.internal("textures/newPlayer.atlas"))));
             mapFactory.registerCreator("note", new NoteCreator(new TextureRegion(new Texture(Gdx.files.internal("textures/new_note.png")))));
 
             mapFactory.createMap(pathToMap, "objects", "notes", "rooms");
         }
+
+        musicManager.initMusic("home", "wind");
     }
 
     private void createMapControllerAndGameEntity(){
@@ -141,7 +143,7 @@ public class NewGameScreen implements Screen {
             dataObjects.entrySet().stream().filter(entry -> entry.getKey()
                 .contains("noteProperty")).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> b));
 
-        NoteLabelSystem noteLabelSystem = new NoteLabelSystem((ProgressivelyLabel) uiController.get("note"));
+        NoteLabelSystem noteLabelSystem = new NoteLabelSystem((ProgressivelyLabel) uiController.findActor("note"));
 
         engine.addSystem(
             new NoteSystem(

@@ -2,6 +2,7 @@ package com.run.game.screen;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
@@ -169,6 +170,7 @@ public class NewGameScreen implements Screen {
         gameViewport.apply();
         gameCamera.update();
         batch.setProjectionMatrix(gameCamera.combined);
+        batch.setColor(1, 1, 1, 1);
 
         mapController.render(gameCamera, "background", "background+");
         engine.update(delta);
@@ -181,11 +183,13 @@ public class NewGameScreen implements Screen {
         world.step(delta, 6, 6);
 
         if (color.a > 0) {
-            if (timer >= 3) {
-                color.a -= 0.001F;
+            if (timer >= 5) {
+                color.a -= delta / 6;
             } else {
                 timer += delta;
             }
+
+            if (color.a < 0) color.a = 0;
 
             Color pastColor = batch.getColor();
             batch.setColor(color);

@@ -1,6 +1,7 @@
 package com.run.game;
 
 import com.badlogic.ashley.core.Engine;
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -38,7 +39,7 @@ public class Main extends Game {
         world = new World(new Vector2(), false);
 
         mapFactory = new MapFactory(world, engine, true);
-        uiFactory = new UiFactory(batch);
+        uiFactory = new UiFactory(batch, Gdx.app.getType() == Application.ApplicationType.Desktop);
         musicManager = new MusicManager();
 
         setScreen(new MainManuScreen(this, batch, uiCamera, uiViewport, world, uiFactory, mapFactory, musicManager, engine));

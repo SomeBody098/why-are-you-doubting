@@ -17,8 +17,10 @@ public class Joystick extends Actor {
     private JoystickInputHandler inputHandler;
 
     private final JoystickDTO dto;
+    private final boolean isDesktop;
 
-    public Joystick() {
+    public Joystick(boolean isDesktop) {
+        this.isDesktop = isDesktop;
         graphics = new JoystickGraphics();
         dto = new JoystickDTO("joystick");
     }
@@ -41,6 +43,8 @@ public class Joystick extends Actor {
     public void draw(Batch uiBatch, float parentAlpha) {
         isBodyCreated();
         super.draw(uiBatch, parentAlpha);
+
+        if (isDesktop) return;
 
         graphics.draw(uiBatch, getColor(),
             getX() + getWidth() / 2,

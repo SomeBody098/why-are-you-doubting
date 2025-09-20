@@ -37,10 +37,13 @@ public class UiFactory implements Disposable {
 
     private final Skin skin;
 
-    public UiFactory(Batch batch) {
+    private final boolean isDesktop;
+
+    public UiFactory(Batch batch, boolean isDesktop) {
         uiCamera = new OrthographicCamera(WIGHT, HEIGHT);
         viewport = new ExtendViewport(WIGHT, HEIGHT, uiCamera);
         this.batch = batch;
+        this.isDesktop = isDesktop;
 
         skin = new Skin();
         skin.addRegions(new TextureAtlas("ui/uiskin.atlas"));
@@ -87,7 +90,7 @@ public class UiFactory implements Disposable {
         Table table = createTable();
         Joystick joystick = createJoystick(musicManager);
         ProgressivelyLabel noteLabel = createNoteLabel();
-        noteLabel.setFontScale(0.75f);
+        noteLabel.setFontScale(isDesktop ? 1 : 0.75f);
 
         table.add(noteLabel)
             .top()
@@ -144,7 +147,7 @@ public class UiFactory implements Disposable {
 
     public Joystick createJoystick(MusicManager musicManager){
         BoundsParam param = ParamFactory.getUiParam("joystick");
-        Joystick joystick = new Joystick();
+        Joystick joystick = new Joystick(isDesktop);
 
         joystick.createBounds(
             musicManager,

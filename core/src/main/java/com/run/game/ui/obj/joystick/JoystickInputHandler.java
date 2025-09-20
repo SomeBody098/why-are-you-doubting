@@ -3,6 +3,7 @@ package com.run.game.ui.obj.joystick;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.utils.Pool;
@@ -34,7 +35,7 @@ public class JoystickInputHandler extends InputListener {
     @Override
     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
         if (isTouchInJoystickArea(x, y) && JoystickInputHandler.this.pointer == -1) {
-            musicManager.initSound("home", "walk");
+            initSound();
 
             isActive = true;
             JoystickInputHandler.this.pointer = pointer;
@@ -42,17 +43,13 @@ public class JoystickInputHandler extends InputListener {
             return true;
         }
 
-        managementButtons(pointer);
-
         return super.touchDown(event, x, y, pointer, button);
     }
 
     @Override
     public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
         if (JoystickInputHandler.this.pointer == pointer) {
-            if (musicManager.isSoundPlaying("walk")) {
-                musicManager.stopSound("walk");
-            }
+            stopSound();
             resetJoystick();
             return;
         }
@@ -78,8 +75,6 @@ public class JoystickInputHandler extends InputListener {
             return;
         }
 
-        managementButtons(pointer);
-
         super.touchDragged(event, x, y, pointer);
     }
 
@@ -100,26 +95,35 @@ public class JoystickInputHandler extends InputListener {
         pointer = -1;
     }
 
-    private void managementButtons(int pointer) {
-        if (Gdx.input.isButtonPressed(Input.Keys.UP)) {
-            isActive = true;
-            JoystickInputHandler.this.pointer = pointer;
-            position.set(0, radius);
+    @Override
+    public boolean handle(Event e) {
+        float x = 0;
+        float y = 0;
+        if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W)) y = 1;
+        if (Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S)) y = -1;
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D)) x = 1;
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)) x = -1;
 
-        } else if (Gdx.input.isButtonPressed(Input.Keys.DOWN)) {
+        if (x != 0 || y != 0) {
+            Vector2 direction = new Vector2(x, y).nor().scl(radius);
+            Gdx.app.log("ggg", direction.toString());
+            position.set(finalPosition).add(direction);
             isActive = true;
-            JoystickInputHandler.this.pointer = pointer;
-            position.set(0, -radius);
+            initSound();
+        } else {
+            isActive = false;
+            position.set(finalPosition);
+            stopSound();
+        }
 
-        } else if (Gdx.input.isButtonPressed(Input.Keys.RIGHT)){
-            isActive = true;
-            JoystickInputHandler.this.pointer = pointer;
-            position.set(radius, 0);
+        return super.handle(e);
+    }
 
-        } else if (Gdx.input.isButtonPressed(Input.Keys.LEFT)){
-            isActive = true;
-            JoystickInputHandler.this.pointer = pointer;
-            position.set(-radius, 0);
+    private void managementUpButtons(int keycode) {
+        if (keycode == Input.Keys.UP || keycode == Input.Keys.DOWN || keycode == Input.Keys.RIGHT || keycode == Input.Keys.LEFT) {
+            isActive = false;
+            position.set(finalPosition);
+            stopSound();
         }
     }
 
@@ -129,6 +133,16 @@ public class JoystickInputHandler extends InputListener {
 
     public void setRadius(float radius) {
         this.radius = radius;
+    }
+
+    private void initSound(){
+        musicManager.initSound("home", "walk");
+    }
+
+    private void stopSound(){
+        if (musicManager.isSoundPlaying("walk")) {
+            musicManager.stopSound("walk");
+        }
     }
 
     public boolean isActive() {

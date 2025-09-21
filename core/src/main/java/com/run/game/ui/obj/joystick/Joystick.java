@@ -32,7 +32,8 @@ public class Joystick extends Actor {
             body.getPositionCircle().cpy(),
             body.getVectorPool(),
             musicManager,
-            body.getRadius()
+            body.getRadius(),
+            isDesktop
         );
 
         addListener(inputHandler);

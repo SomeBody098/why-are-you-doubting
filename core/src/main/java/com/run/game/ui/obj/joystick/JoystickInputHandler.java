@@ -24,12 +24,15 @@ public class JoystickInputHandler extends InputListener {
     private float radius;
     private boolean isActive = false;
 
-    public JoystickInputHandler(Vector2 position, Vector2 finalPosition, Pool<Vector2> vectorPool, MusicManager musicManager, float radius) {
+    private final boolean isDesktop;
+
+    public JoystickInputHandler(Vector2 position, Vector2 finalPosition, Pool<Vector2> vectorPool, MusicManager musicManager, float radius,  boolean isDesktop) {
         this.position = position;
         this.finalPosition = finalPosition;
         this.vectorPool = vectorPool;
         this.musicManager = musicManager;
         this.radius = radius;
+        this.isDesktop = isDesktop;
     }
 
     @Override
@@ -97,34 +100,33 @@ public class JoystickInputHandler extends InputListener {
 
     @Override
     public boolean handle(Event e) {
-        float x = 0;
-        float y = 0;
-        if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W)) y = 1;
-        if (Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S)) y = -1;
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D)) x = 1;
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)) x = -1;
+        if (isDesktop) {
+            float x = 0;
+            float y = 0;
+            if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W))
+                y = 1;
+            if (Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S))
+                y = -1;
+            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D))
+                x = 1;
+            if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A))
+                x = -1;
 
-        if (x != 0 || y != 0) {
-            Vector2 direction = new Vector2(x, y).nor().scl(radius);
-            Gdx.app.log("ggg", direction.toString());
-            position.set(finalPosition).add(direction);
-            isActive = true;
-            initSound();
-        } else {
-            isActive = false;
-            position.set(finalPosition);
-            stopSound();
+            if (x != 0 || y != 0) {
+                Vector2 direction = new Vector2(x, y).nor().scl(radius);
+                position.set(finalPosition).add(direction);
+                isActive = true;
+                initSound();
+
+                return true;
+            } else {
+                isActive = false;
+                position.set(finalPosition);
+                stopSound();
+            }
         }
 
         return super.handle(e);
-    }
-
-    private void managementUpButtons(int keycode) {
-        if (keycode == Input.Keys.UP || keycode == Input.Keys.DOWN || keycode == Input.Keys.RIGHT || keycode == Input.Keys.LEFT) {
-            isActive = false;
-            position.set(finalPosition);
-            stopSound();
-        }
     }
 
     public Vector2 getPosition() {

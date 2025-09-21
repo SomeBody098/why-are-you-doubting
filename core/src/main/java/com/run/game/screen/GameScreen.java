@@ -188,7 +188,6 @@ public class GameScreen implements Screen {
         gameCamera.update();
         batch.setProjectionMatrix(gameCamera.combined);
 
-        engine.getSystem(WalkingSystem.class).update(delta);
         mapController.render(gameCamera, "background", "background+");
         engine.update(delta);
         mapController.render(gameCamera, "items", "topground");

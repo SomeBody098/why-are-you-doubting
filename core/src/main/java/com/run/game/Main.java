@@ -20,10 +20,7 @@ import map.creator.map.factory.MapFactory;
 public class Main extends Game {
 
     private SpriteBatch batch;
-
-    private Engine engine;
     private World world;
-
     private MapFactory mapFactory;
     private UiFactory uiFactory;
     private MusicManager musicManager;
@@ -31,7 +28,7 @@ public class Main extends Game {
     @Override
     public void create() {
         batch = new SpriteBatch();
-        engine = new Engine();
+        Engine engine = new Engine();
 
         OrthographicCamera uiCamera = createUiCamera();
         ScreenViewport uiViewport = new ScreenViewport(uiCamera);

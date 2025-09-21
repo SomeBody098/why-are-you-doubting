@@ -209,7 +209,7 @@
   </object>
   <object id="68" name="door" type="moving" x="1504.06" y="187.969" width="32" height="4.04254">
    <properties>
-    <property name="block_if_no_notes" type="int" value="30"/>
+    <property name="block_if_no_notes" type="int" value="14"/>
     <property name="from_where" value="CORRIDOR_UP"/>
     <property name="where" value="START_ROOM"/>
    </properties>

@@ -58,7 +58,7 @@ public class NewPlayerCreator implements ObjectCreator {
         ObjectEntity entity = new ObjectEntity(name, name);
         entity
             .add(new PlayerInputHandlerComponent(name, dto))
-            .add(new WalkingBodyComponent(body, name, 0.0625f))
+            .add(new WalkingBodyComponent(body, name, bodyFactory.getUnitScale()))
             .add(new AnimationPlayerMovingObjectComponent(name, atlas, bodyFactory.getUnitScale(), true))
             .add(new CountGetNotesComponent(name));
 

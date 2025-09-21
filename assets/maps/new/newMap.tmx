@@ -126,7 +126,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="12" name="objects" visible="0">
+ <objectgroup id="12" name="objects">
   <object id="12" name="door" type="moving" x="96" y="64" width="32" height="32">
    <properties>
     <property name="from_where" value="START_ROOM"/>
@@ -209,6 +209,7 @@
   </object>
   <object id="68" name="door" type="moving" x="1504.06" y="187.969" width="32" height="4.04254">
    <properties>
+    <property name="block_if_no_notes" type="int" value="30"/>
     <property name="from_where" value="CORRIDOR_UP"/>
     <property name="where" value="START_ROOM"/>
    </properties>
@@ -473,7 +474,7 @@
   <object id="156" name="noteProperty0" type="note" x="1553.83" y="588.5">
    <properties>
     <property name="data" type="bool" value="true"/>
-    <property name="message">By the way, after you do what you want, 
+    <property name="message">By the way, after you do what you want,
 you can improve something. %wFor example, your project!</property>
    </properties>
    <point/>
@@ -482,7 +483,7 @@ you can improve something. %wFor example, your project!</property>
    <properties>
     <property name="data" type="bool" value="true"/>
     <property name="message">So if this &quot;better&quot; is inevitable.%w
-Is it worth worrying about what you will do badly?%w 
+Is it worth worrying about what you will do badly?%w
 You'll do better anyway!</property>
    </properties>
    <point/>
@@ -490,14 +491,16 @@ You'll do better anyway!</property>
   <object id="158" name="noteProperty2" type="note" x="784.602" y="500.642">
    <properties>
     <property name="data" type="bool" value="true"/>
-    <property name="message" value="And if you try to do everything well at once, you thereby get rid of yourself and the project seems unattainable"/>
+    <property name="message" value="And if you try to do everything well at once,
+    you thereby get rid of yourself and the project seems unattainable"/>
    </properties>
    <point/>
   </object>
   <object id="159" name="noteProperty3" type="note" x="113.95" y="593.163">
    <properties>
     <property name="data" type="bool" value="true"/>
-    <property name="message" value="Of course,  unattainable%w - you set a goal to build a penthouse, while you did not even install a sign! "/>
+    <property name="message" value="Of course,  unattainable%w
+    - you set a goal to build a penthouse, while you did not even install a sign! "/>
    </properties>
    <point/>
   </object>
@@ -518,7 +521,7 @@ You'll do better anyway!</property>
   <object id="162" name="noteProperty6" type="note" x="450.596" y="185.233">
    <properties>
     <property name="data" type="bool" value="true"/>
-    <property name="message">Just think about it%w - this mukallature collecting game
+    <property name="message">Just think about it%w - this waste paper collecting game
 is an idiotic simple game%w, idiotically unoriginal game%w%w
 - but%w%d%d it exists. </property>
    </properties>
@@ -527,7 +530,8 @@ is an idiotic simple game%w, idiotically unoriginal game%w%w
   <object id="163" name="noteProperty7" type="note" x="428.098" y="616.521">
    <properties>
     <property name="data" type="bool" value="true"/>
-    <property name="message" value="And what I planned for myself before is a multi-level horror quest in which... blah blah blah%w%i - you can go crazy!"/>
+    <property name="message" value="And what I planned for myself before is a multi-level horror quest in which...
+    blah blah blah%w%i - you can go crazy!"/>
    </properties>
    <point/>
   </object>
@@ -548,7 +552,7 @@ is an idiotic simple game%w, idiotically unoriginal game%w%w
   <object id="166" name="noteProperty8" type="note" x="875.333" y="145.667">
    <properties>
     <property name="data" type="bool" value="true"/>
-    <property name="message">If this is your first project,%d expect that 
+    <property name="message">If this is your first project,%d expect that
 everything will not work out smoothly.</property>
    </properties>
    <point/>
@@ -564,7 +568,7 @@ everything will not work out smoothly.</property>
   <object id="168" name="noteProperty10" type="note" x="1104" y="526.667">
    <properties>
     <property name="data" type="bool" value="true"/>
-    <property name="message">&quot;We are what we do day in and day out. 
+    <property name="message">&quot;We are what we do day in and day out.
 Thus, perfection is not an action, but a habit.&quot;
 %w%w%i                     - The Aristotle.</property>
    </properties>

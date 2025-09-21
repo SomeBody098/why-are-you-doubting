@@ -18,6 +18,7 @@ public class NoteSystem extends ContactBeginIteratingSystem {
     private final NoteLabelSystem noteLabelSystem;
     private final Map<String, MapProperties> noteProperties;
     private final float unitScale;
+    private boolean isLastNote = false;
 
     public NoteSystem(NoteLabelSystem noteLabelSystem, Map<String, MapProperties> noteProperties, float unitScale) {
         super(new ObjectEntityFilter("player", "note"));
@@ -47,6 +48,7 @@ public class NoteSystem extends ContactBeginIteratingSystem {
                 -10,
                 0
             );
+            isLastNote = true;
         } else {
             body.getBody().setTransform(
                 currentProperties.get("x", Float.class) * unitScale,
@@ -77,5 +79,9 @@ public class NoteSystem extends ContactBeginIteratingSystem {
 
         player.getComponent(CountGetNotesComponent.class).increaseCount();
         return note;
+    }
+
+    public boolean isLastNote() {
+        return isLastNote;
     }
 }

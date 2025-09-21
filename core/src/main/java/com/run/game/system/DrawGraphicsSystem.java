@@ -16,8 +16,8 @@ public class DrawGraphicsSystem extends IteratingSystem {
     private final Camera camera;
     private final Viewport viewport;
 
-    public DrawGraphicsSystem(Batch batch, Camera camera, Viewport viewport) {
-        super(Family.all(GraphicsObjectComponent.class, BodyComponent.class).get());
+    public DrawGraphicsSystem(Batch batch, Camera camera, Viewport viewport, int priority) {
+        super(Family.all(GraphicsObjectComponent.class, BodyComponent.class).get(), priority);
         this.batch = batch;
         this.camera = camera;
         this.viewport = viewport;

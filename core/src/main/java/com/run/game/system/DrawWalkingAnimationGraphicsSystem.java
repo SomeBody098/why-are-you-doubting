@@ -16,8 +16,8 @@ public class DrawWalkingAnimationGraphicsSystem extends IteratingSystem {
     private final Camera camera;
     private final Viewport viewport;
 
-    public DrawWalkingAnimationGraphicsSystem(Batch batch, Camera camera, Viewport viewport) {
-        super(Family.all(AnimationPlayerMovingObjectComponent.class, WalkingBodyComponent.class).get());
+    public DrawWalkingAnimationGraphicsSystem(Batch batch, Camera camera, Viewport viewport, int priority) {
+        super(Family.all(AnimationPlayerMovingObjectComponent.class, WalkingBodyComponent.class).get(), priority);
         this.batch = batch;
         this.camera = camera;
         this.viewport = viewport;

@@ -135,8 +135,8 @@ public class NewGameScreen implements Screen {
     private void registerSystems(){
         engine.addSystem(new WalkingSystem());
         engine.addSystem(new TriggerSystem());
-        engine.addSystem(new DrawWalkingAnimationGraphicsSystem(batch, gameCamera, gameViewport));
-        engine.addSystem(new DrawGraphicsSystem(batch, gameCamera, gameViewport));
+        engine.addSystem(new DrawWalkingAnimationGraphicsSystem(batch, gameCamera, gameViewport, 2));
+        engine.addSystem(new DrawGraphicsSystem(batch, gameCamera, gameViewport, 1));
         engine.addSystem(new ViewRoomSystem(gameCamera));
 
         Map<String, MapProperties> dataObjects = mapFactory.getObjectsFactory().getCache().getDataObjects();
@@ -167,6 +167,18 @@ public class NewGameScreen implements Screen {
     private void renderGameObjects(float delta) {
         createMapControllerAndGameEntity();
 
+        if (engine.getSystem(NoteSystem.class).isLastNote()) {
+            if (engine.getSystem(DrawWalkingAnimationGraphicsSystem.class) != null) {
+                engine.removeSystem(engine.getSystem(DrawWalkingAnimationGraphicsSystem.class));
+            }
+            if (engine.getSystem(DrawGraphicsSystem.class) != null){
+                engine.removeSystem(engine.getSystem(DrawGraphicsSystem.class));
+            }
+
+            engine.update(delta);
+            return;
+        }
+
         gameViewport.apply();
         gameCamera.update();
         batch.setProjectionMatrix(gameCamera.combined);
@@ -176,7 +188,6 @@ public class NewGameScreen implements Screen {
         engine.update(delta);
         mapController.render(gameCamera, "items");
         engine.getSystem(DrawWalkingAnimationGraphicsSystem.class).update(delta);
-        engine.getSystem(DrawGraphicsSystem.class).update(delta);
         mapController.render(gameCamera, "topground", "shadows");
         engine.getSystem(ViewRoomSystem.class).update(delta);
 

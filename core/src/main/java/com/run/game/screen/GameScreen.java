@@ -148,8 +148,8 @@ public class GameScreen implements Screen {
     private void registerSystems(){
         engine.addSystem(new WalkingSystem());
         engine.addSystem(new TriggerSystem());
-        engine.addSystem(new DrawWalkingGraphicsSystem(batch, gameCamera, gameViewport));
-        engine.addSystem(new DrawGraphicsSystem(batch, gameCamera, gameViewport));
+        engine.addSystem(new DrawWalkingGraphicsSystem(batch, gameCamera, gameViewport, 2));
+        engine.addSystem(new DrawGraphicsSystem(batch, gameCamera, gameViewport, 1));
         engine.addSystem(new ViewRoomSystem(gameCamera));
 
         Map<String, MapProperties> dataObjects = mapFactory.getObjectsFactory().getCache().getDataObjects();

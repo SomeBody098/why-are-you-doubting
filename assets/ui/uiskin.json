@@ -15,9 +15,6 @@ com.badlogic.gdx.graphics.g2d.BitmapFont: {
   window: {
     file: font-window.fnt
   }
-  bitter: {
-    file: Bitter-standard.fnt
-  }
 }
 com.badlogic.gdx.graphics.Color: {
   black: {
@@ -141,10 +138,6 @@ com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
   }
   subtitle: {
     font: subtitle
-  },
-  bitter: {
-    font: bitter
-    fontColor: white
   }
 }
 com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle: {
@@ -227,7 +220,7 @@ com.badlogic.gdx.scenes.scene2d.ui.SplitPane$SplitPaneStyle: {
 }
 com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
     default: {
-        font: bitter
+        font: window
         up: button-normal
         down: button-normal-pressed
         over: button-normal-over

@@ -813,7 +813,7 @@
   <object id="395" name="noteProperty10" type="note" x="478.562" y="444.957">
    <properties>
     <property name="data" type="bool" value="true"/>
-    <property name="message">Yes%w%w - I understand%w the your project must be great, 
+    <property name="message">Yes%w%w - I understand%w the your project must be great,
 but because of this, you just can't master it - you know? </property>
    </properties>
    <point/>
@@ -835,9 +835,9 @@ but because of this, you just can't master it - you know? </property>
   <object id="398" name="noteProperty13" type="note" x="795.174" y="1055.51">
    <properties>
     <property name="data" type="bool" value="true"/>
-    <property name="message">Whose sentence is more terrifying: 
-a crowd of strangers or your own, 
-pronounced in silence a year later?</property>
+    <property name="message">Whose sentence is more terrifying:
+a crowd of strangers or your own,
+pronounced in silence a years later?</property>
    </properties>
    <point/>
   </object>

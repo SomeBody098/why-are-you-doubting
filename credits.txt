@@ -1,17 +1,29 @@
-Music:
-- "house_theme" | Composed by Somebody098 | License: Royalty-Free
-- "calm-wind-in-winter" | Source: SoundDino (https://sounddino.com) | License: Royalty-Free
+CREDITS
 
-Sound Effects:
-- All record Somebody098.
+SOUNDTRACK:
+- "house_theme"
+  Composed by: Somebody098
+  License: Royalty-Free (Original Work)
 
-Texture:
-- Also Somebody098.
+- "calm-wind-in-winter"
+  Source: SoundDino (https://sounddino.com)
+  License: Royalty-Free
 
-Tools:
-- LibGDX | License: Apache License 2.0
-- Box2D | License: MIT
-- Ashely | License: Apache 2 License
+SOUND EFFECTS:
+- All sound effects recorded and designed by Somebody098.
 
-Special Thanks:
-- thank YOU for playing!!! 
+ART & GRAPHICS:
+- All textures and visual assets created by Somebody098.
+
+ENGINE & FRAMEWORKS:
+- LibGDX (https://libgdx.com/)
+  License: Apache License 2.0
+
+- Box2D (http://box2d.org/)
+  License: zlib License
+
+- Ashley (https://github.com/libgdx/ashley)
+  License: Apache License 2.0
+
+SPECIAL THANKS:
+- Thank YOU for playing!

@@ -8,5 +8,10 @@ Sound Effects:
 Texture:
 - Also Somebody098.
 
+Tools:
+- LibGDX | License: Apache License 2.0
+- Box2D | License: MIT
+- Ashely | License: Apache 2 License
+
 Special Thanks:
 - thank YOU for playing!!! 

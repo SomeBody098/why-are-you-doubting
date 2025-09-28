@@ -1,0 +1,17 @@
+THIRD-PARTY LICENSES
+This game uses the following open-source software:
+
+1. LibGDX (https://libgdx.com/)
+   Licensed under the Apache License, Version 2.0.
+   Full license: https://www.apache.org/licenses/LICENSE-2.0
+
+2. Box2D (http://box2d.org/)
+   Copyright (c) [2025] Erin Catto
+   Licensed under the zlib License.
+   Full license: http://www.zlib.net/zlib_license.html
+
+3. Ashley (https://github.com/libgdx/ashley)
+   Licensed under the Apache License, Version 2.0.
+   Full license: https://www.apache.org/licenses/LICENSE-2.0
+
+END OF LICENSES
